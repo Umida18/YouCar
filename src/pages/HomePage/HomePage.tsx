@@ -10,11 +10,12 @@ import CarBrands from "../../components/CarBrand/CarBrand";
 import AboutCompanyBanner from "../../components/AboutCompanyBanner/AboutCompanyBanner";
 import News from "../../components/News/News";
 import Reviews from "../../components/Reviews/Reviews";
+import RequestBanner from "../../components/RequestBanner/RequestBanner";
 
 const HomePage = () => {
   return (
     <Layout style={{ backgroundColor: "white", minHeight: "100vh" }}>
-      <Header className="!p-0 bg-transparent min-h-[127px]">
+      <Header className="!p-0 bg-transparent h-full">
         <HeaderComponent />
       </Header>
       <Content style={{ paddingInline: "48px" }}>
@@ -24,6 +25,7 @@ const HomePage = () => {
         <WhyUsSection />
         <AboutCompanyBanner />
         <CarBrands />
+        <RequestBanner />
         <News />
         <Reviews />
       </Content>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../../Api/Api";
 import { INews } from "../../Type/Type";
-import { Card, Col, Row } from "antd";
+import { Col, Row } from "antd";
 
 const News = () => {
   const { data: news } = useQuery<INews[]>(["news"], async () => {
@@ -12,7 +12,7 @@ const News = () => {
 
   return (
     <div className="xl:min-h-[90vh] my-4 py-4">
-      <h1 className="text-3xl font-bold mt-10 mb-14">Новости</h1>
+      <h1 className="text-3xl font-bold mb-14">Новости</h1>
       <Row gutter={[16, 16]}>
         {news?.slice(0, 3).map((item) => (
           <Col xs={24} md={12} lg={8}>

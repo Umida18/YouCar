@@ -3,9 +3,9 @@ import { XCircle } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function CarSelector() {
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
 
-  const handleSubmit = () => {};
+  // const handleSubmit = () => {};
 
   return (
     <div className="min-h-[70vh] flex items-center">
@@ -13,8 +13,8 @@ export default function CarSelector() {
         <h1 className="text-3xl font-bold mt-10 mb-14">Подбор авто</h1>
 
         <div className=" rounded-lg space-y-7 shadow-lg px-4 py-10">
-          <div className="flex items-center gap-12 ">
-            <Tabs defaultValue="all" className="w-[40%]  h-full">
+          <div className="flex items-center gap-12 flex-wrap">
+            <Tabs defaultValue="all" className="xl:w-[40%] w-full  h-full">
               <TabsList className="w-full bg-[#F4F4F4] p-0 rounded-xl h-full">
                 <TabsTrigger
                   value="all"

@@ -6,7 +6,7 @@ import { CgMail } from "react-icons/cg";
 
 const TopHeader = () => {
   return (
-    <div className="xl:h-[48px] bg-[#F6F6F6] flex flex-wrap items-center justify-between px-4 md:px-14">
+    <div className="xl:h-[48px] bg-[#F6F6F6] xl:flex flex-wrap items-center justify-between px-4 md:px-14 hidden">
       <div className="flex flex-wrap items-center gap-12 text-sm sm:text-base flex-1">
         <a href="/" className="hover:underline">
           Главная

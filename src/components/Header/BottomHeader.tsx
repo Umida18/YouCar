@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FiAlignRight } from "react-icons/fi";
 
 import { Input } from "@/components/ui/input";
+import ResponsiveHeader from "./ResponsiveHeader";
 
 const { Panel } = Collapse;
 
@@ -13,8 +14,8 @@ const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div>
-      <div className="xl:!min-h-[79px] flex items-center justify-between  px-14 shadow-md">
+    <div className="h-full">
+      <div className="xl:!min-h-[79px] xl:flex items-center justify-between  px-14 shadow-md hidden ">
         <p className="flex justify-center items-center font-bold text-[30px]">
           <span className="text-[#2684E5]">You</span>
           <span className="text-[#0b0f32]">Car</span>
@@ -148,41 +149,30 @@ const BottomHeader = () => {
           Регистрация
         </Button>
       </div>
-      <div className="md:hidden">
-        <Button onClick={() => setIsOpen(!isOpen)}>
-          <FiAlignRight />
+      <div className="xl:hidden flex justify-between items-center px-14 py-3 gap-3">
+        <p className="flex justify-center items-center font-bold text-[30px]">
+          <span className="text-[#2684E5]">You</span>
+          <span className="text-[#0b0f32]">Car</span>
+        </p>
+        <div className="relative bg-[#F6F6F6] w-full">
+          <CiSearch
+            style={{ color: "#989898", fontSize: "22px" }}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          />
+          <Input
+            style={{ border: 0, backgroundColor: "transparent" }}
+            className=" flex min-w-full h-[45px] pl-11"
+            placeholder="Поиск по названию"
+          />
+        </div>
+        <Button
+          className="border-0 shadow-none p-0"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FiAlignRight style={{ fontSize: "30px" }} />
         </Button>
       </div>
-      {isOpen && (
-        <div>
-          <div>
-            <div className="flex flex-wrap items-center gap-12 text-sm sm:text-base flex-1">
-              <a href="/" className="hover:underline">
-                Главная
-              </a>
-              <a href="/category" className="hover:underline">
-                Каталог
-              </a>
-              <a href="/about" className="hover:underline">
-                О нас
-              </a>
-              <a href="/news" className="hover:underline">
-                Новости
-              </a>
-              <a href="/contact" className="hover:underline">
-                Контакты
-              </a>
-            </div>
-            <div>
-              <LuBell style={{ fontSize: "22px" }} />
-              <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">
-                <option>RU</option>
-                <option>EN</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      )}
+      <ResponsiveHeader isOpen={isOpen} />
     </div>
   );
 };

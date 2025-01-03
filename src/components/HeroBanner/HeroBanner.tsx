@@ -1,4 +1,4 @@
-import { Button, Card, Carousel, ConfigProvider, Typography } from "antd";
+import { Button, Card, Carousel, Col, ConfigProvider, Row } from "antd";
 
 const HeroBanner = () => {
   const carouselSettings = {
@@ -13,7 +13,7 @@ const HeroBanner = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
         },
       },
       {
@@ -40,46 +40,54 @@ const HeroBanner = () => {
         },
       }}
     >
-      <div className=" mx-auto  my-6 h-[100%]">
+      <div className=" mx-auto  my-6 h-[100%] w-full">
         <Carousel
           {...carouselSettings}
-          className="[&_.slick-slide]:px-2 [&_.slick-dots]:!bottom-7 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-400"
+          className="[&_.slick-slide]:px-2 [&_.slick-dots]:!bottom-7 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-400 w-full"
         >
-          <div className="mb-3">
-            <div className="!h-[400px] bg-[#F4F4F4] border-none rounded-xl">
-              <div className="flex h-full justify-between">
-                <div className="py-20 px-14">
-                  <h3 className="text-[35px] font-bold mb-2">
-                    Новый Geely Monjaro!
-                  </h3>
-                  <p className="text-gray-600 mb-4 flex-grow text-[16px] max-w-md">
-                    Кроссовер Monjaro - премиальная модель Geely по уровню
-                    дизайна, материалов и технологий.
-                  </p>
-                  <Button
-                    style={{
-                      border: 0,
-                      backgroundColor: "#2684E5",
-                      borderRadius: 0,
-                      color: "white",
-                      height: "56px",
-                      width: "187px",
-                    }}
-                  >
-                    Подробнее
-                  </Button>
-                </div>
-                <div className="flex justify-center items-center ">
-                  <img
-                    src="/hero1.png"
-                    alt=""
-                    className=" object-contain"
-                    height={770}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* <div className="mb-3 w-full"> */}
+          <Card className=" bg-[#F4F4F4] w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
+            <Row>
+              <Col
+                md={24}
+                xl={12}
+                className="flex justify-center flex-col xl:px-14 px-4"
+              >
+                <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
+                  Новый Geely Monjaro!
+                </h3>
+                <p className="text-gray-600 mb-4 text-[14px] xl:text-[16px] max-w-md">
+                  Кроссовер Monjaro - премиальная модель Geely по уровню
+                  дизайна, материалов и технологий.
+                </p>
+                <Button
+                  style={{
+                    border: 0,
+                    backgroundColor: "#2684E5",
+                    borderRadius: 0,
+                    color: "white",
+                    height: "56px",
+                    width: "187px",
+                  }}
+                >
+                  Подробнее
+                </Button>
+              </Col>
+              <Col
+                md={24}
+                xl={12}
+                className="flex justify-center h-full items-center "
+              >
+                <img
+                  src="/hero1.png"
+                  alt=""
+                  // className=" object-contain"
+                  // height={770}
+                />
+              </Col>
+            </Row>
+          </Card>
+          {/* </div> */}
         </Carousel>
       </div>
     </ConfigProvider>

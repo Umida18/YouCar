@@ -1,11 +1,5 @@
-"use client";
+import { Row, Col, Typography, Space } from "antd";
 
-import { Layout, Row, Col, Typography, Space } from "antd";
-
-import { InstagramOutlined } from "@ant-design/icons";
-import Link from "antd/es/typography/Link";
-
-const { Footer } = Layout;
 const { Title, Text } = Typography;
 
 export default function FooterComponent() {

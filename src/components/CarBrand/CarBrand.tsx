@@ -35,8 +35,8 @@ const carBrands: CarBrand[] = [
 
 export default function CarBrands() {
   return (
-    <div className="  ">
-      <div className="container mx-auto  py-8 xl:min-h-[90vh] flex justify-center items-center w-[100%]">
+    <div className=" xl:min-h-[90vh] flex !justify-center items-center py-10">
+      <div className=" w-[100%]">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 ">
           {carBrands.map((brand) => (
             <Card

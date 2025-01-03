@@ -2,11 +2,11 @@ import { Button, Card, Col, Row } from "antd";
 
 const AboutCompanyBanner = () => {
   return (
-    <div>
-      <Card className="xl:h-[390px] bg-[#F6F6F6]">
-        <Row gutter={[16, 16]}>
+    <div className="py-10">
+      <Card className="xl:h-[390px] bg-[#F6F6F6] ">
+        <Row gutter={[16, 16]} className="flex justify-between items-center">
           <Col
-            className="h-full  xl:h-[320px]"
+            className="h-full  xl:h-[320px] "
             xl={12}
             style={{
               backgroundImage: "url(/col1.png)",
@@ -44,7 +44,7 @@ const AboutCompanyBanner = () => {
                 </Button>
               </div>
               <div
-                className=" relative bottom-20 right-24 flex justify-end"
+                className=" relative bottom-20 right-24  justify-end  hidden xl:flex"
                 style={{
                   backgroundImage: "url(/Photo.png)",
                   backgroundRepeat: "no-repeat",
@@ -52,7 +52,7 @@ const AboutCompanyBanner = () => {
                   backgroundSize: "contain",
                 }}
               >
-                <img className=" relative -right-24" src="/n1.png" alt="" />
+                <img className="  relative -right-24" src="/n1.png" alt="" />
               </div>
             </div>
           </Col>
