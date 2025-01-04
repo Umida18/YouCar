@@ -9,7 +9,6 @@ export default function FooterComponent() {
       // style={{ paddingInline: "48px" }}
     >
       <div className="container mx-auto  border-t border-gray-200 pt-12 flex flex-col justify-between">
-        {/* Logo and Social Section */}
         <Row gutter={[32, 32]} className="mb-8">
           <Col xs={24} md={6}>
             <div className="space-y-4">
@@ -55,7 +54,6 @@ export default function FooterComponent() {
             </div>
           </Col>
 
-          {/* Company Section */}
           <Col xs={24} md={4}>
             <Title level={5} className="mb-4">
               Компания
@@ -79,7 +77,6 @@ export default function FooterComponent() {
             </Space>
           </Col>
 
-          {/* Cars Section */}
           <Col xs={24} md={4}>
             <Title level={5} className="mb-4">
               Автомобили
@@ -103,7 +100,6 @@ export default function FooterComponent() {
             </Space>
           </Col>
 
-          {/* Brands Columns */}
           <Col xs={24} md={10}>
             <Title level={5} className="mb-4">
               Марки
@@ -176,7 +172,6 @@ export default function FooterComponent() {
           </Col>
         </Row>
 
-        {/* Bottom Section */}
         <Row className="pt-4 border-t border-gray-200">
           <Col span={12}>
             <a href="#" className="text-gray-500 hover:text-gray-700">
