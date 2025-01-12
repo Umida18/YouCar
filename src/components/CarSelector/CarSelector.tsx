@@ -12,7 +12,7 @@ export default function CarSelector() {
       <div className="w-[100%] ">
         <h1 className="text-3xl font-bold mt-10 mb-12">Подбор авто</h1>
 
-        <div className=" rounded-lg space-y-7 shadow-lg px-4 py-10">
+        <div className=" rounded-lg space-y-7 boxShadowC px-4 py-10">
           <div className="flex items-center gap-12 flex-wrap">
             <Tabs defaultValue="all" className="xl:w-[40%] w-full  h-full">
               <TabsList className="w-full bg-[#F4F4F4] p-0 rounded-xl h-full">

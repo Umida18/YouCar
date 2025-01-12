@@ -10,6 +10,7 @@ import FooterComponent from "./components/Footer/Footer";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import AccountPage from "./pages/AccountPage/AccountPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/account" element={<AccountPage />} />
             </Routes>
           </Content>
           <Footer className="!p-0 bg-transparent">

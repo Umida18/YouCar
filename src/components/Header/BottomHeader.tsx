@@ -1,8 +1,8 @@
-import { Collapse, Row, Col, Button } from "antd";
+import { Collapse, Row, Col, Button, Avatar } from "antd";
 import { CiSearch } from "react-icons/ci";
 import { LuBell } from "react-icons/lu";
 import "./Header.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiAlignRight } from "react-icons/fi";
 
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,25 @@ const { Panel } = Collapse;
 
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const registered = () => {
+      const name = localStorage.getItem("name");
+      if (token) {
+        setIsRegistered(true);
+        setUserName(name);
+      } else {
+        setIsRegistered(false);
+      }
+    };
+
+    registered();
+  }, [token]);
 
   return (
     <div className="h-full">
@@ -127,32 +145,53 @@ const BottomHeader = () => {
         </div>
 
         <LuBell style={{ fontSize: "22px" }} />
-        <Button
-          onClick={() => navigate("login")}
-          style={{
-            border: 0,
-            backgroundColor: "transparent",
-            boxShadow: "none",
-            fontSize: "16px",
-          }}
-        >
-          Войти
-        </Button>
+        {!isRegistered ? (
+          <>
+            <Button
+              onClick={() => navigate("login")}
+              style={{
+                border: 0,
+                backgroundColor: "transparent",
+                boxShadow: "none",
+                fontSize: "16px",
+              }}
+            >
+              Войти
+            </Button>
 
-        <Button
-          onClick={() => navigate("/register")}
-          style={{
-            border: 0,
-            backgroundColor: "#2684E5",
-            borderRadius: 0,
-            color: "white",
-            height: "56px",
-            width: "187px",
-            fontSize: "16px",
-          }}
-        >
-          Регистрация
-        </Button>
+            <Button
+              onClick={() => navigate("/register")}
+              style={{
+                border: 0,
+                backgroundColor: "#2684E5",
+                borderRadius: 0,
+                color: "white",
+                height: "56px",
+                width: "187px",
+                fontSize: "16px",
+              }}
+            >
+              Регистрация
+            </Button>
+          </>
+        ) : (
+          <>
+            <div className="flex justify-center items-center gap-3">
+              <p>{userName}</p>
+              <Button
+                onClick={() => navigate("/account")}
+                style={{
+                  border: 0,
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                  fontSize: "16px",
+                }}
+              >
+                <Avatar>{userName?.charAt(0)}</Avatar>
+              </Button>
+            </div>
+          </>
+        )}
       </div>
       <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
         <p className="flex justify-center items-center font-bold text-[30px]">

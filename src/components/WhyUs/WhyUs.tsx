@@ -39,7 +39,7 @@ export default function WhyUsSection() {
       <Row gutter={[16, 16]} className="">
         {features.map((feature, index) => (
           <Col xs={24} sm={12} lg={6} key={index}>
-            <div className="bg-white p-6 py-10 rounded-lg shadow-lg h-full">
+            <div className="bg-white p-6 py-10 rounded-lg boxShadowC h-full">
               <div className="flex flex-col items-start gap-4">
                 <div className="text-blue-500">{feature.icon}</div>
                 <h3 className="text-xl font-semibold">{feature.title}</h3>

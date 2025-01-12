@@ -73,3 +73,10 @@ export interface Item {
   drive: string;
   country: string;
 }
+
+export interface IRegister {
+  role: string;
+  id: number;
+  name: string;
+  email: string;
+}
