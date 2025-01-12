@@ -5,10 +5,10 @@ const { Title, Text } = Typography;
 export default function FooterComponent() {
   return (
     <div
-      className="bg-white pt-8 pb-4 px-14"
+      className="bg-white pt-8 pb-4 xl:!px-14 px-4"
       // style={{ paddingInline: "48px" }}
     >
-      <div className="container mx-auto  border-t border-gray-200 pt-12 flex flex-col justify-between">
+      <div className="container  border-t border-gray-200 pt-12 flex flex-col justify-between">
         <Row gutter={[32, 32]} className="mb-8">
           <Col xs={24} md={6}>
             <div className="space-y-4">

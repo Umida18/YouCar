@@ -8,10 +8,10 @@ const RequestBanner = () => {
           <Col sm={24} lg={24} xl={12} className="">
             <div>
               <div className="flex flex-col  justify-center relative text-white px-5">
-                <h3 className="text-[35px] font-bold mb-2">
+                <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
                   Не можете определится с выбором?
                 </h3>
-                <p className=" mb-4 flex-grow text-[16px] max-w-sm">
+                <p className=" mb-4 flex-grow xl:text-[16px] text-[14px] max-w-sm">
                   Оставьте заявку, и наши менеджеры проконсультируют вас!
                 </p>
                 <Button

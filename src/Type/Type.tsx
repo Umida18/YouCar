@@ -66,6 +66,10 @@ export interface Item {
   title: string;
   year?: number;
   cost: number;
-  details: string[];
+  engine: string;
+  checkpoint: string;
+  milage: number;
   location?: string;
+  drive: string;
+  country: string;
 }

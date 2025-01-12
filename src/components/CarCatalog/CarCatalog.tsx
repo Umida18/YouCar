@@ -18,7 +18,7 @@ const CarCatalog = () => {
 
   return (
     <div className="py-6 min-h-screen">
-      <h1 className="text-3xl font-bold mt-10 mb-14">Автомобильный каталог</h1>
+      <h1 className="text-3xl font-bold mt-10 mb-12">Автомобильный каталог</h1>
       <Row gutter={[24, 24]}>
         {cars?.slice(0, 6).map((car) => (
           <Col key={car.id} xs={24} md={12} lg={8}>

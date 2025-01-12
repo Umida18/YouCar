@@ -10,7 +10,7 @@ export default function CarSelector() {
   return (
     <div className="min-h-[70vh] flex items-center">
       <div className="w-[100%] ">
-        <h1 className="text-3xl font-bold mt-10 mb-14">Подбор авто</h1>
+        <h1 className="text-3xl font-bold mt-10 mb-12">Подбор авто</h1>
 
         <div className=" rounded-lg space-y-7 shadow-lg px-4 py-10">
           <div className="flex items-center gap-12 flex-wrap">

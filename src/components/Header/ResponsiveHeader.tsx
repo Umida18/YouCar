@@ -7,7 +7,7 @@ const ResponsiveHeader = ({ isOpen }: { isOpen: boolean }) => {
   return (
     <div className="">
       {isOpen && (
-        <div className="px-14 !min-h-[100%] xl:hidden">
+        <div className="xl:!px-14 px-4 !min-h-[100%] xl:hidden">
           <div className="flex justify-between">
             <div className="flex flex-wrap  flex-col gap-4 text-sm sm:text-base flex-1">
               <a href="/" className="hover:underline">

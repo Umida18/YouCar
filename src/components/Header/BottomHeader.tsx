@@ -7,11 +7,13 @@ import { FiAlignRight } from "react-icons/fi";
 
 import { Input } from "@/components/ui/input";
 import ResponsiveHeader from "./ResponsiveHeader";
+import { useNavigate } from "react-router-dom";
 
 const { Panel } = Collapse;
 
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <div className="h-full">
@@ -126,6 +128,7 @@ const BottomHeader = () => {
 
         <LuBell style={{ fontSize: "22px" }} />
         <Button
+          onClick={() => navigate("login")}
           style={{
             border: 0,
             backgroundColor: "transparent",
@@ -137,6 +140,7 @@ const BottomHeader = () => {
         </Button>
 
         <Button
+          onClick={() => navigate("/register")}
           style={{
             border: 0,
             backgroundColor: "#2684E5",
@@ -150,7 +154,7 @@ const BottomHeader = () => {
           Регистрация
         </Button>
       </div>
-      <div className="xl:hidden flex justify-between items-center px-14 py-3 gap-3">
+      <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
         <p className="flex justify-center items-center font-bold text-[30px]">
           <span className="text-[#2684E5]">You</span>
           <span className="text-[#0b0f32]">Car</span>

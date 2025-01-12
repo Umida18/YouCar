@@ -6,13 +6,11 @@ export const mapCarDataToItem = (car: ICar): Item => ({
   title: `${car.mark} ${car.model}`,
   year: car.year,
   cost: car.cost,
-  details: [
-    `${car.milage.toLocaleString()} км`,
-    car.engine,
-    car.checkpoint,
-    car.drive,
-  ],
-  location: car.country,
+  milage: car.milage,
+  engine: car.engine,
+  checkpoint: car.checkpoint,
+  drive: car.drive,
+  country: car.country,
 });
 
 export const mapMotobikeDataToItem = (bike: IMotobyke): Item => ({
@@ -21,6 +19,9 @@ export const mapMotobikeDataToItem = (bike: IMotobyke): Item => ({
   title: `${bike.mark} ${bike.model}`,
   year: bike.year,
   cost: bike.cost,
-  details: [`${bike.milage} km`, bike.engine],
-  location: bike.country,
+  milage: bike.milage,
+  engine: bike.engine,
+  checkpoint: bike.body,
+  drive: bike.drive,
+  country: bike.country,
 });
