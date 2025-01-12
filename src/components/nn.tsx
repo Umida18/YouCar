@@ -24,7 +24,7 @@ const CarSelector1: React.FC<ISelect> = ({
   yearRange = { min: 0, max: 2024 },
   priceRange = { min: 0, max: 0 },
 }) => {
-  const [filters, setFilters] = React.useState({
+  const [filters, _] = React.useState({
     brand: "",
     model: "",
     country: "",
