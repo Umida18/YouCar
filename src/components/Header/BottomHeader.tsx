@@ -130,7 +130,7 @@ const BottomHeader = () => {
             border: 0,
             backgroundColor: "transparent",
             boxShadow: "none",
-            fontSize: "20px",
+            fontSize: "16px",
           }}
         >
           Войти
@@ -144,6 +144,7 @@ const BottomHeader = () => {
             color: "white",
             height: "56px",
             width: "187px",
+            fontSize: "16px",
           }}
         >
           Регистрация

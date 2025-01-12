@@ -1,8 +1,36 @@
 import { Select, Checkbox, Button, Form, Row, Col } from "antd";
 import { XCircle } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React from "react";
 
-export default function CarSelector() {
+interface ISelect {
+  title: string;
+  brands: string[];
+  models: string[];
+  countries: string[];
+  onSearch: (filters: any) => void;
+  onReset: () => void;
+  yearRange: any;
+  priceRange: any;
+}
+
+const CarSelector1: React.FC<ISelect> = ({
+  title,
+  brands,
+  models,
+  countries,
+  onSearch,
+  onReset,
+  yearRange = { min: 0, max: 2024 },
+  priceRange = { min: 0, max: 0 },
+}) => {
+  const [filters, setFilters] = React.useState({
+    brand: "",
+    model: "",
+    country: "",
+    // year: { min: yearRange.min, max: yearRange.max },
+    // price: { min: priceRange.min, max: priceRange.max },
+  });
   // const [form] = Form.useForm();
 
   // const handleSubmit = () => {};
@@ -10,7 +38,7 @@ export default function CarSelector() {
   return (
     <div className="min-h-[70vh] flex items-center">
       <div className="w-[100%] ">
-        <h1 className="text-3xl font-bold mt-10 mb-14">Подбор авто</h1>
+        <h1 className="text-3xl font-bold mt-10 mb-14">{title}</h1>
 
         <div className=" rounded-lg space-y-7 shadow-lg px-4 py-10">
           <div className="flex items-center gap-12 flex-wrap">
@@ -49,12 +77,12 @@ export default function CarSelector() {
                 <Form.Item>
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] "
-                    defaultValue="Geely"
+                    defaultValue={brands}
                     style={{
                       width: "100%",
                       height: "63px",
                     }}
-                    options={[{ value: "geely", label: "Geely" }]}
+                    options={[{ value: { brands }, label: { brands } }]}
                   />
                 </Form.Item>
               </Col>
@@ -63,12 +91,12 @@ export default function CarSelector() {
                 <Form.Item>
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] "
-                    defaultValue="Monjaro"
+                    defaultValue={models}
                     style={{
                       width: "100%",
                       height: "63px",
                     }}
-                    options={[{ value: "monjaro", label: "Monjaro" }]}
+                    options={[{ value: { models }, label: { models } }]}
                   />
                 </Form.Item>
               </Col>
@@ -77,12 +105,12 @@ export default function CarSelector() {
                 <Form.Item>
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] "
-                    defaultValue="Китай"
+                    defaultValue={countries}
                     style={{
                       width: "100%",
                       height: "63px",
                     }}
-                    options={[{ value: "china", label: "Китай" }]}
+                    options={[{ value: { countries }, label: { countries } }]}
                   />
                 </Form.Item>
               </Col>
@@ -91,12 +119,12 @@ export default function CarSelector() {
                 <Form.Item>
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] "
-                    defaultValue="0 - 2024"
+                    defaultValue={yearRange}
                     style={{
                       width: "100%",
                       height: "63px",
                     }}
-                    options={[{ value: "0-2024", label: "0 - 2024" }]}
+                    options={[{ value: { yearRange }, label: { yearRange } }]}
                   />
                 </Form.Item>
               </Col>
@@ -105,7 +133,7 @@ export default function CarSelector() {
                 <Form.Item>
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] "
-                    defaultValue="3 000 000 - 4 500 000"
+                    defaultValue={priceRange}
                     style={{
                       width: "100%",
                       height: "63px",
@@ -113,8 +141,8 @@ export default function CarSelector() {
                     }}
                     options={[
                       {
-                        value: "3000000-4500000",
-                        label: "3 000 000 - 4 500 000",
+                        value: { priceRange },
+                        label: { priceRange },
                       },
                     ]}
                   />
@@ -125,6 +153,7 @@ export default function CarSelector() {
 
           <div className="flex justify-end mt-6 gap-3">
             <Button
+              onClick={() => onReset()}
               style={{ height: "56px" }}
               type="text"
               icon={<XCircle className="h-4 w-4" />}
@@ -133,6 +162,7 @@ export default function CarSelector() {
               Сбросить
             </Button>
             <Button
+              onClick={() => onSearch(filters)}
               style={{
                 border: 0,
                 backgroundColor: "#2684E5",
@@ -149,4 +179,6 @@ export default function CarSelector() {
       </div>
     </div>
   );
-}
+};
+
+export default CarSelector1;

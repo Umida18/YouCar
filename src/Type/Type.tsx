@@ -1,10 +1,3 @@
-export interface Car {
-  id: string;
-  name: string;
-  model: string;
-  year: number;
-}
-
 export interface ICar {
   id: number;
   color: string;
@@ -33,6 +26,29 @@ export interface ICar {
   updatedAt: string;
 }
 
+export interface IMotobyke {
+  id: number;
+  color: string;
+  image: string[];
+  country: string;
+  year: number;
+  cost: number;
+  milage: number;
+  engine: string;
+  volume: string;
+  horsepower: number;
+  drive: string;
+  transmission: string;
+  body: string;
+  condition: string;
+  description: string;
+  authoremail: string;
+  rate: string;
+  mark: string;
+  model: string;
+  createdAt: string;
+}
+
 export interface INews {
   id: number;
   title: string;
@@ -42,4 +58,14 @@ export interface INews {
   image: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Item {
+  id: number;
+  image: string[];
+  title: string;
+  year?: number;
+  cost: number;
+  details: string[];
+  location?: string;
 }

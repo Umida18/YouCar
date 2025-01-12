@@ -5,8 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { ICar } from "../../Type/Type";
 import api from "../../Api/Api";
+import { useNavigate } from "react-router-dom";
 
 const CarCatalog = () => {
+  const navigate = useNavigate();
+
   const { data: cars } = useQuery<ICar[]>(["cars"], async () => {
     const res = await api.get("/cars");
     console.log("cars:", res);
@@ -65,7 +68,10 @@ const CarCatalog = () => {
         ))}
       </Row>
       <div className="flex justify-end my-5">
-        <Button className=" border-0 underline shadow-none pr-0 relative left-3">
+        <Button
+          onClick={() => navigate("/")}
+          className=" border-0 underline shadow-none pr-0 relative left-3"
+        >
           Перейти в каталог
           <IoIosArrowRoundForward
             className=" relative right-2 top-[1px]"

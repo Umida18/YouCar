@@ -42,7 +42,7 @@ const ResponsiveHeader = ({ isOpen }: { isOpen: boolean }) => {
                 border: 0,
                 backgroundColor: "#EEEEEE",
                 boxShadow: "none",
-                fontSize: "20px",
+                fontSize: "16px",
                 height: "56px",
                 borderRadius: 0,
               }}
@@ -57,7 +57,7 @@ const ResponsiveHeader = ({ isOpen }: { isOpen: boolean }) => {
                 borderRadius: 0,
                 color: "white",
                 height: "56px",
-                // width: "187px",
+                fontSize: "16px",
               }}
             >
               Регистрация
