@@ -1,11 +1,11 @@
 import { Avatar } from "antd";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const AccountPage = () => {
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [_, setIsRegistered] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
