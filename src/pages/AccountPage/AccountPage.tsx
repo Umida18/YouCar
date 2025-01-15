@@ -1,4 +1,4 @@
-import { Avatar } from "antd";
+import Layout from "../../components/Layout/Layout";
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 
@@ -22,18 +22,7 @@ const AccountPage = () => {
 
     registered();
   }, [token]);
-  return (
-    <div className="flex gap-3 h-[60vh] py-4">
-      <div className="shadow-lg w-[40%] ">
-        <div className="flex">
-          <Avatar>{userName?.charAt(0)}</Avatar>
-          <div>Imon</div>
-        </div>
-        <div></div>
-      </div>
-      <div className="shadow-lg w-[60%]">hhhhh</div>
-    </div>
-  );
+  return <Layout />;
 };
 
 export default AccountPage;

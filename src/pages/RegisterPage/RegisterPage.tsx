@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { registerUser } from "../../store/slices/registerSlice";
+import { registerUser } from "../../store/slices/authSlice";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

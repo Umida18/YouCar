@@ -24,6 +24,18 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (credentials: { email: string; password: string }, thunkAPI) => {
+    try {
+      const res = await api.post(`${BASE_URL}/login`, credentials);
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data || "Login failed");
+    }
+  }
+);
+
 interface AuthState {
   isLoading: boolean;
   user: {
@@ -91,7 +103,29 @@ const authSlice = createSlice({
         localStorage.setItem("id", action.payload.userData.id);
         localStorage.setItem("role", action.payload.userData.role);
       })
-      .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.user = {
+          id: action.payload.userData.id,
+          name: action.payload.userData.name,
+          email: action.payload.userData.email,
+          role: action.payload.userData.role,
+          userrate: action.payload.userData.userrate,
+        };
+        state.token = action.payload.token;
+        state.error = null;
+
+        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("email", action.payload.userData.email);
+        localStorage.setItem("name", action.payload.userData.name);
+        localStorage.setItem("id", action.payload.userData.id);
+        localStorage.setItem("role", action.payload.userData.role);
+      })
+      .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.error = action.payload || "Something went wrong";
       });

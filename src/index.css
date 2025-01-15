@@ -68,3 +68,13 @@
 .boxShadowC {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+
+.ant-input {
+  transition: none !important; /* Fokusdagi animatsiyani olib tashlaydi */
+}
+
+.ant-input:hover,
+.ant-input:focus {
+  background-color: inherit !important;
+  box-shadow: none !important;
+}
