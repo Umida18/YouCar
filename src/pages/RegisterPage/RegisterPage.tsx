@@ -1,45 +1,25 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "../../config";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { registerUser } from "../../store/slices/registerSlice";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.auth);
 
-  const mutation = useMutation(
-    async (data: {
-      name: string;
-      email: string;
-      password: string;
-      userrate: string;
-    }) => {
-      const response = await axios.post(`${BASE_URL}/user-register`, data);
-      return response.data;
-    },
-    {
-      onSuccess: (data) => {
-        notification.success({
-          message: "Login successfully!",
-        });
-        console.log("Registration successful:", data);
-
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("email", data.userData.email);
-          localStorage.setItem("name", data.userData.name);
-          localStorage.setItem("id", data.userData.id);
-          localStorage.setItem("role", data.userData.role);
-        }
-
-        navigate("/");
-      },
-      onError: (error) => {
-        console.error("Error during registration:", error);
-      },
-    }
-  );
+  const openNotification = (
+    type: "success" | "error",
+    message: string,
+    description: string
+  ) => {
+    notification[type]({
+      message,
+      description,
+      placement: "topRight",
+    });
+  };
 
   const handleSubmit = (values: {
     name: string;
@@ -55,20 +35,37 @@ const RegisterPage = () => {
           errors: ["Passwords do not match."],
         },
       ]);
+      openNotification(
+        "error",
+        "Ошибка регистрации",
+        "Пароли не совпадают. Пожалуйста, проверьте и попробуйте снова."
+      );
       return;
     }
 
-    if (!values.policyAccepted) {
-      alert("You must accept the data processing policy.");
-      return;
-    }
-
-    mutation.mutate({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-      userrate: "yearly",
-    });
+    dispatch(
+      registerUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        userrate: "yearly",
+      })
+    )
+      .unwrap()
+      .then(() => {
+        openNotification(
+          "success",
+          "Регистрация успешна",
+          "Ваш аккаунт успешно зарегистрирован. Добро пожаловать!"
+        );
+      })
+      .catch((error) => {
+        openNotification(
+          "error",
+          "Ошибка регистрации",
+          error.message || "Что-то пошло не так. Попробуйте снова."
+        );
+      });
   };
 
   return (
@@ -138,7 +135,7 @@ const RegisterPage = () => {
           <Form.Item style={{ width: "100%" }}>
             <Button
               htmlType="submit"
-              loading={mutation.isLoading}
+              loading={isLoading}
               style={{
                 border: 0,
                 backgroundColor: "#2684E5",

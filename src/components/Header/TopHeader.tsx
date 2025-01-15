@@ -11,7 +11,7 @@ const TopHeader = () => {
         <a href="/" className="hover:underline">
           Главная
         </a>
-        <a href="/category" className="hover:underline">
+        <a href="/catalog" className="hover:underline">
           Каталог
         </a>
         <a href="/about" className="hover:underline">

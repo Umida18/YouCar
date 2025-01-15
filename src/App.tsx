@@ -23,7 +23,7 @@ function App() {
           <Content className="xl:!px-14 px-4">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/category" element={<CatalogPage />} />
+              <Route path="/catalog" element={<CatalogPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
