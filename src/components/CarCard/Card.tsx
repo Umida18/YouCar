@@ -1,14 +1,21 @@
 import { Item } from "../../Type/Type";
 import { HeartOutlined } from "@ant-design/icons";
 import { Card } from "antd";
+import { useNavigate } from "react-router-dom";
 
 interface ItemCardProps {
   item: Item;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/productDetailsPage/${item.id}`);
+  };
   return (
     <Card
+      onClick={handleCardClick}
       className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:px-4"
       cover={
         <div className="relative h-[240px]">
