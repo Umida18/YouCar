@@ -1,12 +1,12 @@
-import HeroBanner from "../../components/HeroBanner/HeroBanner";
-import CarSelector from "../../components/CarSelector/CarSelector";
-import CarCatalog from "../../components/CarCatalog/CarCatalog";
+import HeroBanner from "../../components/Banners/HeroBanner";
+import CarSelector from "../../components/Car/CarSelector";
+import CarCatalog from "../../components/Car/CarCatalog";
 import WhyUsSection from "../../components/WhyUs/WhyUs";
-import CarBrands from "../../components/CarBrand/CarBrand";
-import AboutCompanyBanner from "../../components/AboutCompanyBanner/AboutCompanyBanner";
+import CarBrands from "../../components/Car/CarBrand";
+import AboutCompanyBanner from "../../components/Banners/AboutCompanyBanner";
 import News from "../../components/News/News";
 import Reviews from "../../components/Reviews/Reviews";
-import RequestBanner from "../../components/RequestBanner/RequestBanner";
+import RequestBanner from "../../components/Banners/RequestBanner";
 
 const HomePage = () => {
   return (

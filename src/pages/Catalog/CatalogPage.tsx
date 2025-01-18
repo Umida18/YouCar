@@ -1,6 +1,6 @@
-import CarSelector1 from "../../components/nn";
+import CarSelector1 from "../../components/CarFilter";
 import CatalogCards from "../../components/CatalogCards/CatalogCards";
-import RequestBanner from "../../components/RequestBanner/RequestBanner";
+import RequestBanner from "../../components/Banners/RequestBanner";
 
 const CatalogPage = () => {
   return (

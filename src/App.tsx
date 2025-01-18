@@ -1,17 +1,17 @@
 import { ConfigProvider } from "antd";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
-import CatalogPage from "./pages/CatalogPage/CatalogPage";
+import HomePage from "./pages/Home/HomePage";
+import CatalogPage from "./pages/Catalog/CatalogPage";
 import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import HeaderComponent from "./components/Header/Header";
 import FooterComponent from "./components/Footer/Footer";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-import AccountPage from "./pages/AccountPage/AccountPage";
-import ProductPage from "./pages/ProductPage/ProductPage";
+import RegisterPage from "./pages/Auth/RegisterPage";
+import LoginPage from "./pages/Auth/LoginPage";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import AccountPage from "./pages/Account/AccountPage";
+import ProductPage from "./pages/Product/ProductPage";
 
 function App() {
   return (

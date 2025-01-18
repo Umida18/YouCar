@@ -41,13 +41,11 @@ const CarCatalog = () => {
                     <h2 className="text-xl font-semibold">
                       {`${car.mark} ${car.model}, ${car.year}`}
                     </h2>
-                    <span className="text-xl font-bold ">
-                      {car.cost.toLocaleString()} $
-                    </span>
+                    <span className="text-xl font-bold ">{car.cost} $</span>
                   </div>
                   <div className="flex justify-between text-[#989898]">
                     <div className="flex flex-col space-y-1">
-                      <span>{car.milage.toLocaleString()} км</span>
+                      <span>{car.milage} км</span>
                       <span>{car.engine}</span>
                     </div>
                     <div className="flex flex-col space-y-1">

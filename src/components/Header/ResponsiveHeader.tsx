@@ -1,6 +1,6 @@
 import { LuBell } from "react-icons/lu";
-import HeaderCallapse from "../HeaderCallapse/HeaderCallapse";
-import HeaderInfo from "../HeaderInfo/HeaderInfo";
+import HeaderCallapse from "./HeaderCallapse";
+import HeaderInfo from "./HeaderInfo";
 import { Button } from "antd";
 
 const ResponsiveHeader = ({ isOpen }: { isOpen: boolean }) => {
@@ -13,7 +13,7 @@ const ResponsiveHeader = ({ isOpen }: { isOpen: boolean }) => {
               <a href="/" className="hover:underline">
                 Главная
               </a>
-              <a href="/category" className="hover:underline">
+              <a href="/catalog" className="hover:underline">
                 Каталог
               </a>
               <a href="/about" className="hover:underline">

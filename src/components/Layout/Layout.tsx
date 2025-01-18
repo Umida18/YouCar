@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Sidebar from "../Sidebar/Sidebar";
-import Favorites from "../Favorites/Favorites";
-import Messages from "../Messages/Messages";
-import Post from "../Post/Post";
-import Settings from "../Settings/Settings";
-import Tariff from "../Tariff/Tariff";
+import Sidebar from "../Account/Sidebar";
+import Favorites from "../Account/Favorites";
+import Messages from "../Account/Messages";
+import Post from "../Account/Post";
+import Settings from "../Account/Settings";
+import Tariff from "../Account/Tariff";
 import { Col, Row } from "antd";
 
 const Layout = () => {

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ICar } from "@/Type/Type";
 import api from "@/Api/Api";
 import { Col, Row } from "antd";
-import ItemCard from "../CarCard/Card";
+import ItemCard from "../Card/Card";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 
 const CatalogCards = () => {

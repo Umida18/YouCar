@@ -4,33 +4,30 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { ICar } from "../../Type/Type";
 
 interface PropsCar {
-  car: ICar | undefined;
+  item: ICar;
 }
 
-const PhotoGallery: React.FC<PropsCar> = ({ car }) => {
+const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRef = React.useRef<any>();
 
   const caruselRef = React.useRef<any>();
   return (
-    <div>
-      <div className="relative mb-4">
+    <div className="boxShadowC rounded-xl">
+      <div className="relative mb-4 ">
         <Carousel
           ref={carouselRef}
           beforeChange={(_, to) => setCurrentSlide(to)}
         >
-          {car?.image.map((image, index) => (
-            <div key={index} className="aspect-[16/9]">
-              <img
-                src={image || "/placeholder.svg"}
-                alt={`Car view ${index + 1}`}
-                className="w-full h-full object-cover rounded-lg"
-              />
-            </div>
-          ))}
+          <div className="aspect-[16/9]">
+            <img
+              src={item.image[0] || "/placeholder.svg"}
+              alt={`Car view ${item.model}`}
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
         </Carousel>
 
-        {/* Navigation Arrows */}
         <button
           onClick={() => carouselRef.current?.prev()}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white"
@@ -44,9 +41,8 @@ const PhotoGallery: React.FC<PropsCar> = ({ car }) => {
           <RightOutlined className="text-xl" />
         </button>
       </div>
-      {/* Thumbnails */}
       <div className="grid grid-cols-5 gap-2">
-        {car?.image.map((image, index) => (
+        {item?.image.map((image, index) => (
           <button
             key={index}
             onClick={() => carouselRef.current?.goTo(index)}

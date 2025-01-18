@@ -72,6 +72,10 @@ export interface Item {
   location?: string;
   drive: string;
   country: string;
+  mark: string;
+  model: string;
+  color: string;
+  description: string;
 }
 
 export interface IRegister {

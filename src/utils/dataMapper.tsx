@@ -1,19 +1,34 @@
-import { ICar, IMotobyke, Item } from "../Type/Type";
+import { ICar, IMotobyke } from "../Type/Type";
 
-export const mapCarDataToItem = (car: ICar): Item => ({
+export const mapCarDataToItem = (car: ICar) => ({
   id: car.id,
+  color: car.color,
   image: car.image,
-  title: `${car.mark} ${car.model}`,
+  country: car.country,
   year: car.year,
   cost: car.cost,
   milage: car.milage,
   engine: car.engine,
-  checkpoint: car.checkpoint,
+  volume: car.volume,
+  horsepower: car.horsepower,
   drive: car.drive,
-  country: car.country,
+  checkpoint: car.checkpoint,
+  doors: car.doors,
+  body: car.body,
+  statement: car.statement,
+  description: car.description,
+  authoremail: car.authoremail,
+  rate: car.rate,
+  mark: car.mark,
+  model: car.model,
+  seen: car.seen,
+  liked: car.liked,
+  liked_user: car.liked_user,
+  createdAt: car.createdAt,
+  updatedAt: car.updatedAt,
 });
 
-export const mapMotobikeDataToItem = (bike: IMotobyke): Item => ({
+export const mapMotobikeDataToItem = (bike: IMotobyke) => ({
   id: bike.id,
   image: bike.image,
   title: `${bike.mark} ${bike.model}`,
@@ -24,4 +39,8 @@ export const mapMotobikeDataToItem = (bike: IMotobyke): Item => ({
   checkpoint: bike.body,
   drive: bike.drive,
   country: bike.country,
+  mark: bike.mark,
+  model: bike.model,
+  color: bike.color,
+  description: bike.description,
 });
