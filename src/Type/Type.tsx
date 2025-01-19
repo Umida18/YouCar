@@ -84,3 +84,31 @@ export interface IRegister {
   name: string;
   email: string;
 }
+
+export interface IUser {
+  message: string;
+  userData: {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+  };
+  yours: {
+    result: {
+      cars: any[];
+      motos: any[];
+      commerce: any[];
+    };
+  };
+}
+
+export interface ISingleNews {
+  id: number;
+  title: string;
+  content: string;
+  vehicle: boolean;
+  author: string;
+  image: string;
+  createdAt: string;
+  updated_at: string;
+}

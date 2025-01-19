@@ -8,6 +8,9 @@ import { FiAlignRight } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import ResponsiveHeader from "./ResponsiveHeader";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../Api/Api";
+import { IUser } from "../../Type/Type";
 
 const { Panel } = Collapse;
 
@@ -32,6 +35,12 @@ const BottomHeader = () => {
 
     registered();
   }, [token]);
+
+  const { data: user } = useQuery<IUser>(["user"], async () => {
+    const res = await api.get("/user-dashboard");
+    console.log("user", user);
+    return res.data;
+  });
 
   return (
     <div className="h-full">

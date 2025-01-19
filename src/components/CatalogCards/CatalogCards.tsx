@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ICar } from "@/Type/Type";
 import api from "@/Api/Api";
 import { Col, Row } from "antd";
-import ItemCard from "../Card/Card";
+import ItemCard from "../Cards/CarCard";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 import { useParams } from "react-router-dom";
 

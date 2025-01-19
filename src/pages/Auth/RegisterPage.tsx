@@ -20,22 +20,26 @@ const RegisterPage = () => {
     {
       onSuccess: (data) => {
         notification.success({
-          message: "Login successfully!",
+          message: "Регистрация успешна",
+          description: "Ваш аккаунт успешно зарегистрирован. Добро пожаловать!",
+          placement: "topRight",
         });
         console.log("Registration successful:", data);
 
         if (data.token) {
           localStorage.setItem("token", data.token);
-          localStorage.setItem("email", data.userData.email);
-          localStorage.setItem("name", data.userData.name);
           localStorage.setItem("id", data.userData.id);
-          localStorage.setItem("role", data.userData.role);
         }
 
         navigate("/");
       },
       onError: (error) => {
         console.error("Error during registration:", error);
+        notification.error({
+          message: "Ошибка регистрации",
+          description: "Что-то пошло не так. Попробуйте снова.",
+          placement: "topRight",
+        });
       },
     }
   );
@@ -62,7 +66,6 @@ const RegisterPage = () => {
       email: values.email,
       password: values.password,
       userrate: "yearly",
-      
     });
   };
 

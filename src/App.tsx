@@ -12,6 +12,8 @@ import LoginPage from "./pages/Auth/LoginPage";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import AccountPage from "./pages/Account/AccountPage";
 import ProductPage from "./pages/Product/ProductPage";
+import NewsPage from "./pages/News/NewsPage";
+import SingleNews from "./pages/News/SingleNews";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
               <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/productDetailsPage/:id" element={<ProductPage />} />
+              <Route path="/singleNews/:id" element={<SingleNews />} />
+              <Route path="/news" element={<NewsPage />} />
             </Routes>
           </Content>
           <Footer className="!p-0 bg-transparent">

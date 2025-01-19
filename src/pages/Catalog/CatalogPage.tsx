@@ -1,8 +1,10 @@
 import CarSelector1 from "../../components/CarFilter";
 import CatalogCards from "../../components/CatalogCards/CatalogCards";
 import RequestBanner from "../../components/Banners/RequestBanner";
+import useScrollToTop from "../../utils/scroll";
 
 const CatalogPage = () => {
+  useScrollToTop();
   return (
     <>
       <CarSelector1

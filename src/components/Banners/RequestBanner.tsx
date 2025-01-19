@@ -1,9 +1,29 @@
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card, Col, Form, Row } from "antd";
+import RequestModal from "../RequestModal/RequestModal";
+import { useState } from "react";
 
 const RequestBanner = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    form.resetFields();
+  };
+
+  const onFinish = (values: any) => {
+    console.log("Form values:", values);
+    setIsModalOpen(false);
+    form.resetFields();
+  };
+
   return (
     <div>
-      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF]">
+      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0">
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">
             <div>
@@ -15,6 +35,7 @@ const RequestBanner = () => {
                   Оставьте заявку, и наши менеджеры проконсультируют вас!
                 </p>
                 <Button
+                  onClick={showModal}
                   style={{
                     border: 0,
                     backgroundColor: "#71B2F7",
@@ -35,7 +56,6 @@ const RequestBanner = () => {
             lg={24}
             xl={12}
             style={{
-              //   backgroundImage: "url(/ban.png)",
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
             }}
@@ -44,6 +64,11 @@ const RequestBanner = () => {
           </Col>
         </Row>
       </Card>
+      <RequestModal
+        handleCancel={handleCancel}
+        onFinish={onFinish}
+        isModalOpen={isModalOpen}
+      />
     </div>
   );
 };
