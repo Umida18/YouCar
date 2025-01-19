@@ -30,7 +30,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
     >
       <div className="flex gap-7">
         <div className="flex-1">
-          <h1>{item.id}</h1>
           <div className="flex justify-between flex-col items-start space-y-1 mb-1">
             <h2 className="text-xl font-semibold">{`${item.mark}, ${item.model}`}</h2>
             <span className="text-xl font-bold ">{item.cost} $</span>

@@ -20,7 +20,6 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                 Технические характеристики
               </p>
               <div>
-                <h1>{item.id}</h1>
                 <div className=" text-[15px] flex flex-col gap-3 w-[50%]">
                   <div className="flex justify-between">
                     <p className="text-[#989898]">Марка:</p>
