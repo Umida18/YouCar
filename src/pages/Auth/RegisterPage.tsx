@@ -62,6 +62,7 @@ const RegisterPage = () => {
       email: values.email,
       password: values.password,
       userrate: "yearly",
+      
     });
   };
 
