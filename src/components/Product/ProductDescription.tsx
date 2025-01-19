@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Button, Col, Row } from "antd";
 import { ICar } from "../../Type/Type";
 
 interface PropsCar {
@@ -15,11 +15,12 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
       <div>
         <Row gutter={[16, 16]} style={{ padding: "0 8px" }}>
           <Col sm={24} xl={12} style={{ width: "100%" }}>
-            <div className="boxShadowC  px-6 py-5 rounded-xl ">
+            <div className="boxShadowC  px-6 py-5 rounded-xl h-full">
               <p className="text-[24px] font-bold mb-8">
                 Технические характеристики
               </p>
               <div>
+                <h1>{item.id}</h1>
                 <div className=" text-[15px] flex flex-col gap-3 w-[50%]">
                   <div className="flex justify-between">
                     <p className="text-[#989898]">Марка:</p>
@@ -54,8 +55,27 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
             </div>
           </Col>
           <Col sm={24} xl={12} style={{ width: "100%" }}>
-            <div className="boxShadowC  px-4 py-5 rounded-xl">
-              <p className="text-[24px] font-bold">Задайте вопрос продавцу</p>
+            <div className="boxShadowC  px-4 py-5 rounded-xl h-full">
+              <p className="text-[24px] font-bold mb-8">
+                Задайте вопрос продавцу
+              </p>
+              <div className="flex flex-wrap gap-4 ">
+                <Button className="bg-[#293843] text-white border-0 py-6 px-10 w-[185px]">
+                  Здравствуйте
+                </Button>
+                <Button className="bg-[#293843] text-white border-0 py-6 px-10 w-[185px]">
+                  Какой срок доставки?
+                </Button>
+                <Button className="bg-[#293843] text-white border-0 py-6 px-10 w-[185px]">
+                  ПТС ОРИГИНАЛ?
+                </Button>
+                <Button className="bg-[#293843] text-white border-0 py-6 px-10 w-[185px]">
+                  Пробег оригинал?
+                </Button>
+                <Button className="bg-[#293843] text-white border-0 py-6 px-10 w-[185px]">
+                  Какой бензин?
+                </Button>
+              </div>
             </div>
           </Col>
         </Row>

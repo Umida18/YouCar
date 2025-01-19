@@ -19,13 +19,15 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
           ref={carouselRef}
           beforeChange={(_, to) => setCurrentSlide(to)}
         >
-          <div className="aspect-[16/9]">
-            <img
-              src={item.image[0] || "/placeholder.svg"}
-              alt={`Car view ${item.model}`}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
+          {item.image.map((i) => (
+            <div key={i} className="aspect-[16/9]">
+              <img
+                src={i || "/placeholder.svg"}
+                alt={`Car view ${item.model}`}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
         </Carousel>
 
         <button
