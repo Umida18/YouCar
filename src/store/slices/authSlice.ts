@@ -98,10 +98,10 @@ const authSlice = createSlice({
         state.error = null;
 
         localStorage.setItem("token", action.payload.token);
-        localStorage.setItem("email", action.payload.userData.email);
-        localStorage.setItem("name", action.payload.userData.name);
+        // localStorage.setItem("email", action.payload.userData.email);
+        // localStorage.setItem("name", action.payload.userData.name);
         localStorage.setItem("id", action.payload.userData.id);
-        localStorage.setItem("role", action.payload.userData.role);
+        // localStorage.setItem("role", action.payload.userData.role);
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -120,10 +120,10 @@ const authSlice = createSlice({
         state.error = null;
 
         localStorage.setItem("token", action.payload.token);
-        localStorage.setItem("email", action.payload.userData.email);
-        localStorage.setItem("name", action.payload.userData.name);
+        // localStorage.setItem("email", action.payload.userData.email);
+        // localStorage.setItem("name", action.payload.userData.name);
         localStorage.setItem("id", action.payload.userData.id);
-        localStorage.setItem("role", action.payload.userData.role);
+        // .setItem("role", action.payload.userData.role);
       })
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;

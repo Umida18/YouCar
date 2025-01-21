@@ -2,19 +2,27 @@ import api from "../../Api/Api";
 import { Button, Col, Divider, Form, Input, Row, notification } from "antd";
 import { useEffect } from "react";
 import "../../index.css";
+import { useQuery } from "@tanstack/react-query";
+import { IUser } from "../../Type/Type";
 
 const Settings = () => {
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
 
+  const { data: user } = useQuery<IUser>(["user"], async () => {
+    const res = await api.get("/user-dashboard");
+    console.log("user", user);
+    return res.data;
+  });
+
   useEffect(() => {
-    const email = localStorage.getItem("email");
-    const name = localStorage.getItem("name");
+    // const email = localStorage.getItem("email");
+    // const name = localStorage.getItem("name");
     form1.setFieldsValue({
-      newName: name,
-      newEmail: email,
+      newName: user?.userData.name,
+      newEmail: user?.userData.email,
     });
-  }, []);
+  }, [user]);
 
   const openNotification = (
     type: "success" | "error",

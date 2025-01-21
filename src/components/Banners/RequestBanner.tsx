@@ -22,7 +22,7 @@ const RequestBanner = () => {
   };
 
   return (
-    <div>
+    <div className="py-10">
       <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0">
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">

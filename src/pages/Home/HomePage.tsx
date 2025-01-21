@@ -19,7 +19,7 @@ const HomePage = () => {
       <HeroBanner />
       <CarSelector />
       <>
-        <p className="text-3xl font-bold mt-10 mb-10">Автомобильный каталог</p>
+        <p className="text-3xl font-bold mt-12 mb-12">Автомобильный каталог</p>
         <CatalogCards limit={6} />
         <div className="flex justify-end">
           <Button

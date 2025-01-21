@@ -4,6 +4,8 @@ import { MdOutlineSms } from "react-icons/md";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { BsLightningCharge } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SidebarProps {
   activeSection: string;
@@ -13,6 +15,8 @@ interface SidebarProps {
 const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const name = localStorage.getItem("name");
   const email = localStorage.getItem("email");
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const navigation = [
     { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
@@ -21,6 +25,14 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
     { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
     { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
   ];
+
+  const handleLeave = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("id");
+    localStorage.removeItem("token");
+    queryClient.invalidateQueries(["user"]);
+    navigate("/");
+  };
 
   return (
     <div className="py-7 px-4 boxShadowC w-full rounded-xl">
@@ -55,7 +67,10 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
           ))}
         </div>
         <div>
-          <Button className="w-full  text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]">
+          <Button
+            onClick={handleLeave}
+            className="w-full  text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
+          >
             Выйти
           </Button>
         </div>

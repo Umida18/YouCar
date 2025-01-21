@@ -17,38 +17,49 @@ const { Panel } = Collapse;
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const { data: user } = useQuery<IUser>(
+    ["user"],
+    async () => {
+      try {
+        const res = await api.get("/user-dashboard");
+        setIsRegistered(true);
+        return res.data;
+      } catch (error: any) {
+        if (error.response?.status === 401) {
+          setIsRegistered(false);
+        }
+        throw error;
+      }
+    },
+    {
+      onError: (error: any) => {
+        if (error.response?.status === 401) {
+          setIsRegistered(false);
+        }
+      },
+    }
+  );
 
   useEffect(() => {
-    const registered = () => {
-      const name = localStorage.getItem("name");
-      if (token) {
-        setIsRegistered(true);
-        setUserName(name);
-      } else {
-        setIsRegistered(false);
-      }
-    };
-
-    registered();
-  }, [token]);
-
-  const { data: user } = useQuery<IUser>(["user"], async () => {
-    const res = await api.get("/user-dashboard");
-    console.log("user", user);
-    return res.data;
-  });
+    if (user) {
+      setIsRegistered(true);
+    } else {
+      setIsRegistered(false);
+    }
+  }, [user]);
 
   return (
     <div className="h-full">
       <div className="xl:!min-h-[79px] xl:flex items-center justify-between  px-14 shadow-md hidden ">
-        <p className="flex justify-center items-center font-bold text-[30px]">
+        <a
+          href="/"
+          className="flex justify-center items-center font-bold text-[30px]"
+        >
           <span className="text-[#2684E5]">You</span>
           <span className="text-[#0b0f32]">Car</span>
-        </p>
+        </a>
         <div className="flex justify-between items-center  !min-h-[79px]">
           <div className="w-[100%] h-[46px] !bg-white">
             <Collapse
@@ -163,6 +174,8 @@ const BottomHeader = () => {
                 backgroundColor: "transparent",
                 boxShadow: "none",
                 fontSize: "16px",
+                height: "56px",
+                width: "187px",
               }}
             >
               Войти
@@ -186,7 +199,7 @@ const BottomHeader = () => {
         ) : (
           <>
             <div className="flex justify-center items-center gap-3">
-              <p>{userName}</p>
+              <p>{user?.userData.name}</p>
               <Button
                 onClick={() => navigate("/account")}
                 style={{
@@ -196,7 +209,7 @@ const BottomHeader = () => {
                   fontSize: "16px",
                 }}
               >
-                <Avatar>{userName?.charAt(0)}</Avatar>
+                <Avatar>{user?.userData.name?.charAt(0)}</Avatar>
               </Button>
             </div>
           </>

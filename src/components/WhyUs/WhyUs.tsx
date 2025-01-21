@@ -34,7 +34,7 @@ export default function WhyUsSection() {
   ];
 
   return (
-    <div className="min-h-[60vh] py-10">
+    <div className=" py-10">
       <h2 className="text-3xl font-bold mb-12 ">Почему мы?</h2>
       <Row gutter={[16, 16]} className="">
         {features.map((feature, index) => (

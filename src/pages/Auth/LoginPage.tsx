@@ -1,31 +1,65 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { loginUser } from "../../store/slices/authSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "../../Api/Api";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
   const [form] = Form.useForm();
-  const { isLoading } = useSelector((state: RootState) => state.auth);
+  const queryClient = useQueryClient();
 
-  const handleLogin = async (values: { email: string; password: string }) => {
-    const resultAction = await dispatch(loginUser(values));
-    if (loginUser.fulfilled.match(resultAction)) {
-      notification.success({
-        message: "Успешный вход",
-        description: "Вы успешно вошли в систему!",
-        placement: "topRight",
-      });
-      navigate("/");
-    } else {
-      notification.error({
-        message: "Ошибка входа",
-        description: "Неверный email или пароль.",
-        placement: "topRight",
-      });
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      form.setFieldsValue({ email: savedEmail, rememberMe: true });
     }
+  }, [form]);
+
+  const mutation = useMutation(
+    async (data: { email: string; password: string }) => {
+      const res = await api.post("/login", data);
+      return res.data;
+    },
+    {
+      onSuccess: (data) => {
+        notification.success({
+          message: "Успешный вход",
+          description: "Вы успешно вошли в систему!",
+          placement: "topRight",
+        });
+        console.log("Registration successful:", data);
+
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("id", data.userData.id);
+        }
+
+        navigate("/");
+      },
+      onError: (error) => {
+        console.error("Error during registration:", error);
+        notification.error({
+          message: "Ошибка входа",
+          description: "Неверный email или пароль.",
+          placement: "topRight",
+        });
+      },
+    }
+  );
+
+  const handleLogin = (values: {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }) => {
+    if (values.rememberMe) {
+      localStorage.setItem("rememberedEmail", values.email);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+    }
+    mutation.mutate({ email: values.email, password: values.password });
+    queryClient.invalidateQueries(["user"]);
   };
 
   return (
@@ -55,7 +89,11 @@ const LoginPage = () => {
             />
           </Form.Item>
           <div className="flex justify-between items-center w-full">
-            <Form.Item style={{ width: "100%" }}>
+            <Form.Item
+              name="rememberMe"
+              valuePropName="checked"
+              style={{ width: "100%" }}
+            >
               <Checkbox>Запомнить меня</Checkbox>
             </Form.Item>
             <Form.Item style={{ width: "100%" }}>
@@ -79,7 +117,7 @@ const LoginPage = () => {
           </div>
           <Form.Item style={{ width: "100%" }}>
             <Button
-              loading={isLoading}
+              loading={mutation.isLoading}
               htmlType="submit"
               style={{
                 border: 0,

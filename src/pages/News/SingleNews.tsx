@@ -39,7 +39,7 @@ const SingleNews = () => {
       <p className="font-bold text-[26px]">{singleNews?.title}</p>
       <p className="text-[#989898] text-[14px] my-5">{singleNews?.createdAt}</p>
       <Row gutter={[36, 36]}>
-        <Col xl={17}>
+        <Col sm={24} lg={24} xl={17}>
           <div className="my-4">
             <img
               className="rounded-2xl mb-5 w-full"
@@ -49,7 +49,7 @@ const SingleNews = () => {
             <p className="text-[#989898] text-[16px]">{singleNews?.content}</p>
           </div>
         </Col>
-        <Col xl={7}>
+        <Col sm={24} lg={24} xl={7}>
           <Card className="my-4">
             <p className="font-bold text-[20px]">
               Читайте другие статьи в нашем блоге:
@@ -85,9 +85,7 @@ const SingleNews = () => {
           </Card>
         </Col>
       </Row>
-      <div className="mt-24">
-        <RequestBanner />
-      </div>
+      <RequestBanner />
     </div>
   );
 };

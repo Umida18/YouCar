@@ -17,7 +17,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   return (
     <Card
       onClick={handleCardClick}
-      className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:px-4 boxShadowC"
+      className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:px-4 boxShadowC cursor-pointer"
       cover={
         <div className="relative h-[240px]">
           <img

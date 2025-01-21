@@ -40,19 +40,14 @@ const HeroBanner = () => {
         },
       }}
     >
-      <div className=" mx-auto  my-6 h-[100%] w-full">
+      <div className=" mx-auto my-6  w-full">
         <Carousel
           {...carouselSettings}
-          className="[&_.slick-slide]:px-2 [&_.slick-dots]:!bottom-7 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-400 w-full"
+          className=" [&_.slick-slide]:px-0 [&_.slick-dots]:!bottom-7 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-400 px-0 w-full"
         >
-          {/* <div className="mb-3 w-full"> */}
-          <Card className=" bg-[#F4F4F4] w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
+          <Card className=" bg-[#F4F4F4] w-full px-0 border-none rounded-xl [&_.ant-card-body]:min-w-full">
             <Row>
-              <Col
-                md={24}
-                xl={12}
-                className="flex justify-center flex-col xl:px-14 px-4"
-              >
+              <Col md={24} xl={12} className="flex flex-col xl:px-7 px-4">
                 <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
                   Новый Geely Monjaro!
                 </h3>
@@ -80,14 +75,12 @@ const HeroBanner = () => {
               >
                 <img
                   src="/hero1.png"
+                  // src="https://www.freeiconspng.com/uploads/cars-png-31.png"
                   alt=""
-                  // className=" object-contain"
-                  // height={770}
                 />
               </Col>
             </Row>
           </Card>
-          {/* </div> */}
         </Carousel>
       </div>
     </ConfigProvider>

@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../Api/Api";
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation(
     async (data: {
@@ -67,6 +68,7 @@ const RegisterPage = () => {
       password: values.password,
       userrate: "yearly",
     });
+    queryClient.invalidateQueries(["user"]);
   };
 
   return (

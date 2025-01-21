@@ -12,15 +12,15 @@ export const login = async (data: { username: string; password: string }) => {
     if (token && user) {
       // Save token and minimal user info to local storage
       localStorage.setItem("token", token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        })
-      );
+      // .setItem(
+      //   "user",
+      //   JSON.stringify({
+      //     id: user.id,
+      //     name: user.name,
+      //     email: user.email,
+      //     role: user.role,
+      //   })
+      // );
       window.location.href = "/";
       console.log("Token and user info saved to localStorage:", token, user);
 
@@ -56,7 +56,7 @@ export const register = async (data: {
     if (token && user) {
       // Save token and user data to localStorage
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      // localStorage.setItem("user", JSON.stringify(user));
 
       console.log("User registered and logged in successfully:", user);
 
