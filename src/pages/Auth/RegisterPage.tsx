@@ -30,6 +30,7 @@ const RegisterPage = () => {
         if (data.token) {
           localStorage.setItem("token", data.token);
           localStorage.setItem("id", data.userData.id);
+          localStorage.setItem("email", data.userData.email);
         }
 
         navigate("/");

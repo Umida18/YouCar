@@ -16,8 +16,6 @@ const Settings = () => {
   });
 
   useEffect(() => {
-    // const email = localStorage.getItem("email");
-    // const name = localStorage.getItem("name");
     form1.setFieldsValue({
       newName: user?.userData.name,
       newEmail: user?.userData.email,

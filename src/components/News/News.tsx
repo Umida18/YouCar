@@ -18,7 +18,7 @@ const News = ({ limit }: { limit?: number }) => {
       <h1 className="text-3xl font-bold mb-14">Новости</h1>
       <Row gutter={[16, 16]}>
         {newsChan?.map((item) => (
-          <Col xs={24} md={12} lg={8}>
+          <Col key={item.id} xs={24} md={12} lg={8}>
             <NewsCard item={item} />
           </Col>
         ))}

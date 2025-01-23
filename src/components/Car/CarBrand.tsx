@@ -42,7 +42,7 @@ export default function CarBrands() {
             <Card
               key={brand.name}
               className="transition-shadow duration-300 rounded-none cursor-pointer"
-              bodyStyle={{ padding: "1rem" }}
+              // styles.body={{ padding: "1rem" }}
             >
               <div className="flex flex-col items-center space-y-2">
                 <div className="relative w-16 h-16">

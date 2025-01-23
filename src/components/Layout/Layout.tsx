@@ -13,19 +13,23 @@ const Layout = () => {
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
       <div className="w-full">
-        <Row gutter={[36, 30]}>
+        <Row gutter={[20, 20]}>
           <Col xl={6}>
-            <Sidebar
-              activeSection={activeSection}
-              setActiveSection={setActiveSection}
-            />
+            <div className="">
+              <Sidebar
+                activeSection={activeSection}
+                setActiveSection={setActiveSection}
+              />
+            </div>
           </Col>
-          <Col xl={18} className="boxShadowC rounded-xl py-7 !px-7">
-            {activeSection === "favorites" && <Favorites />}
-            {activeSection === "messages" && <Messages />}
-            {activeSection === "post" && <Post />}
-            {activeSection === "settings" && <Settings />}
-            {activeSection === "tariff" && <Tariff />}
+          <Col xl={18} className="min-h-full">
+            <div className="boxShadowC rounded-xl py-7 !px-7 h-full">
+              {activeSection === "favorites" && <Favorites />}
+              {activeSection === "messages" && <Messages />}
+              {activeSection === "post" && <Post />}
+              {activeSection === "settings" && <Settings />}
+              {activeSection === "tariff" && <Tariff />}
+            </div>
           </Col>
         </Row>
       </div>

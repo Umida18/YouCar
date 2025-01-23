@@ -29,7 +29,6 @@ const CarCatalog = () => {
                   <img
                     src={car.image[0]}
                     alt={car.model}
-                    // fill
                     className="object-cover h-full w-full rounded-2xl "
                   />
                 </div>

@@ -14,6 +14,11 @@ import AccountPage from "./pages/Account/AccountPage";
 import ProductPage from "./pages/Product/ProductPage";
 import NewsPage from "./pages/News/NewsPage";
 import SingleNews from "./pages/News/SingleNews";
+import Favorites from "./components/Account/Favorites";
+import Messages from "./components/Account/Messages";
+import Post from "./components/Account/Post";
+import Settings from "./components/Account/Settings";
+import Tariff from "./components/Account/Tariff";
 
 function App() {
   return (
@@ -31,7 +36,14 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
-                <Route path="/account" element={<AccountPage />} />
+                <Route path="/account" element={<AccountPage />}>
+                  <Route index element={<Favorites />} />
+                  <Route path="/account/favorites" element={<Favorites />} />
+                  <Route path="/account/messages" element={<Messages />} />
+                  <Route path="/account/post" element={<Post />} />
+                  <Route path="/account/tariff" element={<Settings />} />
+                  <Route path="/account/settings" element={<Tariff />} />
+                </Route>
                 <Route
                   path="/productDetailsPage/:id"
                   element={<ProductPage />}

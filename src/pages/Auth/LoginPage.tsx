@@ -32,9 +32,10 @@ const LoginPage = () => {
 
         if (data.token) {
           localStorage.setItem("token", data.token);
+          localStorage.setItem("email", data.userData.email);
           localStorage.setItem("id", data.userData.id);
         }
-
+        queryClient.invalidateQueries(["user"]);
         navigate("/");
       },
       onError: (error) => {
@@ -51,15 +52,15 @@ const LoginPage = () => {
   const handleLogin = (values: {
     email: string;
     password: string;
-    rememberMe: boolean;
+    rememberMe?: boolean;
   }) => {
-    if (values.rememberMe) {
+    if (values.rememberMe === true) {
       localStorage.setItem("rememberedEmail", values.email);
     } else {
       localStorage.removeItem("rememberedEmail");
     }
+    console.log("values.email", values.email);
     mutation.mutate({ email: values.email, password: values.password });
-    queryClient.invalidateQueries(["user"]);
   };
 
   return (

@@ -17,7 +17,7 @@ const NewsCard: React.FC<PropsNews> = ({ item }) => {
   return (
     <Card
       onClick={handleCardClick}
-      className="group shadow-lg rounded-2xl [&_.ant-card-body]:px-4  cursor-pointer"
+      className="group shadow-lg rounded-2xl [&_.ant-card-body]:px-4 cursor-pointer"
       cover={
         <div className="relative overflow-hidden rounded-2xl">
           <img

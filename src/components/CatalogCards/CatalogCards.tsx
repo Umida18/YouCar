@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ICar } from "@/Type/Type";
 import api from "@/Api/Api";
 import { Col, Row } from "antd";
@@ -12,12 +12,22 @@ interface CardProps {
 
 const CatalogCards: React.FC<CardProps> = ({ limit }) => {
   const { id } = useParams();
+  const queryClient = useQueryClient();
 
-  const { data: cars } = useQuery<ICar[]>(["cars"], async () => {
-    const res = await api.get("/cars");
-    console.log("cars:", res);
-    return res.data;
-  });
+  const { data: cars } = useQuery<ICar[]>(
+    ["cars"],
+    async () => {
+      const res = await api.get("/cars");
+      console.log("cars:", res);
+      return res.data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["fav"]);
+        queryClient.invalidateQueries(["cars"]);
+      },
+    }
+  );
 
   const filteredCars = id ? cars?.filter((car) => car.id !== Number(id)) : cars;
 
