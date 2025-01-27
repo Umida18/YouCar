@@ -31,18 +31,6 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   );
   console.log("filteredCars", filteredCars);
 
-  // useEffect(() => {
-  //   if (filteredCars) {
-  //     setActiveCars([
-  //       ...(filteredCars.cars || []),
-  //       ...(filteredCars.motorcycles || []),
-  //       ...(filteredCars.commerce || []),
-  //     ]);
-  //   }
-  // }, [filteredCars]);
-
-  // const carsRender = activeCars.length > 0 ? activeCars : cars;
-
   const carsRender = useMemo(() => {
     if (filteredCars) {
       return [

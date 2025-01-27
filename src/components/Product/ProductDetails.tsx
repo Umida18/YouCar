@@ -8,12 +8,11 @@ interface PropsCar {
 }
 
 const ProductDetails: React.FC<PropsCar> = ({ item }) => {
-  const name = localStorage.getItem("name");
-
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
         <div className="px-7 py-5">
+          <h1>{item.id}</h1>
           <p className="text-[25px] font-bold">{`${item?.mark}, ${item?.model}`}</p>
           <div className="flex justify-between items-center">
             <div>
@@ -64,21 +63,23 @@ const ProductDetails: React.FC<PropsCar> = ({ item }) => {
           </div>
         </div>
 
-        <div className="text-[18px] px-7 py-5">
-          <div className="flex items-center border-2 border-[#F0F0F0] px-5 py-2 rounded-xl gap-12">
-            <div className="flex items-center gap-3">
-              <Avatar className="text-[24px] h-[55px] w-[55px]">
-                {name?.charAt(0)}
+        <div className="text-[16px] px-7 py-5">
+          <div className="flex items-center border-2 border-[#F0F0F0] px-5 py-2 rounded-xl ">
+            <div className="flex items-center gap-2">
+              <Avatar className="text-[16px] h-[30px] w-[30px]">
+                {item.authoremail?.charAt(0)}
               </Avatar>
-              <div>{name}</div>
+              <div>
+                <p>{item.authoremail}</p>
+              </div>
             </div>
             <Divider type="vertical" style={{ height: 60 }} />
             <Button
               style={{ border: 0, boxShadow: "none" }}
-              className="flex items-center gap-3"
+              className="flex items-center justify-between"
             >
-              <MdOutlineSms className="text-[#2684E5] text-2xl mt-2" />
-              <p className="text-[18px]">Написать</p>
+              <MdOutlineSms className="text-[#2684E5] text-xl mt-2" />
+              <p className="text-[16px]">Написать</p>
             </Button>
           </div>
         </div>

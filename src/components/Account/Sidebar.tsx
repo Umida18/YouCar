@@ -41,26 +41,19 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
     async () => {
       try {
         const res = await api.get("/user-dashboard");
-        // setIsRegistered(true);
 
         return res.data;
       } catch (error: any) {
         if (error.response?.status === 401) {
           localStorage.removeItem("id");
           localStorage.removeItem("token");
-
-          // setIsRegistered(false);
         }
         throw error;
       }
     },
     {
       onError: (error: any) => {
-        // if (error.response?.status === 401) {
-        // setIsRegistered(false);
         console.log(error);
-
-        // }
       },
     }
   );

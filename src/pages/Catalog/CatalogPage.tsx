@@ -57,25 +57,6 @@ const CatalogPage = () => {
     setSearchParams(query);
   };
 
-  // const handleSubmit = async (values: any) => {
-  //   try {
-  //     const response = await api.post("/all-filter", {
-  //       maxYear: values.maxYear?.[1]
-  //         ? dayjs(values.maxYear[1]).year()
-  //         : undefined,
-  //       minPrice: values.minPrice,
-  //       maxPrice: values.maxPrice,
-  //       statement: values.statement,
-  //       rate: values.rate,
-  //       model: values.model,
-  //       country: values.country,
-  //     });
-  //     setFilteredCars(response.data);
-  //   } catch (error) {
-  //     console.error("Error filtering cars:", error);
-  //   }
-  // };
-
   const handleSubmit = useCallback(
     async (values: any) => {
       updateQueryParams(values);
@@ -86,9 +67,6 @@ const CatalogPage = () => {
 
   useEffect(() => {
     const queryParams = Object.fromEntries(searchParams);
-
-    // const minYearRaw = queryParams.get("minYear");
-    // const maxYearRaw = queryParams.get("maxYear");
 
     const defaultValues = {
       mark: queryParams.mark || undefined,

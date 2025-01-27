@@ -39,7 +39,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
     navigate(
       `/productDetailsPage/${item?.id}?mark=${encodeURIComponent(
         item?.mark || ""
-      )}&model=${encodeURIComponent(item?.model || "")}`
+      )}&model=${encodeURIComponent(item?.model || "")}`,
+      {
+        state: { item }, // item ni ham state orqali yuboramiz
+      }
     );
   };
 

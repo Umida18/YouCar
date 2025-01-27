@@ -24,6 +24,7 @@ interface CarSelectorProps {
   handleFormValuesChange: (_: any, allValues: any) => void;
   buttonLabel: string;
 }
+
 const { RangePicker } = DatePicker;
 
 export default function CarSelector({
