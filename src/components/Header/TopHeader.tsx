@@ -3,6 +3,7 @@ import { FaInstagram } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
 import { CgMail } from "react-icons/cg";
+import { Link } from "react-scroll";
 
 const TopHeader = () => {
   return (
@@ -15,9 +16,18 @@ const TopHeader = () => {
           <a href="/catalog" className="hover:underline">
             Каталог
           </a>
-          <a href="/#about" className="hover:underline">
+          <Link
+            to="about"
+            smooth={true}
+            duration={500}
+            className="hover:underline cursor-pointer"
+          >
+            {" "}
             О нас
-          </a>
+          </Link>
+          {/* <a href="/#about" className="hover:underline">
+            О нас
+          </a> */}
           <a href="/news" className="hover:underline">
             Новости
           </a>
