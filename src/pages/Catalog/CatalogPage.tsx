@@ -5,20 +5,40 @@ import useScrollToTop from "../../utils/scroll";
 import api from "@/Api/Api";
 import { Form } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { FilteredAuto } from "@/Type/Type";
+import { useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { useQuery } from "@tanstack/react-query";
 
 dayjs.extend(utc);
 
 const CatalogPage = () => {
   useScrollToTop();
-  const [filteredCars, setFilteredCars] = useState<FilteredAuto | null>(null);
+  // const [filteredCars, setFilteredCars] = useState<FilteredAuto | null>(null);
   const [buttonLabel, __] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [form] = Form.useForm();
+
+  const { data: filteredCars, refetch } = useQuery(
+    ["filteredCars", searchParams.toString()],
+    async () => {
+      const params = Object.fromEntries(searchParams);
+      const res = await api.post("/all-filter", {
+        maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
+        minPrice: params.minPrice ? Number(params.minPrice) : undefined,
+        maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+        statement: params.statement,
+        rate: params.rate ? params.rate.split(",") : undefined,
+        model: params.model,
+        country: params.country,
+      });
+      return res.data;
+    },
+    {
+      enabled: searchParams.toString() !== "",
+    }
+  );
 
   const updateQueryParams = (values: any) => {
     const query: Record<string, string | any> = {};
@@ -36,53 +56,58 @@ const CatalogPage = () => {
     setSearchParams(query);
   };
 
-  const handleSubmit = async (values: any) => {
-    try {
-      const response = await api.post("/all-filter", {
-        maxYear: values.maxYear?.[1]
-          ? dayjs(values.maxYear[1]).year()
-          : undefined,
-        minPrice: values.minPrice,
-        maxPrice: values.maxPrice,
-        statement: values.statement,
-        rate: values.rate,
-        model: values.model,
-        country: values.country,
-      });
-      setFilteredCars(response.data);
-    } catch (error) {
-      console.error("Error filtering cars:", error);
-    }
-  };
+  // const handleSubmit = async (values: any) => {
+  //   try {
+  //     const response = await api.post("/all-filter", {
+  //       maxYear: values.maxYear?.[1]
+  //         ? dayjs(values.maxYear[1]).year()
+  //         : undefined,
+  //       minPrice: values.minPrice,
+  //       maxPrice: values.maxPrice,
+  //       statement: values.statement,
+  //       rate: values.rate,
+  //       model: values.model,
+  //       country: values.country,
+  //     });
+  //     setFilteredCars(response.data);
+  //   } catch (error) {
+  //     console.error("Error filtering cars:", error);
+  //   }
+  // };
+
+  const handleSubmit = useCallback(
+    async (values: any) => {
+      updateQueryParams(values);
+      await refetch;
+    },
+    [updateQueryParams, refetch]
+  );
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
+    const queryParams = Object.fromEntries(searchParams);
 
-    const minYearRaw = queryParams.get("minYear");
-    const maxYearRaw = queryParams.get("maxYear");
+    // const minYearRaw = queryParams.get("minYear");
+    // const maxYearRaw = queryParams.get("maxYear");
 
     const defaultValues = {
-      mark: queryParams.get("mark") || undefined,
-      model: queryParams.get("model") || undefined,
-      statement: queryParams.get("statement") || "all",
-      rate: queryParams.get("rate")
-        ? queryParams.get("rate")!.split(",")
-        : undefined,
-      country: queryParams.get("country") || undefined,
-      minPrice: queryParams.get("minPrice")
-        ? Number.parseInt(queryParams.get("minPrice") as string, 10)
-        : undefined,
-      maxPrice: queryParams.get("maxPrice")
-        ? Number.parseInt(queryParams.get("maxPrice") as string, 10)
-        : undefined,
+      mark: queryParams.mark || undefined,
+      model: queryParams.model || undefined,
+      statement: queryParams.statement || "all",
+      rate: queryParams.rate ? queryParams.rate.split(",") : undefined,
+      country: queryParams.country || undefined,
+      minPrice: queryParams.minPrice ? Number(queryParams.minPrice) : undefined,
+      maxPrice: queryParams.maxPrice ? Number(queryParams.maxPrice) : undefined,
       maxYear: [
-        minYearRaw ? dayjs(minYearRaw) : undefined,
-        maxYearRaw ? dayjs(maxYearRaw) : undefined,
+        queryParams.minYear ? dayjs(queryParams.minYear) : undefined,
+        queryParams.maxYear ? dayjs(queryParams.maxYear) : undefined,
       ].filter(Boolean),
     };
 
     form.setFieldsValue(defaultValues);
-  }, [searchParams]);
+    if (Object.keys(queryParams).length > 0) {
+      refetch();
+    }
+  }, [searchParams, form, refetch]);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { Col, Row } from "antd";
 import ItemCard from "../Cards/CarCard";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 interface CardProps {
   limit?: number;
@@ -15,7 +15,6 @@ interface CardProps {
 const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
-  const [activeCars, setActiveCars] = useState<ICar[]>([]);
 
   const { data: cars } = useQuery<ICar[]>(
     ["cars"],
@@ -32,17 +31,28 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   );
   console.log("filteredCars", filteredCars);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (filteredCars) {
+  //     setActiveCars([
+  //       ...(filteredCars.cars || []),
+  //       ...(filteredCars.motorcycles || []),
+  //       ...(filteredCars.commerce || []),
+  //     ]);
+  //   }
+  // }, [filteredCars]);
+
+  // const carsRender = activeCars.length > 0 ? activeCars : cars;
+
+  const carsRender = useMemo(() => {
     if (filteredCars) {
-      setActiveCars([
+      return [
         ...(filteredCars.cars || []),
         ...(filteredCars.motorcycles || []),
         ...(filteredCars.commerce || []),
-      ]);
+      ];
     }
-  }, [filteredCars]);
-
-  const carsRender = activeCars.length > 0 ? activeCars : cars;
+    return cars || [];
+  }, [filteredCars, cars]);
 
   console.log("activeCars", carsRender);
 
