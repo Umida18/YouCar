@@ -112,3 +112,16 @@ export interface ISingleNews {
   createdAt: string;
   updated_at: string;
 }
+
+export interface FilteredAuto {
+  cars: ICar[];
+  motorcycles: any[];
+  commerce: any[];
+  count: number;
+}
+
+export interface VehicleData {
+  car: string[];
+  moto: string[];
+  commerce: string[];
+}

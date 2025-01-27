@@ -69,19 +69,19 @@ const SingleNews = () => {
               ))}
             </div>
 
-            <Button
+            <button
               onClick={() => navigate("/news")}
-              style={{
-                background: "transparent",
-                border: "none",
-                boxShadow: "none",
-                padding: 0,
-                marginTop: 10,
-              }}
+              // style={{
+              //   background: "transparent",
+              //   border: "none",
+              //   boxShadow: "none",
+              //   padding: 0,
+              //   marginTop: 10,
+              // }}
             >
               Читать больше новостей
               <MdArrowOutward className="text-xl " />
-            </Button>
+            </button>
           </Card>
         </Col>
       </Row>

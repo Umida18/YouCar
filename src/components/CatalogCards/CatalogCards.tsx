@@ -1,18 +1,21 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ICar } from "@/Type/Type";
+import { FilteredAuto, ICar } from "../../Type/Type";
 import api from "@/Api/Api";
 import { Col, Row } from "antd";
 import ItemCard from "../Cards/CarCard";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface CardProps {
   limit?: number;
+  filteredCars?: FilteredAuto | null;
 }
 
-const CatalogCards: React.FC<CardProps> = ({ limit }) => {
+const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const [activeCars, setActiveCars] = useState<ICar[]>([]);
 
   const { data: cars } = useQuery<ICar[]>(
     ["cars"],
@@ -24,19 +27,40 @@ const CatalogCards: React.FC<CardProps> = ({ limit }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["fav"]);
-        queryClient.invalidateQueries(["cars"]);
       },
     }
   );
+  console.log("filteredCars", filteredCars);
 
-  const filteredCars = id ? cars?.filter((car) => car.id !== Number(id)) : cars;
+  useEffect(() => {
+    if (filteredCars) {
+      setActiveCars([
+        ...(filteredCars.cars || []),
+        ...(filteredCars.motorcycles || []),
+        ...(filteredCars.commerce || []),
+      ]);
+    }
+  }, [filteredCars]);
 
-  const carsLimited = limit ? filteredCars?.slice(0, limit) : filteredCars;
+  const carsRender = activeCars.length > 0 ? activeCars : cars;
+
+  console.log("activeCars", carsRender);
+
+  const filtered = id
+    ? carsRender?.filter((car) => car.id !== Number(id))
+    : carsRender;
+
+  const carsLimited = limit ? filtered?.slice(0, limit) : filtered;
 
   return (
     <Row gutter={[24, 24]} className="py-6">
-      {carsLimited?.map((car) => (
-        <Col key={car.id} xs={24} md={12} lg={8}>
+      {carsLimited?.map((car, index) => (
+        <Col
+          key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
+          xs={24}
+          md={12}
+          lg={8}
+        >
           <ItemCard item={mapCarDataToItem(car)} />
         </Col>
       ))}
