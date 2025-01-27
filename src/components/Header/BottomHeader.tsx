@@ -1,4 +1,4 @@
-import { Collapse, Row, Col, Button, Avatar } from "antd";
+import { Button, Avatar } from "antd";
 import { CiSearch } from "react-icons/ci";
 import { LuBell } from "react-icons/lu";
 import "./Header.scss";
@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../Api/Api";
 import { IUser } from "../../Type/Type";
-
-const { Panel } = Collapse;
+import { IoIosArrowForward } from "react-icons/io";
 
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -65,109 +64,26 @@ const BottomHeader = () => {
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
           </a>
-          <div className="flex justify-between items-center  !min-h-[79px]">
-            <div className="w-[100%] h-[46px] !bg-white">
-              <Collapse
-                className=" min-h-[100%] "
-                accordion
-                style={{ border: 0 }}
-              >
-                <Panel
-                  style={{ position: "relative", zIndex: 10 }}
-                  header="Автомобили"
-                  key="1"
-                  className="!bg-white [&_.ant-collapse-content]:!bg-white "
-                >
-                  <Row
-                    gutter={[16, 16]}
-                    style={{
-                      marginTop: "8px",
-                      display: "flex",
-                      flexDirection: "column",
-                      position: "relative",
-                      zIndex: 10,
-                    }}
-                  >
-                    <Col>
-                      <a href="/cars">Автомобили</a>
-                    </Col>
-                    {/* <Col>Авто из Европы</Col>
-                  <Col>Авто из Китая</Col>
-                  <Col>Авто из ОАЭ</Col> */}
-                  </Row>
-                </Panel>
-              </Collapse>
-            </div>
-            <div className="w-full h-[46px]">
-              <Collapse
-                className=" min-h-[100%] w-full"
-                accordion
-                style={{ border: 0 }}
-              >
-                <Panel
-                  header="Коммерческий транспорт"
-                  key="1"
-                  style={{
-                    position: "relative",
-                    zIndex: 10,
-                    minHeight: "100%",
-                  }}
-                  className="!bg-white [&_.ant-collapse-content]:!bg-white min-h-[100%] [&_.ant-collapse-header-text]:!min-w-[170px]"
-                >
-                  <Row
-                    gutter={[16, 16]}
-                    style={{
-                      marginTop: "8px",
-                      display: "flex",
-                      flexDirection: "column",
-                      position: "relative",
-                      zIndex: 10,
-                    }}
-                  >
-                    <Col>
-                      <a href="/commercialCar">Коммерческий транспорт</a>
-                    </Col>
-                    {/* <Col>Авто из США</Col>
-                  <Col>Авто из Европы</Col>
-                  <Col>Авто из Китая</Col>
-                  <Col>Авто из ОАЭ</Col> */}
-                  </Row>
-                </Panel>
-              </Collapse>
-            </div>
-            <div className="w-[100%] h-[46px]">
-              <Collapse
-                className="min-h-[100%]p-0"
-                accordion
-                style={{ border: 0 }}
-              >
-                <Panel
-                  header="Мотоциклы"
-                  key="1"
-                  className="!bg-white [&_.ant-collapse-content]:!bg-white "
-                  style={{ position: "relative", zIndex: 10 }}
-                >
-                  <Row
-                    gutter={[16, 16]}
-                    style={{
-                      marginTop: "8px",
-                      display: "flex",
-                      flexDirection: "column",
-                      position: "relative",
-                      zIndex: 10,
-                    }}
-                  >
-                    <Col>
-                      <a href="/motobykes">Мотоциклы</a>
-                    </Col>
-                    {/* <Col>Авто из США</Col>
-                  <Col>Авто из Европы</Col>
-                  <Col>Авто из Китая</Col>
-                  <Col>Авто из ОАЭ</Col> */}
-                  </Row>
-                </Panel>
-              </Collapse>
-            </div>
+
+          <div className="flex items-center justify-between gap-7">
+            <a href="/cars" className="flex justify-center gap-2 items-center ">
+              <span className="text-[16px]">Автомобили</span>
+              <span>
+                <IoIosArrowForward className="text-[#2684E5] mt-1" />
+              </span>
+            </a>
+            <a href="/cars" className="flex justify-center gap-2 items-center ">
+              <span className="text-[16px]">Коммерческий транспорт</span>
+              <span>
+                <IoIosArrowForward className="text-[#2684E5] mt-1" />
+              </span>
+            </a>
+            <a href="/cars" className="flex justify-center gap-2 items-center ">
+              <span className="text-[16px]">Мотоциклы</span>
+              <span>
+                <IoIosArrowForward className="text-[#2684E5] mt-1" />
+              </span>
+            </a>
           </div>
           <div className="relative bg-[#F6F6F6]">
             <CiSearch
@@ -235,10 +151,13 @@ const BottomHeader = () => {
           )}
         </div>
         <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
-          <p className="flex justify-center items-center font-bold text-[30px]">
+          <a
+            href="/"
+            className="flex justify-center items-center font-bold text-[30px]"
+          >
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
-          </p>
+          </a>
           <div className="relative bg-[#F6F6F6] w-full">
             <CiSearch
               style={{ color: "#989898", fontSize: "22px" }}
@@ -258,7 +177,7 @@ const BottomHeader = () => {
           </Button>
         </div>
       </div>
-      <ResponsiveHeader isOpen={isOpen} />
+      <ResponsiveHeader isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

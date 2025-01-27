@@ -73,9 +73,8 @@ const HomePage = () => {
 
       setFilteredCars(response.data);
 
-      // Update the button label dynamically with the count
       const buttonLabel = `${response.data.count} Предложений`;
-      setButtonLabel(buttonLabel); // Store the updated label in the state
+      setButtonLabel(buttonLabel);
     } catch (error) {
       console.error("Error filtering cars:", error);
     }

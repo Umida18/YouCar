@@ -36,7 +36,7 @@ const TopHeader = () => {
           <div className="flex flex-wrap items-center gap-7">
             <p className="flex items-center gap-1">
               <FiPhone style={{ color: "#989898", fontSize: 20 }} />
-              <span className="text-[#989898]">+7 (777) 777-77-77</span>
+              <span className="text-[#989898]">+7 968 053-14-77</span>
             </p>
             <p className="flex items-center gap-1">
               <CgMail style={{ color: "#989898", fontSize: 21 }} />
