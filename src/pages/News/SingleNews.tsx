@@ -7,6 +7,7 @@ import { MdArrowOutward } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import useScrollToTop from "../../utils/scroll";
 import RequestBanner from "../../components/Banners/RequestBanner";
+import { formatDate } from "../../utils/formatDate";
 
 const SingleNews = () => {
   const { id } = useParams();
@@ -37,7 +38,9 @@ const SingleNews = () => {
   return (
     <div className="py-12">
       <p className="font-bold text-[26px]">{singleNews?.title}</p>
-      <p className="text-[#989898] text-[14px] my-5">{singleNews?.createdAt}</p>
+      <p className="text-[#989898] text-[14px] my-3">
+        {formatDate(singleNews?.createdAt as string)}
+      </p>
       <Row gutter={[36, 36]}>
         <Col sm={24} lg={24} xl={17}>
           <div className="my-4">

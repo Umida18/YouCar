@@ -28,9 +28,19 @@ const TopHeader = () => {
 
         <div className="flex flex-wrap items-center gap-16 flex-1 justify-end text-sm sm:text-base">
           <div className="flex items-center gap-3">
-            <SlSocialVkontakte style={{ color: "#989898", fontSize: 21 }} />
-            <FaWhatsapp style={{ color: "#989898", fontSize: 21 }} />
-            <FaInstagram style={{ color: "#989898", fontSize: 21 }} />
+            <a
+              href="https://vk.com/youcarr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <SlSocialVkontakte style={{ color: "#989898", fontSize: 21 }} />
+            </a>
+            <a href="">
+              <FaWhatsapp style={{ color: "#989898", fontSize: 21 }} />
+            </a>
+            <a href="">
+              <FaInstagram style={{ color: "#989898", fontSize: 21 }} />
+            </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-7">

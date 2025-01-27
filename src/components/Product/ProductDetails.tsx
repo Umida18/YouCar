@@ -2,6 +2,7 @@ import { ICar } from "../../Type/Type";
 import React from "react";
 import { Avatar, Button, Divider } from "antd";
 import { MdOutlineSms } from "react-icons/md";
+import { formatDate } from "../../utils/formatDate";
 
 interface PropsCar {
   item: ICar;
@@ -16,7 +17,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item }) => {
           <p className="text-[25px] font-bold">{`${item?.mark}, ${item?.model}`}</p>
           <div className="flex justify-between items-center">
             <div>
-              <p>{item?.createdAt}</p>
+              <p>{formatDate(item?.createdAt)}</p>
               <p>{item?.seen}</p>
             </div>
             <div>

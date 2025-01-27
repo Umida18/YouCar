@@ -19,6 +19,8 @@ import Messages from "./components/Account/Messages";
 import Post from "./components/Account/Post";
 import Settings from "./components/Account/Settings";
 import Tariff from "./components/Account/Tariff";
+import Contact from "./pages/Contact/Contact";
+import CarsPage from "./pages/Cars/Cars";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/cars" element={<CarsPage />} />
                 <Route path="/account" element={<AccountPage />}>
                   <Route index element={<Favorites />} />
                   <Route path="/account/favorites" element={<Favorites />} />

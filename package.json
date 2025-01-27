@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
+    "@pbe/react-yandex-maps": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.2",
     "@reduxjs/toolkit": "^2.5.0",
     "@tanstack/react-query": "4",

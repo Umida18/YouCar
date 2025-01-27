@@ -41,7 +41,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
         item?.mark || ""
       )}&model=${encodeURIComponent(item?.model || "")}`,
       {
-        state: { item }, // item ni ham state orqali yuboramiz
+        state: { item },
       }
     );
   };
