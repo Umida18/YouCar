@@ -14,7 +14,6 @@ dayjs.extend(utc);
 
 const CatalogPage = () => {
   useScrollToTop();
-  // const [filteredCars, setFilteredCars] = useState<FilteredAuto | null>(null);
   const [buttonLabel, __] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
 
