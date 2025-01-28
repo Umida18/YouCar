@@ -12,7 +12,6 @@ import { useSearchParams } from "react-router-dom";
 const MotoPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [form] = Form.useForm();
 
   const { data: car } = useQuery<ICar[]>(["moto"], async () => {
