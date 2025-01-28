@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 
 interface ItemCardProps {
   item: ICar | undefined;
+  type?: string;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
+const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const navigate = useNavigate();
   const user_id = Number(localStorage.getItem("id"));
   const email = localStorage.getItem("email") || (undefined as any);
@@ -18,22 +19,35 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
 
   const [liked, setLiked] = useState(false);
 
+  const [itemType, setItemType] = useState<string | undefined>(type);
+
+  useEffect(() => {
+    if (!itemType && item?.type) {
+      setItemType(item.type);
+    }
+  }, [item, itemType]);
+
   const mutation = useMutation(
     async (data: { id: number; user_id: number; count: number }) => {
       let url = "";
       console.log("dataa", data);
-      console.log("dataTypeeee", item?.type);
+      console.log("dataTypeeee", itemType);
 
-      if (item?.type === "car") {
+      if (!itemType) {
+        throw new Error("Item type is undefined");
+      }
+
+      if (itemType === "car") {
         url = `/liked-car/${data.id}?user_id=${data.user_id}&count=${data.count}`;
-      } else if (item?.type === "moto") {
+      } else if (itemType === "moto") {
         url = `/liked-moto/${data.id}?user_id=${data.user_id}&count=${data.count}`;
-      } else if (item?.type === "commerce") {
+      } else if (itemType === "commerce") {
         url = `/liked-commerce/${data.id}?user_id=${data.user_id}&count=${data.count}`;
       } else {
-        throw new Error("Noto‘g‘ri type: " + item?.type);
+        throw new Error("Noto'g'ri type: " + itemType);
       }
-      if (item?.type === "car") {
+
+      if (itemType === "car") {
         const res = await api.post(url, {});
         console.log("Response:", res);
         return res.data;

@@ -111,7 +111,7 @@ const CarsPage = () => {
               md={12}
               lg={8}
             >
-              <ItemCard item={mapCarDataToItem(car)} />
+              <ItemCard item={mapCarDataToItem(car)} type={"car"} />
             </Col>
           ))}
         </Row>
