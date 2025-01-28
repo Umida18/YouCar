@@ -13,6 +13,7 @@ export interface ICar {
   checkpoint: string;
   doors: number;
   body: string;
+  type?: string;
   statement: string;
   description: string;
   authoremail: string;
@@ -115,7 +116,7 @@ export interface ISingleNews {
 
 export interface FilteredAuto {
   cars: ICar[];
-  motorcycles: any[];
+  motorcycles: IMotobyke[];
   commerce: any[];
   count: number;
 }

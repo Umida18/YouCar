@@ -14,8 +14,8 @@ const ProductPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const mark = queryParams.get("mark");
   const model = queryParams.get("model");
-  useScrollToTop();
   const car = location.state?.item;
+  useScrollToTop();
 
   const carr = car?.mark === mark && car.model === model ? car : null;
 

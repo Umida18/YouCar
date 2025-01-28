@@ -29,7 +29,7 @@ interface CarSelectorProps {
 
 const { RangePicker } = DatePicker;
 
-const CarSelector1: React.FC<CarSelectorProps> = ({
+const CarFilterCard: React.FC<CarSelectorProps> = ({
   form,
   handleSubmit,
   handleFormValuesChange,
@@ -110,7 +110,7 @@ const CarSelector1: React.FC<CarSelectorProps> = ({
             onFinish={handleSubmit}
             onValuesChange={handleFormValuesChange}
           >
-            <div className="flex items-center gap-12 flex-wrap mb-12">
+            <div className="flex items-center gap-12 flex-wrap mb-6">
               <Tabs
                 value={form.getFieldValue("statement")}
                 defaultValue="all"
@@ -280,7 +280,7 @@ const CarSelector1: React.FC<CarSelectorProps> = ({
               </Col>
             </Row>
 
-            <div className="flex justify-end mt-6 gap-3">
+            <div className="flex justify-end gap-3">
               <Button
                 onClick={handleReset}
                 style={{ height: "56px" }}
@@ -311,4 +311,4 @@ const CarSelector1: React.FC<CarSelectorProps> = ({
   );
 };
 
-export default CarSelector1;
+export default CarFilterCard;

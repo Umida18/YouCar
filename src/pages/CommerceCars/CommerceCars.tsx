@@ -1,23 +1,23 @@
+import { Col, Form, Row } from "antd";
+import api from "../../Api/Api";
+import { useQuery } from "@tanstack/react-query";
+import ItemCard from "@/components/Cards/CarCard";
+import { mapCarDataToItem } from "@/utils/dataMapper";
+import { ICar } from "@/Type/Type";
 import CarFilterCard from "../../components/CarFilter";
-import CatalogCards from "../../components/CatalogCards/CatalogCards";
-import RequestBanner from "../../components/Banners/RequestBanner";
-import useScrollToTop from "../../utils/scroll";
-import api from "@/Api/Api";
-import { Form } from "antd";
-import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import { useQuery } from "@tanstack/react-query";
-
-dayjs.extend(utc);
-
-const CatalogPage = () => {
-  useScrollToTop();
+import { useSearchParams } from "react-router-dom";
+const CommerceCars = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [form] = Form.useForm();
+
+  const { data: commerceCar } = useQuery<ICar[]>(["commerceCar"], async () => {
+    const res = await api.get("/commerce-cars");
+    return res.data;
+  });
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
@@ -87,9 +87,8 @@ const CatalogPage = () => {
       refetch();
     }
   }, [searchParams, form, refetch]);
-
   return (
-    <>
+    <div>
       <CarFilterCard
         form={form}
         handleSubmit={handleSubmit}
@@ -101,10 +100,22 @@ const CatalogPage = () => {
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
       />
-      <CatalogCards filteredCars={filteredCars} />
-      <RequestBanner />
-    </>
+      <div>
+        <Row gutter={[24, 24]} className="py-6">
+          {commerceCar?.map((car, index) => (
+            <Col
+              key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
+              xs={24}
+              md={12}
+              lg={8}
+            >
+              <ItemCard item={mapCarDataToItem(car)} />
+            </Col>
+          ))}
+        </Row>
+      </div>
+    </div>
   );
 };
 
-export default CatalogPage;
+export default CommerceCars;

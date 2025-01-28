@@ -86,7 +86,7 @@ export default function CarSelector({
             onFinish={handleSubmit}
             onValuesChange={handleFormValuesChange}
           >
-            <div className="flex items-center gap-12 flex-wrap mb-12">
+            <div className="flex items-center gap-12 flex-wrap mb-6">
               <Tabs
                 defaultValue="all"
                 className="xl:w-[30%] w-full  h-full"
@@ -286,7 +286,7 @@ export default function CarSelector({
               </Col>
             </Row>
 
-            <div className="flex justify-end mt-6 gap-3">
+            <div className="flex justify-end gap-3">
               <Button
                 onClick={() => form.resetFields()}
                 style={{ height: "56px" }}

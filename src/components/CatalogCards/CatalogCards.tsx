@@ -34,9 +34,21 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   const carsRender = useMemo(() => {
     if (filteredCars) {
       return [
-        ...(filteredCars.cars || []),
-        ...(filteredCars.motorcycles || []),
-        ...(filteredCars.commerce || []),
+        ...(filteredCars.cars || []).map((item) => ({
+          ...item,
+          type: "car",
+          uniqueId: `${item.id}-cars`,
+        })),
+        ...(filteredCars.motorcycles || []).map((item) => ({
+          ...item,
+          type: "moto",
+          uniqueId: `${item.id}-motorcycles`,
+        })),
+        ...(filteredCars.commerce || []).map((item) => ({
+          ...item,
+          type: "commerce",
+          uniqueId: `${item.id}-commerce`,
+        })),
       ];
     }
     return cars || [];

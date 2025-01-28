@@ -72,13 +72,19 @@ const BottomHeader = () => {
                 <IoIosArrowForward className="text-[#2684E5] mt-1" />
               </span>
             </a>
-            <a href="/cars" className="flex justify-center gap-2 items-center ">
+            <a
+              href="/commerceCars"
+              className="flex justify-center gap-2 items-center "
+            >
               <span className="text-[16px]">Коммерческий транспорт</span>
               <span>
                 <IoIosArrowForward className="text-[#2684E5] mt-1" />
               </span>
             </a>
-            <a href="/cars" className="flex justify-center gap-2 items-center ">
+            <a
+              href="/motobykes"
+              className="flex justify-center gap-2 items-center "
+            >
               <span className="text-[16px]">Мотоциклы</span>
               <span>
                 <IoIosArrowForward className="text-[#2684E5] mt-1" />

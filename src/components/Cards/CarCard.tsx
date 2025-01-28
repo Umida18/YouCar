@@ -19,13 +19,17 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   const [liked, setLiked] = useState(false);
 
   const mutation = useMutation(
-    async (data: { id: number; user_id: number; count: number }) => {
+    async (data: {
+      id: number;
+      user_id: number;
+      count: number;
+      type: string;
+    }) => {
       const res = await api.post(
-        `/liked-car/${data.id}?user_id=${data.user_id}&count=${data.count}`,
+        `/liked-${data?.type}/${data.id}?user_id=${data.user_id}&count=${data.count}`,
         data
       );
       console.log("liked:", res);
-
       return res.data;
     },
     {
@@ -53,7 +57,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
       setLiked(!liked);
 
       mutation.mutate(
-        { id, user_id, count },
+        { id, user_id, count, type: item?.type || "car" },
         {
           onSuccess: () => {
             queryClient.invalidateQueries(["fav"]);

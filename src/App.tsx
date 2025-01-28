@@ -21,6 +21,7 @@ import Settings from "./components/Account/Settings";
 import Tariff from "./components/Account/Tariff";
 import Contact from "./pages/Contact/Contact";
 import CarsPage from "./pages/Cars/Cars";
+import CommerceCars from "./pages/CommerceCars/CommerceCars";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/commerceCars" element={<CommerceCars />} />
                 <Route path="/cars" element={<CarsPage />} />
                 <Route path="/account" element={<AccountPage />}>
                   <Route index element={<Favorites />} />
