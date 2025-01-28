@@ -26,6 +26,7 @@ export const mapCarDataToItem = (car: ICar) => ({
   liked_user: car.liked_user,
   createdAt: car.createdAt,
   updatedAt: car.updatedAt,
+  type: car.type,
 });
 
 export const mapMotobikeDataToItem = (bike: IMotobyke) => ({
@@ -43,4 +44,5 @@ export const mapMotobikeDataToItem = (bike: IMotobyke) => ({
   model: bike.model,
   color: bike.color,
   description: bike.description,
+  type: bike.type,
 });

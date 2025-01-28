@@ -13,7 +13,7 @@ export interface ICar {
   checkpoint: string;
   doors: number;
   body: string;
-  type?: string;
+  type?: "car" | "moto" | "commerce";
   statement: string;
   description: string;
   authoremail: string;
@@ -48,6 +48,7 @@ export interface IMotobyke {
   mark: string;
   model: string;
   createdAt: string;
+  type?: string;
 }
 
 export interface INews {

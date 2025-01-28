@@ -24,8 +24,8 @@ const Favorites = () => {
             ...(fav.cars || []),
             ...(fav.moto || []),
             ...(fav.commerce || []),
-          ].map((item) => (
-            <Col xl={12}>
+          ].map((item, index) => (
+            <Col key={index} xl={12}>
               <ItemCard item={item} />
             </Col>
           ))}

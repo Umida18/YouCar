@@ -19,18 +19,29 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   const [liked, setLiked] = useState(false);
 
   const mutation = useMutation(
-    async (data: {
-      id: number;
-      user_id: number;
-      count: number;
-      type: string;
-    }) => {
-      const res = await api.post(
-        `/liked-${data?.type}/${data.id}?user_id=${data.user_id}&count=${data.count}`,
-        data
-      );
-      console.log("liked:", res);
-      return res.data;
+    async (data: { id: number; user_id: number; count: number }) => {
+      let url = "";
+      console.log("dataa", data);
+      console.log("dataTypeeee", item?.type);
+
+      if (item?.type === "car") {
+        url = `/liked-car/${data.id}?user_id=${data.user_id}&count=${data.count}`;
+      } else if (item?.type === "moto") {
+        url = `/liked-moto/${data.id}?user_id=${data.user_id}&count=${data.count}`;
+      } else if (item?.type === "commerce") {
+        url = `/liked-commerce/${data.id}?user_id=${data.user_id}&count=${data.count}`;
+      } else {
+        throw new Error("Noto‘g‘ri type: " + item?.type);
+      }
+      if (item?.type === "car") {
+        const res = await api.post(url, {});
+        console.log("Response:", res);
+        return res.data;
+      } else {
+        const res = await api.get(url);
+        console.log("Response:", res);
+        return res.data;
+      }
     },
     {
       onSuccess: () => {
@@ -56,8 +67,11 @@ const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
 
       setLiked(!liked);
 
+      console.log("Type:", item?.type);
+      console.log("Item:", item);
+
       mutation.mutate(
-        { id, user_id, count, type: item?.type || "car" },
+        { id, user_id, count },
         {
           onSuccess: () => {
             queryClient.invalidateQueries(["fav"]);
