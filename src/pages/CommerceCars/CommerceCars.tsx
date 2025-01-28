@@ -5,7 +5,7 @@ import ItemCard from "@/components/Cards/CarCard";
 import { mapCarDataToItem } from "@/utils/dataMapper";
 import { ICar } from "@/Type/Type";
 import CarFilterCard from "../../components/CarFilter";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 const CommerceCars = () => {
@@ -87,6 +87,30 @@ const CommerceCars = () => {
       refetch();
     }
   }, [searchParams, form, refetch]);
+
+  const carsRender = useMemo(() => {
+    if (filteredCars) {
+      return [
+        ...(filteredCars.cars || []).map((item: ICar) => ({
+          ...item,
+          type: "car",
+          uniqueId: `${item.id}-cars`,
+        })),
+        ...(filteredCars.motorcycles || []).map((item: ICar) => ({
+          ...item,
+          type: "moto",
+          uniqueId: `${item.id}-motorcycles`,
+        })),
+        ...(filteredCars.commerce || []).map((item: ICar) => ({
+          ...item,
+          type: "commerce",
+          uniqueId: `${item.id}-commerce`,
+        })),
+      ];
+    }
+    return commerceCar || [];
+  }, [filteredCars, commerceCar]);
+
   return (
     <div>
       <CarFilterCard
@@ -102,7 +126,7 @@ const CommerceCars = () => {
       />
       <div>
         <Row gutter={[24, 24]} className="py-6">
-          {commerceCar?.map((car, index) => (
+          {carsRender?.map((car, index) => (
             <Col
               key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
               xs={24}

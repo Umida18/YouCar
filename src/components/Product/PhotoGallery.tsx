@@ -59,7 +59,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
             />
           </button>
         ))}
-      </div>{" "}
+      </div>
       <Carousel ref={caruselRef}></Carousel>
     </div>
   );
