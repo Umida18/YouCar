@@ -2,7 +2,7 @@ import api from "../../Api/Api";
 import { ICar } from "../../Type/Type";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card } from "antd";
+import { Card, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -75,6 +75,15 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
 
   const handleLikeClick = async (id: number | any) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        notification.error({
+          message: "Ошибка",
+          description: "Войдите в аккаунт, чтобы добавить в избранное.",
+        });
+        return;
+      }
+
       const count = liked ? -1 : 1;
 
       setLiked(!liked);
@@ -108,6 +117,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
 
   return (
     <Card
+      hoverable
       onClick={handleCardClick}
       className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:px-4 boxShadowC cursor-pointer"
       cover={

@@ -13,7 +13,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
 
   const caruselRef = React.useRef<any>();
   return (
-    <div className="boxShadowC rounded-xl">
+    <div className=" rounded-xl">
       <div className="relative mb-4 ">
         <Carousel
           ref={carouselRef}

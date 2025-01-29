@@ -8,10 +8,14 @@ import CarFilterCard from "../../components/CarFilter";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
+import RequestBanner from "../../components/Banners/RequestBanner";
+import { Pagination } from "@/components/Pagination/Pagination";
 
 const CarsPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
 
   const [form] = Form.useForm();
 
@@ -32,6 +36,8 @@ const CarsPage = () => {
         rate: params.rate ? params.rate.split(",") : undefined,
         model: params.model,
         country: params.country,
+        page: Number(params.page) || 1,
+        pageSize: Number(params.pageSize) || pageSize,
       });
       console.log("resdata", res.data);
       setButtonLabel(`${res.data.count} Предложений`);
@@ -54,6 +60,9 @@ const CarsPage = () => {
     if (values.maxPrice) query.maxPrice = values.maxPrice.toString();
     if (values.maxYear?.[0]) query.minYear = dayjs(values.maxYear[0]).format();
     if (values.maxYear?.[1]) query.maxYear = dayjs(values.maxYear[1]).format();
+
+    query.page = values.page?.toString() || "1";
+    query.pageSize = values.pageSize?.toString() || pageSize.toString();
 
     setSearchParams(query);
   };
@@ -81,8 +90,13 @@ const CarsPage = () => {
         queryParams.minYear ? dayjs(queryParams.minYear) : undefined,
         queryParams.maxYear ? dayjs(queryParams.maxYear) : undefined,
       ].filter(Boolean),
+
+      page: Number(queryParams.page) || 1,
+      pageSize: Number(queryParams.pageSize) || pageSize,
     };
 
+    setCurrentPage(Number(queryParams.page) || 1);
+    setPageSize(Number(queryParams.pageSize) || pageSize);
     form.setFieldsValue(defaultValues);
     if (Object.keys(queryParams).length > 0) {
       refetch();
@@ -112,6 +126,13 @@ const CarsPage = () => {
     return car || [];
   }, [filteredCars, car]);
 
+  const handlePaginationChange = (page: number, size: number) => {
+    setCurrentPage(page);
+    setPageSize(size);
+    const currentValues = form.getFieldsValue();
+    updateQueryParams({ ...currentValues, page, pageSize: size });
+  };
+
   return (
     <div>
       <CarFilterCard
@@ -139,6 +160,17 @@ const CarsPage = () => {
           ))}
         </Row>
       </div>
+      <div className="flex justify-center mt-8 mb-12">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={filteredCars?.total || 0}
+          onChange={handlePaginationChange}
+          showSizeChanger
+          showTotal={(total) => `Total ${total} items`}
+        />
+      </div>
+      <RequestBanner />
     </div>
   );
 };

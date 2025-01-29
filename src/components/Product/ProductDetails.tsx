@@ -1,6 +1,6 @@
 import { ICar } from "../../Type/Type";
 import React from "react";
-import { Avatar, Button, Divider } from "antd";
+import { Avatar, Divider } from "antd";
 import { MdOutlineSms } from "react-icons/md";
 import { formatDate } from "../../utils/formatDate";
 
@@ -75,13 +75,13 @@ const ProductDetails: React.FC<PropsCar> = ({ item }) => {
               </div>
             </div>
             <Divider type="vertical" style={{ height: 60 }} />
-            <Button
+            <button
               style={{ border: 0, boxShadow: "none" }}
-              className="flex items-center justify-between"
+              className="flex items-center justify-between gap-2"
             >
-              <MdOutlineSms className="text-[#2684E5] text-xl mt-2" />
+              <MdOutlineSms className="text-[#2684E5] text-xl mt-1 ml-2" />
               <p className="text-[16px]">Написать</p>
-            </Button>
+            </button>
           </div>
         </div>
       </div>

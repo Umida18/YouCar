@@ -16,6 +16,7 @@ const NewsCard: React.FC<PropsNews> = ({ item }) => {
 
   return (
     <Card
+      hoverable
       onClick={handleCardClick}
       className="group shadow-lg rounded-2xl [&_.ant-card-body]:px-4 cursor-pointer"
       cover={

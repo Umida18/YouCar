@@ -8,6 +8,7 @@ import CarFilterCard from "../../components/CarFilter";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
+import RequestBanner from "../../components/Banners/RequestBanner";
 
 const MotoPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
@@ -138,6 +139,7 @@ const MotoPage = () => {
           ))}
         </Row>
       </div>
+      <RequestBanner />
     </div>
   );
 };

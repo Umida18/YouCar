@@ -129,16 +129,7 @@ export default function CarSelector({
               </Tabs>
 
               <div className="flex flex-1 gap-6">
-                <Form.Item
-                  rules={[
-                    {
-                      required: true,
-                      message: "Выберите хотя бы один вариант",
-                    },
-                  ]}
-                  className="mb-0"
-                  name="rate"
-                >
+                <Form.Item className="mb-0" name="rate">
                   <Checkbox.Group>
                     <Checkbox value="cash">В наличии</Checkbox>
                     <Checkbox value="credit">Под заказ</Checkbox>
@@ -149,13 +140,7 @@ export default function CarSelector({
 
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item
-                  name="mark"
-                  label="Выберите марку"
-                  rules={[
-                    { required: true, message: "Пожалуйста, выберите марку" },
-                  ]}
-                >
+                <Form.Item name="mark" label="Выберите марку">
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Марка"
@@ -167,13 +152,7 @@ export default function CarSelector({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item
-                  name="model"
-                  label="Выберите модель"
-                  rules={[
-                    { required: true, message: "Пожалуйста, выберите модель" },
-                  ]}
-                >
+                <Form.Item name="model" label="Выберите модель">
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Модель"
@@ -188,13 +167,7 @@ export default function CarSelector({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item
-                  name="country"
-                  label="Страна"
-                  rules={[
-                    { required: true, message: "Пожалуйста, выберите страну" },
-                  ]}
-                >
+                <Form.Item name="country" label="Страна">
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Страна"
@@ -227,18 +200,7 @@ export default function CarSelector({
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
                 <Form.Item label="Цена">
                   <div className="flex flex-row gap-1">
-                    <Form.Item
-                      name="minPrice"
-                      className="mb-0 h-full"
-                      rules={[
-                        { required: true, message: "Введите минимальную цену" },
-                        {
-                          type: "number",
-                          min: 0,
-                          message: "Цена должна быть больше 0",
-                        },
-                      ]}
-                    >
+                    <Form.Item name="minPrice" className="mb-0 h-full">
                       <InputNumber
                         min={0}
                         style={{
@@ -254,20 +216,7 @@ export default function CarSelector({
                       />
                     </Form.Item>
                     <span className="flex py-5">-</span>
-                    <Form.Item
-                      name="maxPrice"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Введите максимальную цену",
-                        },
-                        {
-                          type: "number",
-                          min: 0,
-                          message: "Цена должна быть больше 0",
-                        },
-                      ]}
-                    >
+                    <Form.Item name="maxPrice">
                       <InputNumber
                         style={{
                           width: "100%",

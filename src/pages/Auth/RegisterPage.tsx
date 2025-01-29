@@ -63,6 +63,16 @@ const RegisterPage = () => {
       return;
     }
 
+    if (!values.policyAccepted) {
+      form.setFields([
+        {
+          name: "policyAccepted",
+          errors: ["Вы должны согласиться с политикой обработки данных."],
+        },
+      ]);
+      return;
+    }
+
     mutation.mutate({
       name: values.name,
       email: values.email,
@@ -133,11 +143,16 @@ const RegisterPage = () => {
               className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
             />
           </Form.Item>
-          <Form.Item name="policyAccepted" valuePropName="checked">
+          <Form.Item
+            name="policyAccepted"
+            valuePropName="checked"
+            className="w-full "
+          >
             <Checkbox>Согласен с политикой обработки данных.</Checkbox>
           </Form.Item>
           <Form.Item style={{ width: "100%" }}>
             <Button
+              className="mt-2"
               htmlType="submit"
               loading={mutation.isLoading}
               style={{

@@ -1,8 +1,30 @@
-import { Button, Form, Input } from "antd";
+import api from "@/Api/Api";
+import { Button, Form, Input, notification } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [successfullySent, setSuccessfullySent] = useState<boolean>(false);
+
+  const handleForgotPassword = async (values: { email: string }) => {
+    try {
+      const res = await api.post("/forgot-password", { email: values.email });
+      if (res.status === 200 || res.status === 201) {
+        setSuccessfullySent(true);
+        form.resetFields();
+      }
+    } catch (error) {
+      console.error("Error in forgot password:", error);
+      notification.error({
+        message: "Ошибка",
+        description: "Не удалось отправить запрос. Попробуйте снова.",
+        placement: "topRight",
+      });
+    }
+  };
+
   return (
     <div className="flex justify-center items-center w-full py-14 px-4 ">
       <div className="flex flex-col justify-center items-center  bg-white xl:w-[40%] lg:w-[50%]  p-6 boxShadowC">
@@ -12,9 +34,20 @@ const ForgotPassword = () => {
         <p className="xl:text-[16px] lg:text-[16px] text-[12px] text-[#050B20] mb-8">
           Введите e-mail для восстановления
         </p>
+        {successfullySent && (
+          <div className="bg-[#DDFADC] mb-4 py-6 w-full px-3 rounded-md">
+            <p className="text-[#58AD57]">
+              Мы отправили Вам письмо на почту для восстановления!
+            </p>
+          </div>
+        )}
 
-        <Form className="w-full flex flex-col items-center">
-          <Form.Item name={"E-mail"} style={{ width: "100%" }}>
+        <Form
+          form={form}
+          onFinish={handleForgotPassword}
+          className="w-full flex flex-col items-center"
+        >
+          <Form.Item name="email" style={{ width: "100%" }}>
             <Input
               placeholder="E-mail"
               style={{ width: "100%" }}
@@ -40,7 +73,7 @@ const ForgotPassword = () => {
           </Form.Item>
         </Form>
         <div className="flex justify-center items-center w-full">
-          <p>Вспомниили пароль?</p>
+          <p>Вспомнили пароль?</p>
           <Button
             onClick={() => navigate("/login")}
             style={{
