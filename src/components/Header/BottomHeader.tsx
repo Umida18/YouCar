@@ -103,7 +103,10 @@ const BottomHeader = () => {
             />
           </div>
           <button>
-            <LuBell style={{ fontSize: "22px" }} />
+            <LuBell
+              className="hover:!text-[#2684E5]"
+              style={{ fontSize: "22px" }}
+            />
           </button>
           {!isRegistered ? (
             <>

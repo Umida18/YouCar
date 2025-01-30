@@ -9,12 +9,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
-import { Pagination } from "@/components/Pagination/Pagination";
+// import { Pagination } from "@/components/Pagination/Pagination";
 
 const CarsPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
 
   const [form] = Form.useForm();
@@ -95,7 +95,7 @@ const CarsPage = () => {
       pageSize: Number(queryParams.pageSize) || pageSize,
     };
 
-    setCurrentPage(Number(queryParams.page) || 1);
+    // setCurrentPage(Number(queryParams.page) || 1);
     setPageSize(Number(queryParams.pageSize) || pageSize);
     form.setFieldsValue(defaultValues);
     if (Object.keys(queryParams).length > 0) {
@@ -126,12 +126,12 @@ const CarsPage = () => {
     return car || [];
   }, [filteredCars, car]);
 
-  const handlePaginationChange = (page: number, size: number) => {
-    setCurrentPage(page);
-    setPageSize(size);
-    const currentValues = form.getFieldsValue();
-    updateQueryParams({ ...currentValues, page, pageSize: size });
-  };
+  // const handlePaginationChange = (page: number, size: number) => {
+  //   setCurrentPage(page);
+  //   setPageSize(size);
+  //   const currentValues = form.getFieldsValue();
+  //   updateQueryParams({ ...currentValues, page, pageSize: size });
+  // };
 
   return (
     <div>
@@ -161,14 +161,14 @@ const CarsPage = () => {
         </Row>
       </div>
       <div className="flex justify-center mt-8 mb-12">
-        <Pagination
+        {/* <Pagination
           current={currentPage}
           pageSize={pageSize}
           total={filteredCars?.total || 0}
           onChange={handlePaginationChange}
           showSizeChanger
           showTotal={(total) => `Total ${total} items`}
-        />
+        /> */}
       </div>
       <RequestBanner />
     </div>

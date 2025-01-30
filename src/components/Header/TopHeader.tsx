@@ -33,13 +33,22 @@ const TopHeader = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <SlSocialVkontakte style={{ color: "#989898", fontSize: 21 }} />
+              <SlSocialVkontakte
+                style={{ color: "#989898", fontSize: 21 }}
+                className="hover:!text-[#2684E5]"
+              />
             </a>
             <a href="">
-              <FaWhatsapp style={{ color: "#989898", fontSize: 21 }} />
+              <FaWhatsapp
+                style={{ color: "#989898", fontSize: 21 }}
+                className="hover:!text-[#2684E5]"
+              />
             </a>
             <a href="">
-              <FaInstagram style={{ color: "#989898", fontSize: 21 }} />
+              <FaInstagram
+                style={{ color: "#989898", fontSize: 21 }}
+                className="hover:!text-[#2684E5]"
+              />
             </a>
           </div>
 
@@ -54,10 +63,10 @@ const TopHeader = () => {
             </p>
           </div>
 
-          <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">
+          {/* <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">
             <option>RU</option>
             <option>EN</option>
-          </select>
+          </select> */}
         </div>
       </div>
     </div>

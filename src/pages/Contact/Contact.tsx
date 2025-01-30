@@ -9,9 +9,9 @@ import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 const Contact = () => {
   return (
     <div className=" my-4 py-10">
-      <h1 className="text-3xl font-bold mb-14">Контакты</h1>
       <Row gutter={[16, 16]}>
         <Col xl={10}>
+          <h1 className="text-3xl font-bold mb-14">Контакты</h1>
           <div className="text-[17px] text-[#5A5A5A] flex flex-col gap-5">
             <div className="flex gap-3 items-center">
               <div className="bg-[#F3F3F3] h-[50px] w-[50px] flex items-center justify-center">
