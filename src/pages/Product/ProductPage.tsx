@@ -17,12 +17,11 @@ const ProductPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const typeCars = queryParams.get("type");
-  // const car = location.state?.item;
   const [userData, setUserData] = useState<IUserData | null>(null);
 
   useScrollToTop();
 
-  const { data: car } = useQuery(["carsId"], async () => {
+  const { data: car } = useQuery(["carsId", id], async () => {
     let endpoint = "";
     if (typeCars === "car") {
       endpoint = "/cars";
@@ -37,8 +36,6 @@ const ProductPage = () => {
 
     return res.data;
   });
-
-  // const carr = car?.mark === mark && car.model === model ? car : null;
 
   return (
     <div className="py-10">

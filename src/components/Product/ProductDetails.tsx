@@ -3,6 +3,8 @@ import React from "react";
 import { Avatar, Divider } from "antd";
 import { MdOutlineSms } from "react-icons/md";
 import { formatDate } from "../../utils/formatDate";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 
 interface PropsCar {
   item: ICar;
@@ -10,20 +12,25 @@ interface PropsCar {
 }
 
 const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
+  const rateType = item.rate === "cash" ? "В наличии" : "Под заказ";
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
         <div className="px-7 py-5">
-          <h1>{item.id}</h1>
           <p className="text-[25px] font-bold">{`${item?.mark}, ${item?.model}`}</p>
           <div className="flex justify-between items-center">
-            <div>
+            <div className="flex gap-4 justify-center items-center text-[#989898] text-[16px] mt-3">
               <p>{formatDate(item?.createdAt)}</p>
-              <p>{item?.seen}</p>
+              <p className="flex justify-center items-center gap-2">
+                <MdOutlineRemoveRedEye className="text-[18px] mt-[2px] " />{" "}
+                {item?.seen}
+              </p>
             </div>
-            <div>
-              <span></span>
-              <p></p>
+            <div className="flex justify-center items-center gap-2 text-[16px]">
+              <span className="flex justify-center items-center h-[25px] w-[25px] rounded-full !bg-[#DDFADC]">
+                <FaCheck className="text-[#07C553]" />
+              </span>
+              <p>{rateType}</p>
             </div>
           </div>
           <Divider />
