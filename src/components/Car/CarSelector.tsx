@@ -43,7 +43,8 @@ export default function CarSelector({
   const [model, setModel] = useState<string[]>([]);
   const [country, setCountry] = useState<string[]>([]);
   const [selectedRate, setSelectedRate] = useState<string | null>(null);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log("searchParams:", searchParams);
 
   useEffect(() => {
     const fetchMarks = async () => {
@@ -58,6 +59,13 @@ export default function CarSelector({
   const handleSelectMark = (value: string) => {
     const selectedMark = marks.find((mark) => mark.mark === value);
     if (selectedMark) {
+      searchParams.delete("model");
+      searchParams.delete("country");
+
+      setSearchParams(searchParams);
+
+      form.setFieldsValue({ model: undefined, country: undefined });
+
       mutation.mutate({ mark_id: selectedMark.id });
     }
   };
@@ -88,6 +96,17 @@ export default function CarSelector({
 
     setSearchParams({});
   };
+
+  useEffect(() => {
+    const queryParams = Object.fromEntries(searchParams);
+    if (queryParams.mark) {
+      const selectedMark = marks.find((mark) => mark.mark === queryParams.mark);
+      if (selectedMark) {
+        mutation.mutate({ mark_id: selectedMark.id });
+      }
+    }
+  }, [searchParams, marks]);
+
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">

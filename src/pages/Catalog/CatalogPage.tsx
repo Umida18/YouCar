@@ -37,21 +37,24 @@ const CatalogPage = () => {
       const params = Object.fromEntries(searchParams);
 
       const rateVal = params.rate === "on" ? "cash" : params.rate;
-      const res = await api.post(endpoint, {
-        maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
-        minPrice: params.minPrice ? Number(params.minPrice) : undefined,
-        maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
-        selectedTab: params.selectedTab,
-        rate: rateVal,
-        model: params.model,
-        country: params.country,
-      });
-      console.log("resdata", res.data);
-      setButtonLabel(`${res.data.count} Предложений`);
-      return res.data;
+      if (params.model) {
+        const res = await api.post(endpoint, {
+          maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
+          minPrice: params.minPrice ? Number(params.minPrice) : undefined,
+          maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+          selectedTab: params.selectedTab,
+          rate: rateVal,
+          model: params.model,
+          country: params.country,
+        });
+        console.log("resdata", res.data);
+        setButtonLabel(`${res.data.count} Предложений`);
+        return res.data;
+      }
+      return null;
     },
     {
-      enabled: searchParams.toString() !== "",
+      enabled: !!searchParams.get("model"),
     }
   );
 
@@ -97,6 +100,7 @@ const CatalogPage = () => {
     };
 
     form.setFieldsValue(defaultValues);
+
     if (Object.keys(queryParams).length > 0) {
       refetch();
     }
