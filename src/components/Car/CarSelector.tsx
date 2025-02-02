@@ -44,12 +44,10 @@ export default function CarSelector({
   const [country, setCountry] = useState<string[]>([]);
   const [selectedRate, setSelectedRate] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log("searchParams:", searchParams);
 
   useEffect(() => {
     const fetchMarks = async () => {
       const res = await api.post("/before-filter");
-      console.log("marks", res.data);
       const uniqueMarks = [...new Set(res.data as IMark[])];
       setMarks(uniqueMarks);
     };
@@ -72,7 +70,6 @@ export default function CarSelector({
 
   const mutation = useMutation(async (data: { mark_id: number }) => {
     const res = await api.post("/model-filter", data);
-    console.log("filtered models", res.data);
     setModel([
       ...new Set([
         ...res.data.cars.models,

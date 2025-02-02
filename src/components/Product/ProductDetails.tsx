@@ -1,4 +1,4 @@
-import { ICar } from "../../Type/Type";
+import { ICar, IUserData } from "../../Type/Type";
 import React from "react";
 import { Avatar, Divider } from "antd";
 import { MdOutlineSms } from "react-icons/md";
@@ -6,9 +6,10 @@ import { formatDate } from "../../utils/formatDate";
 
 interface PropsCar {
   item: ICar;
+  userData: IUserData | null;
 }
 
-const ProductDetails: React.FC<PropsCar> = ({ item }) => {
+const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
@@ -68,10 +69,10 @@ const ProductDetails: React.FC<PropsCar> = ({ item }) => {
           <div className="flex items-center border-2 border-[#F0F0F0] px-5 py-2 rounded-xl ">
             <div className="flex items-center gap-2">
               <Avatar className="text-[16px] h-[30px] w-[30px]">
-                {item.authoremail?.charAt(0)}
+                {userData?.name.charAt(0)}
               </Avatar>
               <div>
-                <p>{item.authoremail}</p>
+                <p>{userData?.name}</p>
               </div>
             </div>
             <Divider type="vertical" style={{ height: 60 }} />

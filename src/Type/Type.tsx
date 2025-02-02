@@ -140,3 +140,14 @@ export interface IMarks {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IUserData {
+  createdAt: string;
+  email: string;
+  id: number;
+  name: string;
+  password: string;
+  role: string;
+  updatedAt: string;
+  userrate: string;
+}

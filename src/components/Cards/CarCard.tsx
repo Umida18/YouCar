@@ -66,10 +66,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
     navigate(
       `/productDetailsPage/${item?.id}?mark=${encodeURIComponent(
         item?.mark || ""
-      )}&model=${encodeURIComponent(item?.model || "")}`,
-      {
-        state: { item },
-      }
+      )}&model=${encodeURIComponent(item?.model || "")}&type=${itemType}`
     );
   };
 

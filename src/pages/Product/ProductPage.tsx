@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Col, Row } from "antd";
 import PhotoGallery from "../../components/Product/PhotoGallery";
 import ProductDetails from "../../components/Product/ProductDetails";
@@ -7,31 +7,55 @@ import { mapCarDataToItem } from "../../utils/dataMapper";
 import CatalogCards from "../../components/CatalogCards/CatalogCards";
 import useScrollToTop from "../../utils/scroll";
 import RequestBanner from "../../components/Banners/RequestBanner";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/Api/Api";
+import { useState } from "react";
+import { IUserData } from "../../Type/Type";
 
 const ProductPage = () => {
-  // const { id } = useParams();
+  const { id } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const mark = queryParams.get("mark");
-  const model = queryParams.get("model");
-  const car = location.state?.item;
+  const typeCars = queryParams.get("type");
+  // const car = location.state?.item;
+  const [userData, setUserData] = useState<IUserData | null>(null);
+
   useScrollToTop();
 
-  const carr = car?.mark === mark && car.model === model ? car : null;
+  const { data: car } = useQuery(["carsId"], async () => {
+    let endpoint = "";
+    if (typeCars === "car") {
+      endpoint = "/cars";
+    } else if (typeCars === "commerce") {
+      endpoint = "/commerce-cars";
+    } else if (typeCars === "moto") {
+      endpoint = "/motorcycles";
+    }
+    const res = await api.get(`${endpoint}/${id}`);
+    console.log("ressssss", res.data);
+    setUserData(res.data.userData);
+
+    return res.data;
+  });
+
+  // const carr = car?.mark === mark && car.model === model ? car : null;
 
   return (
     <div className="py-10">
-      {carr ? (
+      {car ? (
         <>
           <Row gutter={[20, 20]}>
             <Col xl={14}>
-              <PhotoGallery item={mapCarDataToItem(carr)} />
+              <PhotoGallery item={mapCarDataToItem(car.result)} />
             </Col>
             <Col xl={10}>
-              <ProductDetails item={mapCarDataToItem(carr)} />
+              <ProductDetails
+                item={mapCarDataToItem(car.result)}
+                userData={userData}
+              />
             </Col>
           </Row>
-          <ProductDescription item={mapCarDataToItem(carr)} />
+          <ProductDescription item={mapCarDataToItem(car.result)} />
         </>
       ) : (
         <p>Car not found!</p>
