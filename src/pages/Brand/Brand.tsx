@@ -1,25 +1,33 @@
+import RequestBanner from "@/components/Banners/RequestBanner";
+import CarFilterCard from "../../components/CarFilter";
 import CatalogCards from "../../components/CatalogCards/CatalogCards";
-import RequestBanner from "../../components/Banners/RequestBanner";
-import useScrollToTop from "../../utils/scroll";
-import api from "@/Api/Api";
-import { Form } from "antd";
 import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
-import CarSelector from "../../components/Car/CarSelector";
+import { Form } from "antd";
+import api from "@/Api/Api";
+import dayjs from "dayjs";
 
-dayjs.extend(utc);
-
-const CatalogPage = () => {
-  useScrollToTop();
-  const [buttonLabel, setButtonLabel] = useState("Поиск");
+const Brand = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("selectedTab") || "car";
-  const [selectedTab, setSelectedTab] = useState<string>(initialTab);
+  const [selectedTab, __] = useState<string>(initialTab);
+  // const [marksData, setMarksData] = useState();
+  const markId = Number(searchParams.get("markId"));
+
+  const [buttonLabel, setButtonLabel] = useState("Поиск");
+
+  console.log("markId", markId);
 
   const [form] = Form.useForm();
+
+  const { data: markBrand } = useQuery(["markBrand"], async () => {
+    const res = await api.get(`/mark/${markId}?page=1&pageSize=12`);
+    console.log("markBrand", res.data);
+
+    return res.data;
+  });
+  console.log(markBrand);
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
@@ -106,9 +114,11 @@ const CatalogPage = () => {
     }
   }, [searchParams, form, refetch, selectedTab]);
 
+  const markFil = markBrand ? markBrand : filteredCars;
+
   return (
-    <>
-      <CarSelector
+    <div>
+      <CarFilterCard
         form={form}
         handleSubmit={handleSubmit}
         filteredCars={filteredCars}
@@ -118,14 +128,11 @@ const CatalogPage = () => {
         }}
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        title={"Каталог"}
       />
-      <CatalogCards filteredCars={filteredCars} />
+      <CatalogCards filteredCars={markFil} />
       <RequestBanner />
-    </>
+    </div>
   );
 };
 
-export default CatalogPage;
+export default Brand;

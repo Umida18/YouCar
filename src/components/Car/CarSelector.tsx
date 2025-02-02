@@ -26,6 +26,7 @@ interface CarSelectorProps {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
   updateQueryParams?: (values: any) => void;
+  title?: string;
 }
 
 const { RangePicker } = DatePicker;
@@ -38,6 +39,7 @@ export default function CarSelector({
   setSelectedTab,
   selectedTab,
   updateQueryParams,
+  title,
 }: CarSelectorProps) {
   const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
@@ -107,7 +109,9 @@ export default function CarSelector({
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">
-        <h1 className="text-3xl font-bold mt-12 mb-12">Подбор авто</h1>
+        <h1 className="text-3xl font-bold mt-12 mb-12">
+          {title ? title : "Подбор авто"}
+        </h1>
 
         <div className=" rounded-lg space-y-7 boxShadowC px-4 py-10">
           <Form

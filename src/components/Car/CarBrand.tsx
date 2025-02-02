@@ -1,11 +1,12 @@
-"use client";
-
 import api from "@/Api/Api";
 import { IMarks } from "@/Type/Type";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function CarBrands() {
+  const navigate = useNavigate();
+
   const { data: marks } = useQuery<IMarks[]>(["marksBrand"], async () => {
     const res = await api.get("/marks");
     return res.data;
@@ -17,6 +18,7 @@ export default function CarBrands() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 ">
           {marks?.map((brand) => (
             <Card
+              onClick={() => navigate(`/brand?markId=${brand.id}`)}
               key={brand.id}
               className="transition-shadow duration-300 rounded-none cursor-pointer"
             >

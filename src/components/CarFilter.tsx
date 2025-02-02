@@ -15,7 +15,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import api from "../../src/Api/Api";
-import { FilteredAuto } from "../Type/Type";
+import { FilteredAuto, IMark } from "../Type/Type";
 import { useSearchParams } from "react-router-dom";
 
 interface CarSelectorProps {
@@ -36,41 +36,48 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   buttonLabel,
   updateQueryParams,
 }) => {
-  const [marks, setMarks] = useState<string[]>([]);
+  const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
   const [country, setCountry] = useState<string[]>([]);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchMarks = async () => {
       const res = await api.post("/before-filter");
-      console.log("marks", res.data);
-      setMarks([...res.data.car, res.data.moto, res.data.commerce]);
-
-      return res.data;
+      const uniqueMarks = [...new Set(res.data as IMark[])];
+      setMarks(uniqueMarks);
     };
     fetchMarks();
   }, []);
 
   const handleSelectMark = (value: string) => {
-    mutation.mutate({ mark: value });
+    const selectedMark = marks.find((mark) => mark.mark === value);
+    if (selectedMark) {
+      searchParams.delete("model");
+      searchParams.delete("country");
+
+      setSearchParams(searchParams);
+
+      form.setFieldsValue({ model: undefined, country: undefined });
+
+      mutation.mutate({ mark_id: selectedMark.id });
+    }
   };
 
-  const mutation = useMutation(async (data: { mark: string }) => {
-    const res = await api.post(`/model-filter?mark=${data.mark}`);
-    console.log("fieee", res.data);
+  const mutation = useMutation(async (data: { mark_id: number }) => {
+    const res = await api.post("/model-filter", data);
     setModel([
       ...new Set([
         ...res.data.cars.models,
-        res.data.motorcycles.models,
-        res.data.commerceCars.models,
+        ...res.data.motorcycles.models,
+        ...res.data.commerceCars.models,
       ]),
     ]);
     setCountry([
       ...new Set([
         ...res.data.cars.countries,
-        res.data.motorcycles.countries,
-        res.data.commerceCars.countries,
+        ...res.data.motorcycles.countries,
+        ...res.data.commerceCars.countries,
       ]),
     ]);
 
@@ -85,11 +92,14 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   }, [location.search, form]);
 
   useEffect(() => {
-    const selectedMark = form.getFieldValue("mark");
-    if (selectedMark) {
-      handleSelectMark(selectedMark);
+    const queryParams = Object.fromEntries(searchParams);
+    if (queryParams.mark) {
+      const selectedMark = marks.find((mark) => mark.mark === queryParams.mark);
+      if (selectedMark) {
+        mutation.mutate({ mark_id: selectedMark.id });
+      }
     }
-  }, []);
+  }, [searchParams, marks]);
 
   const handleReset = () => {
     form.resetFields();

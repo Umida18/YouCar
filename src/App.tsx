@@ -23,6 +23,7 @@ import Contact from "./pages/Contact/Contact";
 import CarsPage from "./pages/Cars/Cars";
 import CommerceCars from "./pages/CommerceCars/CommerceCars";
 import MotoPage from "./pages/Moto/Moto";
+import Brand from "./pages/Brand/Brand";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/commerceCars" element={<CommerceCars />} />
                 <Route path="/cars" element={<CarsPage />} />
                 <Route path="/motobykes" element={<MotoPage />} />
+                <Route path="/brand" element={<Brand />} />
                 <Route path="/account" element={<AccountPage />}>
                   <Route index element={<Favorites />} />
                   <Route path="/account/favorites" element={<Favorites />} />
