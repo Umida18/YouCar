@@ -1,12 +1,11 @@
-import { Avatar, Button, Divider } from "antd";
+import { Avatar, Button, Collapse, Divider } from "antd";
 import { IoMdStarOutline } from "react-icons/io";
 import { MdOutlineSms } from "react-icons/md";
-import { MdOutlinePostAdd } from "react-icons/md";
 import { BsLightningCharge } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IUser } from "../../Type/Type";
 import api from "../../Api/Api";
 
@@ -19,11 +18,12 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const location = useLocation();
+  const [activeKey, setActiveKey] = useState<string | string[]>([]);
 
   const navigation = [
     { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
     { id: "messages", name: "Сообщения", icon: <MdOutlineSms /> },
-    { id: "post", name: "Разместить объявление", icon: <MdOutlinePostAdd /> },
+    // { id: "post", name: "Разместить объявление", icon: <MdOutlinePostAdd /> },
     { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
     { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
   ];
@@ -87,6 +87,37 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
       </div>
       <div className="flex flex-col gap-16">
         <div className=" flex flex-col shadow-none gap-1">
+          <Collapse
+            activeKey={activeKey}
+            onChange={(key) => setActiveKey(key)}
+            ghost
+          >
+            <Collapse.Panel
+              key="post"
+              header={
+                <div className="flex flex-row-reverse items-center justify-between w-full text-[15px] font-medium">
+                  <span className="flex-grow text-left">
+                    Разместить объявление
+                  </span>
+                </div>
+              }
+            >
+              <div className="flex flex-col gap-2">
+                <Button
+                  className="w-full text-left text-gray-700 hover:bg-gray-100"
+                  onClick={() => handleNavigation("post/newAdd")}
+                >
+                  Новое объявление
+                </Button>
+                <Button
+                  className="w-full text-left text-gray-700 hover:bg-gray-100"
+                  onClick={() => handleNavigation("post/myPosts")}
+                >
+                  Мои объявления
+                </Button>
+              </div>
+            </Collapse.Panel>
+          </Collapse>
           {navigation.map((item) => (
             <Button
               className={`w-full justify-start !shadow-none text-[15px] h-[53px] border-0 ${

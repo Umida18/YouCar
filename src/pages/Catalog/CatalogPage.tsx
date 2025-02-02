@@ -1,4 +1,3 @@
-import CarFilterCard from "../../components/CarFilter";
 import CatalogCards from "../../components/CatalogCards/CatalogCards";
 import RequestBanner from "../../components/Banners/RequestBanner";
 import useScrollToTop from "../../utils/scroll";
@@ -9,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
+import CarSelector from "../../components/Car/CarSelector";
 
 dayjs.extend(utc);
 
@@ -16,19 +16,33 @@ const CatalogPage = () => {
   useScrollToTop();
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get("selectedTab") || "car";
+  const [selectedTab, setSelectedTab] = useState<string>(initialTab);
 
   const [form] = Form.useForm();
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
     async () => {
+      let endpoint = "";
+
+      if (selectedTab === "car") {
+        endpoint = "/cars-filter";
+      } else if (selectedTab === "commerce") {
+        endpoint = "/commerce-filter";
+      } else if (selectedTab === "moto") {
+        endpoint = "/moto-filter";
+      }
+
       const params = Object.fromEntries(searchParams);
-      const res = await api.post("/all-filter", {
+
+      const rateVal = params.rate === "on" ? "cash" : params.rate;
+      const res = await api.post(endpoint, {
         maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
         minPrice: params.minPrice ? Number(params.minPrice) : undefined,
         maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
-        statement: params.statement,
-        rate: params.rate ? params.rate.split(",") : undefined,
+        selectedTab: params.selectedTab,
+        rate: rateVal,
         model: params.model,
         country: params.country,
       });
@@ -42,12 +56,12 @@ const CatalogPage = () => {
   );
 
   const updateQueryParams = (values: any) => {
-    const query: Record<string, string | any> = {};
+    const query = { ...Object.fromEntries(searchParams.entries()) };
 
     if (values.mark) query.mark = values.mark;
     if (values.model) query.model = values.model;
-    if (values.statement) query.statement = values.statement;
-    if (values.rate && values.rate.length) query.rate = values.rate.join(",");
+    if (values.selectedTab) query.selectedTab = values.selectedTab;
+    if (values.rate && values.rate.length) query.rate = values.rate;
     if (values.country) query.country = values.country;
     if (values.minPrice) query.minPrice = values.minPrice.toString();
     if (values.maxPrice) query.maxPrice = values.maxPrice.toString();
@@ -71,7 +85,7 @@ const CatalogPage = () => {
     const defaultValues = {
       mark: queryParams.mark || undefined,
       model: queryParams.model || undefined,
-      statement: queryParams.statement || "all",
+      selectedTab: queryParams.selectedTab,
       rate: queryParams.rate ? queryParams.rate.split(",") : undefined,
       country: queryParams.country || undefined,
       minPrice: queryParams.minPrice ? Number(queryParams.minPrice) : undefined,
@@ -86,11 +100,11 @@ const CatalogPage = () => {
     if (Object.keys(queryParams).length > 0) {
       refetch();
     }
-  }, [searchParams, form, refetch]);
+  }, [searchParams, form, refetch, selectedTab]);
 
   return (
     <>
-      <CarFilterCard
+      <CarSelector
         form={form}
         handleSubmit={handleSubmit}
         filteredCars={filteredCars}
@@ -100,6 +114,8 @@ const CatalogPage = () => {
         }}
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
       />
       <CatalogCards filteredCars={filteredCars} />
       <RequestBanner />

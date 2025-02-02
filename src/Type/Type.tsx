@@ -127,3 +127,16 @@ export interface VehicleData {
   moto: string[];
   commerce: string[];
 }
+
+export interface IMark {
+  id: number;
+  mark: string;
+}
+
+export interface IMarks {
+  id: number;
+  mark_name: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}

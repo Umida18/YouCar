@@ -8,14 +8,14 @@ import {
   FormInstance,
   DatePicker,
   InputNumber,
-  Input,
 } from "antd";
 import { XCircle } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import api from "../../Api/Api";
 import { useMutation } from "@tanstack/react-query";
-import { FilteredAuto } from "../../Type/Type";
+import { FilteredAuto, IMark } from "../../Type/Type";
+import { useSearchParams } from "react-router-dom";
 
 interface CarSelectorProps {
   form: FormInstance;
@@ -23,6 +23,9 @@ interface CarSelectorProps {
   filteredCars: FilteredAuto | null;
   handleFormValuesChange: (_: any, allValues: any) => void;
   buttonLabel: string;
+  selectedTab: string;
+  setSelectedTab: (tab: string) => void;
+  updateQueryParams?: (values: any) => void;
 }
 
 const { RangePicker } = DatePicker;
@@ -32,47 +35,59 @@ export default function CarSelector({
   handleSubmit,
   handleFormValuesChange,
   buttonLabel,
+  setSelectedTab,
+  selectedTab,
+  updateQueryParams,
 }: CarSelectorProps) {
-  const [marks, setMarks] = useState<string[]>([]);
+  const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
   const [country, setCountry] = useState<string[]>([]);
+  const [selectedRate, setSelectedRate] = useState<string | null>(null);
+  const [_, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchMarks = async () => {
       const res = await api.post("/before-filter");
       console.log("marks", res.data);
-      setMarks([...res.data.car, res.data.moto, res.data.commerce]);
-
-      return res.data;
+      const uniqueMarks = [...new Set(res.data as IMark[])];
+      setMarks(uniqueMarks);
     };
     fetchMarks();
   }, []);
 
   const handleSelectMark = (value: string) => {
-    mutation.mutate({ mark: value });
+    const selectedMark = marks.find((mark) => mark.mark === value);
+    if (selectedMark) {
+      mutation.mutate({ mark_id: selectedMark.id });
+    }
   };
 
-  const mutation = useMutation(async (data: { mark: string }) => {
-    const res = await api.post(`/model-filter?mark=${data.mark}`);
-    console.log("fieee", res.data);
+  const mutation = useMutation(async (data: { mark_id: number }) => {
+    const res = await api.post("/model-filter", data);
+    console.log("filtered models", res.data);
     setModel([
       ...new Set([
         ...res.data.cars.models,
-        res.data.motorcycles.models,
-        res.data.commerceCars.models,
+        ...res.data.motorcycles.models,
+        ...res.data.commerceCars.models,
       ]),
     ]);
     setCountry([
       ...new Set([
         ...res.data.cars.countries,
-        res.data.motorcycles.countries,
-        res.data.commerceCars.countries,
+        ...res.data.motorcycles.countries,
+        ...res.data.commerceCars.countries,
       ]),
     ]);
 
     return res.data;
   });
 
+  const handleReset = () => {
+    form.resetFields();
+
+    setSearchParams({});
+  };
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">
@@ -88,41 +103,44 @@ export default function CarSelector({
           >
             <div className="flex items-center gap-12 flex-wrap mb-6">
               <Tabs
-                defaultValue="all"
+                value={selectedTab}
                 className="xl:w-[30%] w-full  h-full"
                 onValueChange={(value) => {
-                  form.setFieldsValue({ statement: value });
-                  console.log("Updated statement:", value);
+                  setSelectedTab(value);
+                  updateQueryParams
+                    ? updateQueryParams({
+                        ...form.getFieldsValue(),
+                        selectedTab: value,
+                      })
+                    : null;
+                  console.log("Selected Tab:", value);
                 }}
               >
-                <Form.Item name="statement" hidden>
-                  <Input />
-                </Form.Item>
                 <TabsList className="w-full bg-[#F4F4F4] p-0 rounded-xl h-full">
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
-                      value="all"
+                      value="car"
                       className="flex-1 w-full h-[57px] data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
-                      Все
+                      Автомобили
                     </TabsTrigger>
                   </Form.Item>
 
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
-                      value="new"
+                      value="commerce"
                       className="flex-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
-                      Новые
+                      Коммерческий транспорт
                     </TabsTrigger>
                   </Form.Item>
 
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
-                      value="used"
+                      value="moto"
                       className="flex-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
-                      С пробегом
+                      Мотоциклы
                     </TabsTrigger>
                   </Form.Item>
                 </TabsList>
@@ -130,10 +148,28 @@ export default function CarSelector({
 
               <div className="flex flex-1 gap-6">
                 <Form.Item className="mb-0" name="rate">
-                  <Checkbox.Group>
-                    <Checkbox value="cash">В наличии</Checkbox>
-                    <Checkbox value="credit">Под заказ</Checkbox>
-                  </Checkbox.Group>
+                  <div className="flex gap-6">
+                    <Checkbox
+                      checked={selectedRate === "cash"}
+                      onChange={(e) => {
+                        const value = e.target.checked ? "cash" : undefined;
+                        setSelectedRate(value || null);
+                        form.setFieldValue("rate", value);
+                      }}
+                    >
+                      В наличии
+                    </Checkbox>
+                    <Checkbox
+                      checked={selectedRate === "credit"}
+                      onChange={(e) => {
+                        const value = e.target.checked ? "credit" : undefined;
+                        setSelectedRate(value || null);
+                        form.setFieldValue("rate", value);
+                      }}
+                    >
+                      Под заказ
+                    </Checkbox>
+                  </div>
                 </Form.Item>
               </div>
             </div>
@@ -145,8 +181,13 @@ export default function CarSelector({
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Марка"
                     style={{ width: "100%", height: "63px" }}
-                    options={marks.map((i) => ({ label: i, value: i }))}
-                    onChange={handleSelectMark}
+                    options={marks.map((i) => ({
+                      // label: <p className="capitalize">{i.mark}</p>,
+                      label: i.mark,
+                      value: i.mark,
+                      key: i.id,
+                    }))}
+                    onChange={(value) => handleSelectMark(value)}
                   />
                 </Form.Item>
               </Col>
@@ -237,7 +278,7 @@ export default function CarSelector({
 
             <div className="flex justify-end gap-3">
               <Button
-                onClick={() => form.resetFields()}
+                onClick={handleReset}
                 style={{ height: "56px" }}
                 type="text"
                 icon={<XCircle className="h-4 w-4" />}
