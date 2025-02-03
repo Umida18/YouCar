@@ -203,7 +203,16 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
 
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="mark" label="Выберите марку">
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите марку",
+                    },
+                  ]}
+                  name="mark"
+                  label="Выберите марку"
+                >
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Марка"
@@ -222,7 +231,16 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="model" label="Выберите модель">
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите модель",
+                    },
+                  ]}
+                  name="model"
+                  label="Выберите модель"
+                >
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Модель"
