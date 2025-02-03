@@ -258,7 +258,16 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="country" label="Страна">
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите страну",
+                    },
+                  ]}
+                  name="country"
+                  label="Страна"
+                >
                   <Select
                     className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Страна"
