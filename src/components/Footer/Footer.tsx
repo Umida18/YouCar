@@ -2,13 +2,10 @@ import api from "@/Api/Api";
 import { IMarks } from "@/Type/Type";
 import { useQuery } from "@tanstack/react-query";
 import { Row, Col, Typography, Space } from "antd";
-import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 export default function FooterComponent() {
-  const navigate = useNavigate();
-
   const { data: marks } = useQuery<IMarks[]>(["marksBrand"], async () => {
     const res = await api.get("/marks");
     return res.data;
