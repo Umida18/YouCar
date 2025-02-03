@@ -156,6 +156,7 @@ const Brand = () => {
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
         title={"Каталог"}
+        setButtonLabel={setButtonLabel}
       />
       <div>
         <Row gutter={[24, 24]} className="py-6">

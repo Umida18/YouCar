@@ -27,6 +27,7 @@ interface CarSelectorProps {
   setSelectedTab: (tab: string) => void;
   updateQueryParams?: (values: any) => void;
   title?: string;
+  setButtonLabel: (vak: string) => void;
 }
 
 const { RangePicker } = DatePicker;
@@ -40,6 +41,7 @@ export default function CarSelector({
   selectedTab,
   updateQueryParams,
   title,
+  setButtonLabel,
 }: CarSelectorProps) {
   const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
@@ -92,8 +94,8 @@ export default function CarSelector({
 
   const handleReset = () => {
     form.resetFields();
-
     setSearchParams({});
+    setButtonLabel("Поиск");
   };
 
   useEffect(() => {

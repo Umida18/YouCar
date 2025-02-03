@@ -128,6 +128,7 @@ const CommerceCars = () => {
         }}
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
+        setButtonLabel={setButtonLabel}
       />
       <div>
         <Row gutter={[24, 24]} className="py-6">

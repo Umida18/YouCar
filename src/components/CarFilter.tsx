@@ -26,6 +26,7 @@ interface CarSelectorProps {
   buttonLabel: string;
   updateQueryParams: (values: any) => void;
   title?: string | null;
+  setButtonLabel: (val: string) => void;
 }
 
 const { RangePicker } = DatePicker;
@@ -37,6 +38,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   buttonLabel,
   updateQueryParams,
   title,
+  setButtonLabel,
 }) => {
   const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
@@ -108,6 +110,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
     form.resetFields();
 
     setSearchParams({});
+    setButtonLabel("Поиск");
   };
 
   return (
