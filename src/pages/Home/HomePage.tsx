@@ -34,26 +34,40 @@ const HomePage = () => {
       } else if (selectedTab === "moto") {
         endpoint = "/moto-filter";
       }
+      const currentYear = new Date().getFullYear();
       const rateVal = values.rate === "on" ? "cash" : values.rate;
-      const response = await api.post(endpoint, {
-        minPrice: values.minPrice,
-        maxPrice: values.maxPrice,
-        // page: 1,
-        // pageSize: 6,
+
+      const requestData: any = {
         statement: values.statement,
         rate: rateVal,
         model: values.model,
-        country: values.country,
-        maxYear: values.maxYear
-          ? Math.max(...values.maxYear.map((date: any) => dayjs(date).year()))
-          : 0,
-      });
+        maxYear: currentYear,
+      };
+
+      if (values.minPrice) requestData.minPrice = values.minPrice;
+      if (values.maxPrice) requestData.maxPrice = values.maxPrice;
+
+      if (values.maxYear && values.maxYear.length > 0) {
+        requestData.maxYear = Math.max(
+          ...values.maxYear.map((date: any) => dayjs(date).year())
+        );
+      }
+
+      const response = await api.post(endpoint, requestData);
 
       console.log("values.maxYear:", values);
       setFilteredCars(response.data);
 
       navigate(
-        `/catalog?mark=${values.mark}&model=${values.model}&selectedTab=${selectedTab}&rate=${values.rate}&country=${values.country}&minPrice=${values.minPrice}&maxPrice=${values.maxPrice}&minYear=${values.maxYear[0]}&maxYear=${values.maxYear[1]}&count=${buttonLabel}`
+        `/catalog?mark=${values.mark || ""}&model=${
+          values.model || ""
+        }&selectedTab=${selectedTab}&rate=${rateVal || ""}&country=${
+          values.country || ""
+        }&minPrice=${values.minPrice || ""}&maxPrice=${
+          values.maxPrice || ""
+        }&minYear=${values.maxYear?.[0] || currentYear}&maxYear=${
+          values.maxYear?.[1] || currentYear
+        }&count=${buttonLabel}`
       );
       console.log("Filtered cars:", response.data);
     } catch (error) {
@@ -74,7 +88,7 @@ const HomePage = () => {
       }
 
       const rateVal = allValues.rate === "on" ? "cash" : allValues.rate;
-
+      const currentYear = new Date().getFullYear();
       const response = await api.post(endpoint, {
         // page: 1,
         // pageSize: 6,
@@ -86,7 +100,7 @@ const HomePage = () => {
           ? Math.max(
               ...allValues.maxYear.map((date: any) => dayjs(date).year())
             )
-          : null,
+          : currentYear,
         minPrice: allValues.minPrice,
         maxPrice: allValues.maxPrice,
       });

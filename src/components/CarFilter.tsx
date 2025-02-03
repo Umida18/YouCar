@@ -42,6 +42,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   const [model, setModel] = useState<string[]>([]);
   const [country, setCountry] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedRate, setSelectedRate] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMarks = async () => {
@@ -174,10 +175,28 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
 
               <div className="flex flex-1 gap-6">
                 <Form.Item className="mb-0" name="rate">
-                  <Checkbox.Group>
-                    <Checkbox value="cash">В наличии</Checkbox>
-                    <Checkbox value="credit">Под заказ</Checkbox>
-                  </Checkbox.Group>
+                  <div className="flex gap-6">
+                    <Checkbox
+                      checked={selectedRate === "cash"}
+                      onChange={(e) => {
+                        const value = e.target.checked ? "cash" : undefined;
+                        setSelectedRate(value || null);
+                        form.setFieldValue("rate", value);
+                      }}
+                    >
+                      В наличии
+                    </Checkbox>
+                    <Checkbox
+                      checked={selectedRate === "credit"}
+                      onChange={(e) => {
+                        const value = e.target.checked ? "credit" : undefined;
+                        setSelectedRate(value || null);
+                        form.setFieldValue("rate", value);
+                      }}
+                    >
+                      Под заказ
+                    </Checkbox>
+                  </div>
                 </Form.Item>
               </div>
             </div>
@@ -193,7 +212,6 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
                       height: "63px",
                     }}
                     options={marks.map((i) => ({
-                      // label: <p className="capitalize">{i.mark}</p>,
                       label: i.mark,
                       value: i.mark,
                       key: i.id,

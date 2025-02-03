@@ -37,9 +37,10 @@ const CatalogPage = () => {
       const params = Object.fromEntries(searchParams);
 
       const rateVal = params.rate === "on" ? "cash" : params.rate;
-      if (params.model) {
+      const currentYear = new Date().getFullYear();
+      if (params.model && params.country) {
         const res = await api.post(endpoint, {
-          maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
+          maxYear: params.maxYear ? dayjs(params.maxYear).year() : currentYear,
           minPrice: params.minPrice ? Number(params.minPrice) : undefined,
           maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
           selectedTab: params.selectedTab,

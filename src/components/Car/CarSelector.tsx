@@ -172,7 +172,7 @@ export default function CarSelector({
                     <Checkbox
                       checked={selectedRate === "cash"}
                       onChange={(e) => {
-                        const value = e.target.checked ? "cash" : undefined;
+                        const value = e.target.checked ? "cash" : "credit";
                         setSelectedRate(value || null);
                         form.setFieldValue("rate", value);
                       }}
@@ -182,7 +182,7 @@ export default function CarSelector({
                     <Checkbox
                       checked={selectedRate === "credit"}
                       onChange={(e) => {
-                        const value = e.target.checked ? "credit" : undefined;
+                        const value = e.target.checked ? "credit" : "cash";
                         setSelectedRate(value || null);
                         form.setFieldValue("rate", value);
                       }}

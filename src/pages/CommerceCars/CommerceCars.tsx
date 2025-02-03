@@ -24,18 +24,22 @@ const CommerceCars = () => {
     ["filteredCars", searchParams.toString()],
     async () => {
       const params = Object.fromEntries(searchParams);
-      const res = await api.post("/all-filter", {
-        maxYear: params.maxYear ? dayjs(params.maxYear).year() : undefined,
-        minPrice: params.minPrice ? Number(params.minPrice) : undefined,
-        maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
-        statement: params.statement,
-        rate: params.rate ? params.rate.split(",") : undefined,
-        model: params.model,
-        country: params.country,
-      });
-      console.log("resdata", res.data);
-      setButtonLabel(`${res.data.count} Предложений`);
-      return res.data;
+      const currentYear = new Date().getFullYear();
+      if (params.model && params.country) {
+        const res = await api.post("/all-filter", {
+          maxYear: params.maxYear ? dayjs(params.maxYear).year() : currentYear,
+          minPrice: params.minPrice ? Number(params.minPrice) : undefined,
+          maxPrice: params.maxPrice ? Number(params.maxPrice) : undefined,
+          statement: params.statement,
+          rate: params.rate ? params.rate : undefined,
+          model: params.model,
+          country: params.country,
+        });
+        console.log("resdata", res.data);
+        setButtonLabel(`${res.data.count} Предложений`);
+        return res.data;
+      }
+      return null;
     },
     {
       enabled: searchParams.toString() !== "",
@@ -48,7 +52,7 @@ const CommerceCars = () => {
     if (values.mark) query.mark = values.mark;
     if (values.model) query.model = values.model;
     if (values.statement) query.statement = values.statement;
-    if (values.rate && values.rate.length) query.rate = values.rate.join(",");
+    if (values.rate && values.rate.length) query.rate = values.rate;
     if (values.country) query.country = values.country;
     if (values.minPrice) query.minPrice = values.minPrice.toString();
     if (values.maxPrice) query.maxPrice = values.maxPrice.toString();
@@ -73,7 +77,7 @@ const CommerceCars = () => {
       mark: queryParams.mark || undefined,
       model: queryParams.model || undefined,
       statement: queryParams.statement || "all",
-      rate: queryParams.rate ? queryParams.rate.split(",") : undefined,
+      rate: queryParams.rate ? queryParams.rate : undefined,
       country: queryParams.country || undefined,
       minPrice: queryParams.minPrice ? Number(queryParams.minPrice) : undefined,
       maxPrice: queryParams.maxPrice ? Number(queryParams.maxPrice) : undefined,
