@@ -21,7 +21,7 @@ interface CarSelectorProps {
   form: FormInstance;
   handleSubmit: (values: any) => void;
   filteredCars: FilteredAuto | null;
-  handleFormValuesChange: (_: any, allValues: any) => void;
+  handleFormValuesChange?: (_: any, allValues: any) => void;
   buttonLabel: string;
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
@@ -172,7 +172,7 @@ export default function CarSelector({
                     <Checkbox
                       checked={selectedRate === "cash"}
                       onChange={(e) => {
-                        const value = e.target.checked ? "cash" : "credit";
+                        const value = e.target.checked ? "cash" : null;
                         setSelectedRate(value || null);
                         form.setFieldValue("rate", value);
                       }}
@@ -182,7 +182,7 @@ export default function CarSelector({
                     <Checkbox
                       checked={selectedRate === "credit"}
                       onChange={(e) => {
-                        const value = e.target.checked ? "credit" : "cash";
+                        const value = e.target.checked ? "credit" : null;
                         setSelectedRate(value || null);
                         form.setFieldValue("rate", value);
                       }}

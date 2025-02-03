@@ -107,8 +107,6 @@ const HomePage = () => {
       console.log("allValues.rate:", allValues);
       console.log("changed All:", allValues);
 
-      setFilteredCars(response.data);
-
       const buttonLabel = `${response.data.count} Предложений`;
       setButtonLabel(buttonLabel);
     } catch (error) {
