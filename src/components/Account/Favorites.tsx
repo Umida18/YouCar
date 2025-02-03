@@ -17,7 +17,7 @@ const Favorites = () => {
 
   return (
     <div>
-      <p className="text-[30px] font-bold">Избранное</p>
+      <p className="text-[30px] font-bold mb-8">Избранное</p>
       <Row gutter={[36, 36]}>
         {fav &&
           [

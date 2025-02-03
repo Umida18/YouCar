@@ -1,19 +1,22 @@
 import RequestBanner from "@/components/Banners/RequestBanner";
 import CarFilterCard from "../../components/CarFilter";
-import CatalogCards from "../../components/CatalogCards/CatalogCards";
 import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Form } from "antd";
+import { Col, Form, Row } from "antd";
 import api from "@/Api/Api";
 import dayjs from "dayjs";
+import ItemCard from "@/components/Cards/CarCard";
+import { mapCarDataToItem } from "@/utils/dataMapper";
+import { ICar } from "@/Type/Type";
 
 const Brand = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("selectedTab") || "car";
   const [selectedTab, __] = useState<string>(initialTab);
-  // const [marksData, setMarksData] = useState();
   const markId = Number(searchParams.get("markId"));
+  const [markFil, setMarkFil] = useState<ICar[] | null | undefined>(null);
+  const [showFilteredCars, setShowFilteredCars] = useState<boolean>(false);
 
   const [buttonLabel, setButtonLabel] = useState("Поиск");
 
@@ -25,7 +28,22 @@ const Brand = () => {
     const res = await api.get(`/mark/${markId}?page=1&pageSize=12`);
     console.log("markBrand", res.data);
 
-    return res.data;
+    const vehicles = res.data?.vehicles || {};
+
+    return [
+      ...(vehicles.resultCars || []).map((item: any) => ({
+        ...item,
+        type: "car",
+      })),
+      ...(vehicles.resultCommerce || []).map((item: any) => ({
+        ...item,
+        type: "commerce",
+      })),
+      ...(vehicles.resultMoto || []).map((item: any) => ({
+        ...item,
+        type: "moto",
+      })),
+    ];
   });
   console.log(markBrand);
 
@@ -85,10 +103,19 @@ const Brand = () => {
   const handleSubmit = useCallback(
     async (values: any) => {
       updateQueryParams(values);
-      await refetch;
+      setShowFilteredCars(true);
+      await refetch();
     },
     [updateQueryParams, refetch]
   );
+
+  useEffect(() => {
+    if (showFilteredCars && filteredCars) {
+      setMarkFil(filteredCars.cars);
+    } else {
+      setMarkFil(markBrand);
+    }
+  }, [filteredCars, markBrand, showFilteredCars]);
 
   useEffect(() => {
     const queryParams = Object.fromEntries(searchParams);
@@ -114,7 +141,7 @@ const Brand = () => {
     }
   }, [searchParams, form, refetch, selectedTab]);
 
-  const markFil = markBrand ? markBrand : filteredCars;
+  console.log("markFil", markFil);
 
   return (
     <div>
@@ -128,8 +155,22 @@ const Brand = () => {
         }}
         updateQueryParams={updateQueryParams}
         buttonLabel={buttonLabel}
+        title={"Каталог"}
       />
-      <CatalogCards filteredCars={markFil} />
+      <div>
+        <Row gutter={[24, 24]} className="py-6">
+          {markFil?.map((car: ICar, index: number) => (
+            <Col
+              key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
+              xs={24}
+              md={12}
+              lg={8}
+            >
+              <ItemCard item={mapCarDataToItem(car)} />
+            </Col>
+          ))}
+        </Row>
+      </div>
       <RequestBanner />
     </div>
   );

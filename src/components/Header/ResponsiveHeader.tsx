@@ -102,7 +102,7 @@ const ResponsiveHeader = ({
           </div>
           <div>
             <button
-              onClick={handleToAccount}
+              onClick={() => navigate("/cars")}
               className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
             >
               <span className="flex gap-2 items-center">Автомобили</span>
@@ -111,7 +111,7 @@ const ResponsiveHeader = ({
               </span>
             </button>
             <button
-              onClick={handleToAccount}
+              onClick={() => navigate("/commerceCars")}
               className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
             >
               <span className="flex gap-2 items-center">
@@ -122,7 +122,7 @@ const ResponsiveHeader = ({
               </span>
             </button>
             <button
-              onClick={handleToAccount}
+              onClick={() => navigate("/motobykes")}
               className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
             >
               <span className="flex gap-2 items-center">Мотоциклы</span>
@@ -136,6 +136,7 @@ const ResponsiveHeader = ({
             {!isRegistered && (
               <>
                 <Button
+                  onClick={() => navigate("login")}
                   style={{
                     border: 0,
                     backgroundColor: "#EEEEEE",
@@ -149,6 +150,7 @@ const ResponsiveHeader = ({
                 </Button>
 
                 <Button
+                  onClick={() => navigate("/register")}
                   style={{
                     border: 0,
                     backgroundColor: "#2684E5",

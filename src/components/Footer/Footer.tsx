@@ -1,13 +1,34 @@
+import api from "@/Api/Api";
+import { IMarks } from "@/Type/Type";
+import { useQuery } from "@tanstack/react-query";
 import { Row, Col, Typography, Space } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 export default function FooterComponent() {
+  const navigate = useNavigate();
+
+  const { data: marks } = useQuery<IMarks[]>(["marksBrand"], async () => {
+    const res = await api.get("/marks");
+    return res.data;
+  });
+
+  const chunkSize = 5;
+
+  const chunkArray = (arr: IMarks[], size: number) => {
+    return arr
+      ? arr.reduce((acc: IMarks[][], _, i) => {
+          if (i % size === 0) acc.push(arr.slice(i, i + size));
+          return acc;
+        }, [])
+      : [];
+  };
+
+  const chunks = chunkArray(marks || [], chunkSize);
+
   return (
-    <div
-      className=""
-      // style={{ paddingInline: "48px" }}
-    >
+    <div>
       <div className="container mx-auto bg-white pt-8 pb-4 xl:!px-14 px-4">
         <div className=" border-t border-gray-200 pt-12 flex flex-col justify-between">
           <Row gutter={[32, 32]} className="mb-8">
@@ -62,19 +83,28 @@ export default function FooterComponent() {
                 Компания
               </Title>
               <Space direction="vertical" className="w-full">
-                <a href="#" className="text-gray-500 hover:text-gray-700">
+                <a
+                  href="/catalog"
+                  className="text-gray-500 hover:text-blue-500"
+                >
                   Каталог
                 </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
+                <a href="/#about" className="text-gray-500 hover:text-blue-500">
                   О нас
                 </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
+                <a href="/news" className="text-gray-500 hover:text-blue-500">
                   Новости
                 </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
+                <a
+                  href="/contact"
+                  className="text-gray-500 hover:text-blue-500"
+                >
                   Контакты
                 </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
+                <a
+                  href="/account/favorites"
+                  className="text-gray-500 hover:text-blue-500"
+                >
                   Избранные
                 </a>
               </Space>
@@ -85,21 +115,11 @@ export default function FooterComponent() {
                 Автомобили
               </Title>
               <Space direction="vertical" className="w-full">
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Из Европы
-                </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Из США
-                </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Из ОАЭ
-                </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Из Китая
-                </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Из Кореи
-                </a>
+                <p className="text-gray-500 hover:text-gray-700">Из Европы</p>
+                <p className="text-gray-500 hover:text-gray-700">Из США</p>
+                <p className="text-gray-500 hover:text-gray-700">Из ОАЭ</p>
+                <p className="text-gray-500 hover:text-gray-700">Из Китая</p>
+                <p className="text-gray-500 hover:text-gray-700">Из Кореи</p>
               </Space>
             </Col>
 
@@ -108,69 +128,21 @@ export default function FooterComponent() {
                 Марки
               </Title>
               <Row gutter={[16, 16]}>
-                <Col span={6}>
-                  <Space
-                    direction="vertical"
-                    // className=""
-                    className="text-gray-500 hover:text-gray-700 w-full"
-                  >
-                    <a href="#">Audi</a>
-                    <a href="#">Aston Martin</a>
-                    <a href="#">Acura</a>
-                    <a href="#">Alfa Romeo</a>
-                    <a href="#">Avatr</a>
-                  </Space>
-                </Col>
-                <Col span={6}>
-                  <Space
-                    direction="vertical"
-                    className="w-full text-gray-500 hover:text-gray-700"
-                  >
-                    <a href="#">BMW</a>
-                    <a href="#">Baic</a>
-                    <a href="#">Byd</a>
-                    <a href="#">Bently</a>
-                    <a href="#">Chery</a>
-                  </Space>
-                </Col>
-                <Col span={6}>
-                  <Space direction="vertical" className="w-full">
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Chery
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Cadillac
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Changan
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Chevrolet
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Citroen
-                    </a>
-                  </Space>
-                </Col>
-                <Col span={6}>
-                  <Space direction="vertical" className="w-full">
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Daewoo
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Datsun
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Dodge
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      EXEED
-                    </a>
-                    <a href="#" className="text-gray-500 hover:text-gray-700">
-                      Ferrari
-                    </a>
-                  </Space>
-                </Col>
+                {chunks.map((chunk, chunkIndex) => (
+                  <Col span={6} key={chunkIndex}>
+                    <Space direction="vertical" className="w-full">
+                      {chunk.map((mark) => (
+                        <a
+                          href={`/brand?markId=${mark.id}`}
+                          key={mark.id}
+                          className="text-gray-500 hover:text-blue-500"
+                        >
+                          {mark.mark_name}
+                        </a>
+                      ))}
+                    </Space>
+                  </Col>
+                ))}
               </Row>
             </Col>
           </Row>

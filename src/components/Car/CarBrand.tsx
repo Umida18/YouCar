@@ -31,6 +31,7 @@ export default function CarBrands() {
                   />
                 </div>
                 <span className="text-center text-sm font-medium">
+                  {brand.id}
                   {brand.mark_name}
                 </span>
               </div>

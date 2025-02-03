@@ -25,6 +25,7 @@ interface CarSelectorProps {
   handleFormValuesChange: (_: any, allValues: any) => void;
   buttonLabel: string;
   updateQueryParams: (values: any) => void;
+  title?: string | null;
 }
 
 const { RangePicker } = DatePicker;
@@ -35,6 +36,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   handleFormValuesChange,
   buttonLabel,
   updateQueryParams,
+  title,
 }) => {
   const [marks, setMarks] = useState<IMark[]>([]);
   const [model, setModel] = useState<string[]>([]);
@@ -110,7 +112,9 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">
-        <h1 className="text-3xl font-bold mt-12 mb-12">Подбор авто</h1>
+        <h1 className="text-3xl font-bold mt-12 mb-12 capitalize">
+          {title ? title : "Подбор авто"}
+        </h1>
 
         <div className=" rounded-lg space-y-7 boxShadowC px-4 py-10">
           <Form
@@ -189,10 +193,12 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
                       height: "63px",
                     }}
                     options={marks.map((i) => ({
-                      label: i,
-                      value: i,
+                      // label: <p className="capitalize">{i.mark}</p>,
+                      label: i.mark,
+                      value: i.mark,
+                      key: i.id,
                     }))}
-                    onChange={handleSelectMark}
+                    onChange={(value) => handleSelectMark(value)}
                   />
                 </Form.Item>
               </Col>
