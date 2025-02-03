@@ -196,13 +196,21 @@ export default function CarSelector({
 
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="mark" label="Выберите марку">
+                <Form.Item
+                  name="mark"
+                  label="Выберите марку"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите марку",
+                    },
+                  ]}
+                >
                   <Select
-                    className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
+                    className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Марка"
                     style={{ width: "100%", height: "63px" }}
                     options={marks.map((i) => ({
-                      // label: <p className="capitalize">{i.mark}</p>,
                       label: i.mark,
                       value: i.mark,
                       key: i.id,
@@ -213,9 +221,18 @@ export default function CarSelector({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="model" label="Выберите модель">
+                <Form.Item
+                  name="model"
+                  label="Выберите модель"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите модель",
+                    },
+                  ]}
+                >
                   <Select
-                    className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
+                    className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Модель"
                     style={{ width: "100%", height: "63px" }}
                     options={[...new Set(model)].map((i, index) => ({
@@ -228,9 +245,18 @@ export default function CarSelector({
               </Col>
 
               <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
-                <Form.Item name="country" label="Страна">
+                <Form.Item
+                  name="country"
+                  label="Страна"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста, выберите страну",
+                    },
+                  ]}
+                >
                   <Select
-                    className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
+                    className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
                     placeholder="Страна"
                     style={{ width: "100%", height: "63px" }}
                     options={[...new Set(country)].map((i, index) => ({
