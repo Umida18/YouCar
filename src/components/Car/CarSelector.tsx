@@ -126,7 +126,7 @@ export default function CarSelector({
             <div className="flex items-center gap-12 flex-wrap mb-6">
               <Tabs
                 value={selectedTab}
-                className="xl:w-[30%] w-full  h-full"
+                className="xl:w-[40%] w-full  h-full"
                 onValueChange={(value) => {
                   setSelectedTab(value);
                   updateQueryParams
@@ -197,7 +197,7 @@ export default function CarSelector({
             </div>
 
             <Row gutter={[16, 16]}>
-              <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
+              <Col xs={24} sm={24} md={12} xl={5} style={{ width: "20%" }}>
                 <Form.Item
                   name="mark"
                   label="Выберите марку"
@@ -222,7 +222,7 @@ export default function CarSelector({
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
+              <Col xs={24} sm={24} md={12} xl={5} style={{ width: "20%" }}>
                 <Form.Item
                   name="model"
                   label="Выберите модель"
@@ -246,7 +246,7 @@ export default function CarSelector({
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
+              <Col xs={24} sm={24} md={12} xl={5} style={{ width: "20%" }}>
                 <Form.Item
                   name="country"
                   label="Страна"
@@ -270,7 +270,7 @@ export default function CarSelector({
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={24} md={4} style={{ width: "20%" }}>
+              <Col xs={24} sm={24} md={12} xl={4} style={{ width: "20%" }}>
                 <Form.Item name="maxYear" label="Год">
                   <RangePicker
                     className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0"
@@ -286,10 +286,10 @@ export default function CarSelector({
                 </Form.Item>
               </Col>
 
-              <Col xs={24} sm={24} md={5} style={{ width: "20%" }}>
+              <Col xs={24} sm={24} md={24} xl={5} style={{ width: "20%" }}>
                 <Form.Item label="Цена">
                   <div className="flex flex-row gap-1">
-                    <Form.Item name="minPrice" className="mb-0 h-full">
+                    <Form.Item name="minPrice" className="mb-0 h-full w-full">
                       <InputNumber
                         min={0}
                         style={{
@@ -305,7 +305,7 @@ export default function CarSelector({
                       />
                     </Form.Item>
                     <span className="flex py-5">-</span>
-                    <Form.Item name="maxPrice">
+                    <Form.Item name="maxPrice" className="mb-0 h-full w-full">
                       <InputNumber
                         style={{
                           width: "100%",

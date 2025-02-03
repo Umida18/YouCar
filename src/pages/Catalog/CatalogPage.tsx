@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
 import CarSelector from "../../components/Car/CarSelector";
+import PaginationComponent from "@/components/Pagination/Pagination";
 
 dayjs.extend(utc);
 
@@ -107,6 +108,14 @@ const CatalogPage = () => {
     }
   }, [searchParams, form, refetch, selectedTab]);
 
+  const itemsPerPage = 3;
+
+  const buttonAll = Math.ceil(filteredCars?.count / itemsPerPage);
+  const buttonsPage = Array.from(
+    { length: buttonAll },
+    (_, index) => index + 1
+  );
+
   return (
     <>
       <CarSelector
@@ -125,6 +134,7 @@ const CatalogPage = () => {
         setButtonLabel={setButtonLabel}
       />
       <CatalogCards filteredCars={filteredCars} />
+      <PaginationComponent buttonsPage={buttonsPage} />
       <RequestBanner />
     </>
   );
