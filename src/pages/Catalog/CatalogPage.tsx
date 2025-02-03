@@ -122,6 +122,7 @@ const CatalogPage = () => {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         title={"Каталог"}
+        setButtonLabel={setButtonLabel}
       />
       <CatalogCards filteredCars={filteredCars} />
       <RequestBanner />
