@@ -3,15 +3,15 @@ import { BsThreeDots } from "react-icons/bs";
 
 const PaginationComponent = ({ buttonsPage }: { buttonsPage: number[] }) => {
   const [start, setStart] = useState<number>(1);
-  const [end, setEnd] = useState<number>(4);
+  const [end, setEnd] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleClickPage = (i: number) => {
     setCurrentPage(i);
-    if (i >= start + 3 && end < buttonsPage.length) {
-      setStart(i - 1);
+    if (i >= start + 2 && end < buttonsPage.length) {
+      setStart(i - 2);
       setEnd(i + 2);
-    } else if (i <= start && start > 1) {
+    } else if (i <= start + 1 && start > 1) {
       setStart(start - 1);
       setEnd(end - 1);
     }
