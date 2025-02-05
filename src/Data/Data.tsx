@@ -11,6 +11,12 @@ export const drive = [
   { id: 3, val: "RWD" },
 ];
 
+export const driveMoto = [
+  { id: 1, val: "chain", label: "цепь" },
+  { id: 2, val: "belt", label: "ремень" },
+  { id: 3, val: "shaft", label: "вал" },
+];
+
 export const kpp = [
   { id: 1, val: "automatic", label: "Автомат" },
   { id: 2, val: "manual", label: "Механика" },
@@ -41,6 +47,21 @@ export const carTypes = [
   { id: 15, value: "estate", label: "Универсал" },
   { id: 16, value: "saloon", label: "Седан" },
   { id: 17, value: "city-car", label: "Городской автомобиль" },
+];
+
+export const motoType = [
+  { id: 1, value: "cruiser", label: "круизер" },
+  { id: 1, value: "sport", label: "спортбайк" },
+  { id: 1, value: "touring", label: "туристический мотоцикл" },
+  { id: 1, value: "standard", label: "классический мотоцикл" },
+  { id: 1, value: "dual-sport", label: "дуал-спорт" },
+  { id: 1, value: "dirt-bike", label: "внедорожный мотоцикл" },
+  { id: 1, value: "naked-bike", label: "нейкед-байк" },
+  { id: 1, value: "scooter", label: "скутер" },
+  { id: 1, value: "adventure", label: "адвенчур-байк" },
+  { id: 1, value: "bobber", label: "боббер" },
+  { id: 1, value: "cafe-racer", label: "кафе-рейсер" },
+  { id: 1, value: "chopper", label: "чоппер" },
 ];
 
 export const statement = [

@@ -1,7 +1,8 @@
 import api from "@/Api/Api";
 import { CarFormValues, IMark } from "@/Type/Type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+  Button,
   DatePicker,
   Divider,
   Form,
@@ -13,14 +14,15 @@ import {
 import { useEffect, useState } from "react";
 import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
 import { VideoInput } from "../VideoUpload/VideoUpload";
-import TextArea from "antd/es/input/TextArea";
 import {
   carColors,
   carTypes,
   doors,
   drive,
+  driveMoto,
   engine,
   kpp,
+  motoType,
   statement,
 } from "@/Data/Data";
 
@@ -36,8 +38,14 @@ const NewPost = () => {
   const [photos, setPhotos] = useState<File[]>([]);
   const [videoUrl, setVideoUrl] = useState("");
   const [currency, setCurrency] = useState("$");
+  const [markId, setMarkId] = useState<number | null>(null);
 
   const [form] = Form.useForm();
+
+  const { data: userData } = useQuery(["userData"], async () => {
+    const res = await api.get("/user-dashboard");
+    return res.data.userData;
+  });
 
   const handleCurrencyChange = (value: any) => {
     setCurrency(value);
@@ -56,7 +64,7 @@ const NewPost = () => {
     const selectedMark = marks.find((mark) => mark.mark === val);
     if (selectedMark) {
       setSelectedBrand(true);
-
+      setMarkId(selectedMark.id);
       mutation.mutate({ mark_id: selectedMark.id });
     }
     console.log("val:", val);
@@ -82,46 +90,63 @@ const NewPost = () => {
     return res.data;
   });
 
-  const handleSubmitPost = (values: CarFormValues) => {};
+  const handleSubmitPost = async (values: CarFormValues) => {
+    try {
+      console.log(values);
 
-  // boxShadowC rounded-xl
+      if (selectedType === "motorcycles") {
+        console.log("motoValues", values);
+        // const res = await api.post("/add-motorcycle", {
+        //   mark_id: markId,
+        // });
+      } else if (selectedType === "commercial") {
+        console.log("commercialValues", values);
+      } else if (selectedType === "cars") {
+        console.log("carValues", values);
+      }
+    } catch (error) {
+      console.log("add error:", error);
+    }
+  };
+
   return (
     <div className="flex justify-center py-12">
       <div className=" xl:w-[800px] w-full ">
-        <Form form={form} onFinish={handleSubmitPost} layout="vertical">
-          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
-            <div className="text-center space-y-2 mb-8">
-              <h1 className="text-3xl font-bold">Разместите объявление</h1>
-              <p className="text-muted-foreground">
-                Укажите данные об автомобиле для размещения объявления
-              </p>
-            </div>
-            <Form.Item>
-              <div className="bg-muted rounded-full p-1 mb-6">
-                <nav className="flex justify-between space-x-1" role="tablist">
-                  {[
-                    { id: "cars", label: "Автомобили" },
-                    { id: "commercial", label: "Коммерческий транспорт" },
-                    { id: "motorcycles", label: "Мотоциклы" },
-                  ].map((type) => (
-                    <button
-                      key={type.id}
-                      onClick={() => setSelectedType(type.id)}
-                      className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
+        <div className="text-center space-y-2 mb-8">
+          <h1 className="text-3xl font-bold">Разместите объявление</h1>
+          <p className="text-muted-foreground">
+            Укажите данные об автомобиле для размещения объявления
+          </p>
+        </div>
+        <div className="bg-muted rounded-full p-1 mb-6">
+          <nav className="flex justify-between space-x-1" role="tablist">
+            {[
+              { id: "cars", label: "Автомобили" },
+              { id: "commercial", label: "Коммерческий транспорт" },
+              { id: "motorcycles", label: "Мотоциклы" },
+            ].map((type) => (
+              <button
+                key={type.id}
+                onClick={() => setSelectedType(type.id)}
+                className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
                 ${
                   selectedType === type.id
                     ? "bg-background text-foreground shadow-sm"
                     : "text-muted-foreground hover:bg-background/50"
                 }`}
-                      role="tab"
-                      aria-selected={selectedType === type.id}
-                    >
-                      {type.label}
-                    </button>
-                  ))}
-                </nav>
-              </div>
-            </Form.Item>
+                role="tab"
+                aria-selected={selectedType === type.id}
+              >
+                {type.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <Form form={form} onFinish={handleSubmitPost} layout="vertical">
+          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
+            {/* <Form.Item> */}
+
+            {/* </Form.Item> */}
             <Form.Item
               rules={[
                 {
@@ -174,12 +199,12 @@ const NewPost = () => {
             )}
             <p className="text-[25px] font-bold">Характеристики</p>
             <Divider />
-            <Form.Item
-              name="year"
-              rules={[{ required: true, message: "Выберите год выпуска" }]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Год выпуска</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Год выпуска</p>
+              <Form.Item
+                name="year"
+                rules={[{ required: true, message: "Выберите год выпуска" }]}
+              >
                 <DatePicker
                   placeholder="Год"
                   style={{
@@ -191,15 +216,15 @@ const NewPost = () => {
                   className="h-[40px] [&_.ant-picker]:!border-0 [&_.ant-picker-outlined]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0"
                   picker="year"
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="milage"
-              rules={[{ required: true, message: "Введите пробег" }]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Пробег</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Пробег</p>
+              <Form.Item
+                name="milage"
+                rules={[{ required: true, message: "Введите пробег" }]}
+              >
                 <InputNumber
                   min={1}
                   style={{
@@ -211,20 +236,20 @@ const NewPost = () => {
                   suffix={<p className="text-[#989898]">км</p>}
                   className="h-[40px]"
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="country"
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста, выберите страну",
-                },
-              ]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Страна</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Страна</p>
+              <Form.Item
+                name="country"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста, выберите страну",
+                  },
+                ]}
+              >
                 <Select
                   className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
                   placeholder="Страна"
@@ -234,20 +259,21 @@ const NewPost = () => {
                     key: `${i}-${index}`,
                   }))}
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="engine"
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста, выберите топливо",
-                },
-              ]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Топливо</p>
+
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Топливо</p>
+              <Form.Item
+                name="engine"
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста, выберите топливо",
+                  },
+                ]}
+              >
                 <Select
                   className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
                   placeholder="Топливо"
@@ -257,15 +283,15 @@ const NewPost = () => {
                     key: `${i.label}-${index}`,
                   }))}
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="volume"
-              rules={[{ required: true, message: "Введите объем двигателя" }]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Объем</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Объем</p>
+              <Form.Item
+                name="volume"
+                rules={[{ required: true, message: "Введите объем двигателя" }]}
+              >
                 <InputNumber
                   min={1}
                   style={{
@@ -277,15 +303,15 @@ const NewPost = () => {
                   suffix={<p className="text-[#989898]">л</p>}
                   className="h-[40px]"
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="horsepower"
-              rules={[{ required: true, message: "Введите мощность" }]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Мощность</p>
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Мощность</p>
+              <Form.Item
+                name="horsepower"
+                rules={[{ required: true, message: "Введите мощность" }]}
+              >
                 <InputNumber
                   min={1}
                   style={{
@@ -297,37 +323,70 @@ const NewPost = () => {
                   suffix={<p className="text-[#989898]">л.с</p>}
                   className="h-[40px]"
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item
-              name="drive"
-              rules={[
-                { required: true, message: "Пожалуйста, выберите тип привода" },
-              ]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Привод</p>
-                <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
-                  placeholder="Привод"
-                  options={drive.map((i, index) => ({
-                    label: i.val,
-                    value: i.val,
-                    key: `${i.val}-${index}`,
-                  }))}
-                />
-              </div>
-            </Form.Item>
-            <Divider />
-            <Form.Item
-              name="checkpoint"
-              rules={[
-                { required: true, message: "Пожалуйста, выберите тип КПП" },
-              ]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">КПП</p>
+            {selectedType !== "motorcycles" ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Привод</p>
+                  <Form.Item
+                    name="drive"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Пожалуйста, выберите тип привода",
+                      },
+                    ]}
+                  >
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      placeholder="Привод"
+                      options={driveMoto.map((i, index) => ({
+                        label: i.val,
+                        value: i.val,
+                        key: `${i.val}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
+              </>
+            ) : (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Привод</p>
+                  <Form.Item
+                    name="drive"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Пожалуйста, выберите тип привода",
+                      },
+                    ]}
+                  >
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      placeholder="Привод"
+                      options={drive.map((i, index) => ({
+                        label: i.val,
+                        value: i.val,
+                        key: `${i.val}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
+              </>
+            )}
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">КПП</p>
+              <Form.Item
+                name="checkpoint"
+                rules={[
+                  { required: true, message: "Пожалуйста, выберите тип КПП" },
+                ]}
+              >
                 <Select
                   className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
                   placeholder="КПП"
@@ -337,62 +396,124 @@ const NewPost = () => {
                     key: `${i.val}-${index}`,
                   }))}
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
-            <Form.Item name="doors">
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Колличество дверей</p>
-                <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
-                  placeholder="Колличество"
-                  options={doors.map((i, index) => ({
-                    label: i.val,
-                    value: i.val,
-                    key: `${i.val}-${index}`,
-                  }))}
-                />
+            {selectedType !== "commercial" &&
+              selectedType !== "motorcycles" && (
+                <>
+                  <div className="flex justify-between items-center">
+                    <p className="text-[#989898] text-[15px]">
+                      Колличество дверей
+                    </p>
+                    <Form.Item name="doors">
+                      <Select
+                        className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                        placeholder="Колличество"
+                        options={doors.map((i, index) => ({
+                          label: i.val,
+                          value: i.val,
+                          key: `${i.val}-${index}`,
+                        }))}
+                      />
+                    </Form.Item>
+                  </div>
+                  <Divider />
+                </>
+              )}
+            {selectedType !== "motorcycles" ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Кузов</p>
+                  <Form.Item name="body">
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[200px] h-[40px]"
+                      placeholder="Кузов"
+                      options={motoType.map((i, index) => ({
+                        label: i.label,
+                        value: i.value,
+                        key: `${i.value}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
+              </>
+            ) : (
+              <div>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Кузов</p>
+                  <Form.Item name="body">
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[200px] h-[40px]"
+                      placeholder="Кузов"
+                      options={carTypes.map((i, index) => ({
+                        label: i.label,
+                        value: i.value,
+                        key: `${i.value}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
               </div>
-            </Form.Item>
-            <Divider />
-            <Form.Item name="body">
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Кузов</p>
-                <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[200px] h-[40px]"
-                  placeholder="Кузов"
-                  options={carTypes.map((i, index) => ({
-                    label: i.label,
-                    value: i.value,
-                    key: `${i.value}-${index}`,
-                  }))}
-                />
-              </div>
-            </Form.Item>
-            <Divider />
-            <Form.Item
-              name="statement"
-              rules={[
-                { required: true, message: "Пожалуйста, выберите состояние" },
-              ]}
-            >
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Состояние</p>
-                <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
-                  placeholder="Состояние"
-                  options={statement.map((i, index) => ({
-                    label: i.label,
-                    value: i.val,
-                    key: `${i.val}-${index}`,
-                  }))}
-                />
-              </div>
-            </Form.Item>
-            <Divider />
-            <Form.Item name="color">
-              <div className="flex justify-between items-center">
-                <p className="text-[#989898] text-[15px]">Цвет</p>
+            )}
+            {selectedType === "motorcycles" ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Состояние</p>
+                  <Form.Item
+                    name="condition"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Пожалуйста, выберите состояние",
+                      },
+                    ]}
+                  >
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      placeholder="Состояние"
+                      options={statement.map((i, index) => ({
+                        label: i.label,
+                        value: i.val,
+                        key: `${i.val}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
+              </>
+            ) : (
+              <>
+                <div className="flex justify-between items-center">
+                  <p className="text-[#989898] text-[15px]">Состояние</p>
+                  <Form.Item
+                    name="statement"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Пожалуйста, выберите состояние",
+                      },
+                    ]}
+                  >
+                    <Select
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      placeholder="Состояние"
+                      options={statement.map((i, index) => ({
+                        label: i.label,
+                        value: i.val,
+                        key: `${i.val}-${index}`,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
+                <Divider />
+              </>
+            )}
+            <div className="flex justify-between items-center">
+              <p className="text-[#989898] text-[15px]">Цвет</p>
+              <Form.Item name="color">
                 <Select
                   className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
                   placeholder="Цвет"
@@ -402,8 +523,8 @@ const NewPost = () => {
                     key: `${i.value}-${index}`,
                   }))}
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
             <Divider />
             <Form.Item name={"rate"}>
               <Radio>В наличии</Radio>
@@ -411,39 +532,40 @@ const NewPost = () => {
             </Form.Item>
           </div>
           <div className="boxShadowC rounded-xl py-6 px-12 my-4">
-            <Form.Item
-              name={"image"}
-              rules={[
-                {
-                  required: true,
-                  message:
-                    "Пожалуйста, загрузите хотя бы одно фото вашего автомобиля",
-                },
-              ]}
-            >
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Фото</h2>
-                <p className="text-sm text-muted-foreground">
-                  Загрузите фото вашего автомобиля четко с разных ракурсов!
-                </p>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Фото</h2>
+              <p className="text-sm text-muted-foreground">
+                Загрузите фото вашего автомобиля четко с разных ракурсов!
+              </p>
+              <Form.Item
+                name={"image"}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message:
+                //       "Пожалуйста, загрузите хотя бы одно фото вашего автомобиля",
+                //   },
+                // ]}
+              >
                 <PhotoUpload onPhotosChange={setPhotos} />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
 
-            <Form.Item>
-              <div className="space-y-4">
-                <h2 className="font-semibold">Видео</h2>
+            <div className="space-y-4">
+              <h2 className="font-semibold">Видео</h2>
+              <Form.Item>
                 <VideoInput onVideoChange={setVideoUrl} />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
           </div>
           <div className="boxShadowC rounded-xl py-6 px-12 my-4">
+            {/* <Form.Item> */}
+            <p className="font-semibold text-[25px]">Описание</p>
+            <p className="text-sm text-muted-foreground my-2">
+              Не указывайте ссылки на источники, цены, контакты и не предлагайте
+              другие услуги! Объявление не пройдет модерацию
+            </p>
             <Form.Item>
-              <p className="font-semibold text-[25px]">Описание</p>
-              <p className="text-sm text-muted-foreground my-2">
-                Не указывайте ссылки на источники, цены, контакты и не
-                предлагайте другие услуги! Объявление не пройдет модерацию
-              </p>
               <textarea
                 placeholder="Честно опишите ваше авто "
                 className="!min-h-[130px] bg-muted border-0 mt-2 w-full p-2"
@@ -451,25 +573,27 @@ const NewPost = () => {
             </Form.Item>
           </div>
           <div className="boxShadowC rounded-xl py-6 px-12 my-4">
-            <Form.Item
-              name={"cost"}
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста, введите цену",
-                },
-                {
-                  pattern: /^\d+(\.\d{1,2})?$/,
-                  message:
-                    "Введите корректную цену (только цифры, возможно с двумя десятичными знаками)",
-                },
-              ]}
-            >
-              <div>
-                <p>Цена</p>
-                <Input
+            <div>
+              <p className="text-[25px] text-[#293843]">Цена</p>
+              <Form.Item
+                name={"cost"}
+                rules={[
+                  {
+                    required: true,
+                    message: "Пожалуйста, введите цену",
+                  },
+                ]}
+              >
+                <InputNumber
+                  min={1}
+                  style={{
+                    minWidth: "130px",
+
+                    border: 0,
+                    backgroundColor: "#F4F4F4",
+                  }}
                   placeholder="Цена"
-                  className="flex w-[100%] h-[40px]"
+                  className="flex w-[100%] h-[40px] [&_.ant-input-number-outlined]:!bg-[#F6F6F6]"
                   addonAfter={
                     <Select
                       defaultValue={currency}
@@ -481,12 +605,13 @@ const NewPost = () => {
                       <Option value="₽">₽</Option>
                     </Select>
                   }
-                  style={{ marginTop: 8, background: "#f7f7f7" }}
-                  bordered={false}
                 />
-              </div>
-            </Form.Item>
+              </Form.Item>
+            </div>
           </div>
+          <Form.Item>
+            <Button htmlType="submit">submit</Button>
+          </Form.Item>
         </Form>
       </div>
     </div>
