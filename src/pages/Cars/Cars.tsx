@@ -9,13 +9,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
-// import { Pagination } from "@/components/Pagination/Pagination";
+import PaginationComponent from "@/components/Pagination/Pagination";
 
 const CarsPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [form] = Form.useForm();
 
@@ -40,8 +40,7 @@ const CarsPage = () => {
           rate: rateVal ? rateVal : undefined,
           model: params.model,
           country: params.country,
-          page: Number(params.page) || 1,
-          pageSize: Number(params.pageSize) || pageSize,
+          page: 1,
         });
         console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
@@ -132,6 +131,12 @@ const CarsPage = () => {
     return car || [];
   }, [filteredCars, car]);
 
+  const buttonAll = Math.ceil(carsRender.length / 10);
+  const buttonsPage = Array.from(
+    { length: buttonAll },
+    (_, index) => index + 1
+  );
+
   return (
     <div>
       <CarFilterCard
@@ -160,15 +165,12 @@ const CarsPage = () => {
           ))}
         </Row>
       </div>
-      <div className="flex justify-center mt-8 mb-12">
-        {/* <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={filteredCars?.total || 0}
-          onChange={handlePaginationChange}
-          showSizeChanger
-          showTotal={(total) => `Total ${total} items`}
-        /> */}
+      <div className="bg-blue-400">
+        <PaginationComponent
+          buttonsPage={buttonsPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       <RequestBanner />
     </div>

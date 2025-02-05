@@ -311,7 +311,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
                   <div className="flex flex-row gap-1">
                     <Form.Item name={"minPrice"} className="mb-0 h-full">
                       <InputNumber
-                        min={0}
+                        min={1}
                         style={{
                           width: "100%",
                           height: "63px",
@@ -327,6 +327,7 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
                     <span className="flex py-5">-</span>
                     <Form.Item name={"maxPrice"}>
                       <InputNumber
+                        min={1}
                         style={{
                           width: "100%",
                           height: "63px",

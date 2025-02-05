@@ -14,6 +14,7 @@ const Settings = () => {
     console.log("user", user);
     return res.data;
   });
+  console.log("user", user);
 
   useEffect(() => {
     form1.setFieldsValue({

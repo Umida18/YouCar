@@ -105,13 +105,13 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
               <div className="flex flex-col gap-2">
                 <Button
                   className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => handleNavigation("post/newAdd")}
+                  onClick={() => navigate("/newPost")}
                 >
                   Новое объявление
                 </Button>
                 <Button
                   className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => handleNavigation("post/myPosts")}
+                  onClick={() => handleNavigation("/post/myPosts")}
                 >
                   Мои объявления
                 </Button>

@@ -5,7 +5,8 @@ import { Col, Row } from "antd";
 import ItemCard from "../Cards/CarCard";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 import { useParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import PaginationComponent from "../Pagination/Pagination";
 
 interface CardProps {
   limit?: number;
@@ -15,6 +16,7 @@ interface CardProps {
 const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: cars } = useQuery<ICar[]>(
     ["cars"],
@@ -62,19 +64,34 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
 
   const carsLimited = limit ? filtered?.slice(0, limit) : filtered;
 
+  const buttonAll = Math.ceil(carsRender.length / 10);
+  const buttonsPage = Array.from(
+    { length: buttonAll },
+    (_, index) => index + 1
+  );
+
   return (
-    <Row gutter={[24, 24]} className="py-6">
-      {carsLimited?.map((car, index) => (
-        <Col
-          key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
-          xs={24}
-          md={12}
-          lg={8}
-        >
-          <ItemCard item={mapCarDataToItem(car)} />
-        </Col>
-      ))}
-    </Row>
+    <div>
+      <Row gutter={[24, 24]} className="py-6">
+        {carsLimited?.map((car, index) => (
+          <Col
+            key={car.id ? `${car.id}-${index}` : `fallback-${index}`}
+            xs={24}
+            md={12}
+            lg={8}
+          >
+            <ItemCard item={mapCarDataToItem(car)} />
+          </Col>
+        ))}
+      </Row>
+      <div className="bg-blue-400">
+        <PaginationComponent
+          buttonsPage={buttonsPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+    </div>
   );
 };
 

@@ -151,3 +151,25 @@ export interface IUserData {
   updatedAt: string;
   userrate: string;
 }
+
+export interface CarFormValues {
+  color: string;
+  image: string[];
+  country: string;
+  year: number;
+  cost: number;
+  milage: number;
+  engine: string;
+  volume: number;
+  horsepower: number;
+  drive: string;
+  checkpoint: string;
+  doors: number;
+  body: string;
+  statement: string;
+  description: string;
+  authoremail: string;
+  rate: string;
+  mark_id: number;
+  model: string;
+}

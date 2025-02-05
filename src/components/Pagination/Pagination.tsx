@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 
-const PaginationComponent = ({ buttonsPage }: { buttonsPage: number[] }) => {
+const PaginationComponent = ({
+  buttonsPage,
+  setCurrentPage,
+  currentPage,
+}: {
+  buttonsPage: number[];
+  currentPage: number;
+  setCurrentPage: (num: number) => void;
+}) => {
   const [start, setStart] = useState<number>(1);
   const [end, setEnd] = useState<number>(5);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handleClickPage = (i: number) => {
     setCurrentPage(i);
