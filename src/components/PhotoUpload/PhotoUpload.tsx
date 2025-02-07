@@ -1,71 +1,146 @@
+"use client";
+
 import { Camera } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Upload } from "antd";
+import type { UploadFile } from "antd/es/upload/interface";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 interface PhotoUploadProps {
-  onPhotosChange: (photos: File[]) => void;
+  onPhotosChange?: (fileList: UploadFile[], urls: string[]) => void;
+  value?: UploadFile[];
+  url: string[] | null;
+  setUrl: (i: any) => void;
 }
 
-export function PhotoUpload({ onPhotosChange }: PhotoUploadProps) {
-  const [photos, setPhotos] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+export const BASE_URL = "https://api.youcarrf.ru";
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newPhotos = Array.from(e.target.files);
-      setPhotos([...photos, ...newPhotos]);
+export function PhotoUpload({
+  onPhotosChange,
+  value,
+  setUrl,
+  url,
+}: PhotoUploadProps) {
+  const [fileList, setFileList] = useState<UploadFile[]>(value || []);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-      const newPreviews = newPhotos.map((photo) => URL.createObjectURL(photo));
-      setPreviews([...previews, ...newPreviews]);
-
-      onPhotosChange([...photos, ...newPhotos]);
+  useEffect(() => {
+    if (value) {
+      setFileList(value);
+      // Initialize imageUrls from value if available
+      setImageUrls(value.map((file) => file.url || ""));
     }
+  }, [value]);
+
+  const handleChange = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => {
+    console.log("PhotoUpload handleChange:", newFileList);
+
+    const updatedList = [...fileList, ...newFileList];
+    setFileList(updatedList);
+    console.log("updatedList", updatedList);
+    // console.log("imageUrls", imageUrls);
+    // console.log("url", url);
+
+    const newUrls = newFileList.map((file) => {
+      if (file.originFileObj) {
+        return URL.createObjectURL(file.originFileObj);
+      }
+      return file?.url ? `${BASE_URL}${file.url}` : "";
+    });
+
+    setImageUrls((prevUrls) => [...prevUrls, ...newUrls]);
+    console.log("fileList22", fileList);
+    console.log("imageUrls22", imageUrls);
+    console.log("url22", url);
+
+    onPhotosChange?.(updatedList, [...imageUrls, ...newUrls]);
+    setUrl((prev: any) => [...prev, ...imageUrls]);
   };
 
-  const removePhoto = (index: number) => {
-    const newPhotos = photos.filter((_, i) => i !== index);
-    const newPreviews = previews.filter((_, i) => i !== index);
-
-    URL.revokeObjectURL(previews[index]);
-
-    setPhotos(newPhotos);
-    setPreviews(newPreviews);
-    onPhotosChange(newPhotos);
+  const handleRemove = (index: number) => {
+    const newFileList = fileList.filter((_, i) => i !== index);
+    const newImageUrls = imageUrls.filter((_, i) => i !== index);
+    setFileList(newFileList);
+    setImageUrls(newImageUrls);
+    onPhotosChange?.(newFileList, newImageUrls);
   };
+
+  useEffect(() => {
+    if (imageUrls.length > 0) {
+      setUrl((prev: any) => [
+        ...prev.filter(Boolean),
+        ...imageUrls.filter(Boolean),
+      ]);
+    }
+  }, [imageUrls]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap gap-4">
-        {previews.map((preview, index) => (
-          <div key={index} className="relative">
-            <img
-              src={preview || "/placeholder.svg"}
-              alt={`Car photo ${index + 1}`}
-              width={120}
-              height={120}
-              className="rounded-lg object-cover"
-            />
-            <button
-              onClick={() => removePhoto(index)}
-              className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm"
-            >
-              ×
-            </button>
+    <div className="w-full ">
+      {fileList.length === 0 ? (
+        <Upload
+          style={{
+            backgroundColor: "transparent",
+            border: 0,
+            display: "flex",
+            justifyContent: "center",
+          }}
+          listType="picture-card"
+          fileList={fileList}
+          onChange={handleChange}
+          beforeUpload={() => false}
+          className="bg-[#F4F4F4] rounded-lg p-8 [&_.ant-upload]:!border-0 [&_.ant-upload]:!bg-transparent [&_.ant-upload-list]:!flex  [&_.ant-upload-list]:!justify-center py-16 w-full"
+          multiple
+        >
+          <div className="flex flex-col items-center justify-center gap-4 !w-full">
+            <Camera className="w-12 h-12 text-[#2684E5]" />
+            <span className="text-sm text-[#2684E5] w-full min-w-64">
+              Выберите или перетащите фото
+            </span>
           </div>
-        ))}
-        <label className="cursor-pointer">
-          <div className="w-[120px] h-[120px] rounded-lg bg-muted flex flex-col items-center justify-center gap-2">
-            <Camera className="w-6 h-6 text-muted-foreground" />
-            <span className="text-sm text-primary">Добавить фото</span>
-          </div>
-          <input
-            type="file"
-            accept="image/*"
+        </Upload>
+      ) : (
+        <div className="flex flex-wrap gap-4">
+          {fileList.map((file, index) => (
+            <div key={file.uid} className="relative">
+              <img
+                src={
+                  file.originFileObj
+                    ? URL.createObjectURL(file.originFileObj)
+                    : file.url
+                    ? `${BASE_URL}${file.url}`
+                    : ""
+                }
+                alt={`Photo ${index + 1}`}
+                className="h-[150px] w-[150px] object-cover rounded-lg"
+              />
+              <button
+                onClick={() => handleRemove(index)}
+                className="absolute top-2 right-2 bg-white text-[#2684E5] hover:bg-[#2684E5] hover:text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
+              >
+                <FaRegTrashAlt />
+              </button>
+            </div>
+          ))}
+          <Upload
+            listType="picture-card"
+            fileList={[]}
+            onChange={handleChange}
+            beforeUpload={() => false}
             multiple
-            className="hidden"
-            onChange={handlePhotoUpload}
-          />
-        </label>
-      </div>
+            style={{ border: 0, minHeight: "150px" }}
+            className="[&_.ant-upload]:!h-[150px] [&_.ant-upload]:!w-[150px] border-0 [&_.ant-upload]:!border-0"
+          >
+            <div className="flex flex-col items-center justify-center gap-2">
+              <Camera className="w-6 h-6 text-[#2684E5]" />
+              <span className="text-xs text-[#2684E5]">Добавить фото</span>
+            </div>
+          </Upload>
+        </div>
+      )}
     </div>
   );
 }

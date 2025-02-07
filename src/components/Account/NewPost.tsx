@@ -1,16 +1,7 @@
 import api from "@/Api/Api";
-import { CarFormValues, IMark } from "@/Type/Type";
+import { CarFormValues, IMark, IUser } from "@/Type/Type";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  Button,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-} from "antd";
+import { DatePicker, Divider, Form, InputNumber, Radio, Select } from "antd";
 import { useEffect, useState } from "react";
 import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
 import { VideoInput } from "../VideoUpload/VideoUpload";
@@ -34,17 +25,18 @@ const NewPost = () => {
   const [selectedBrand, setSelectedBrand] = useState<boolean>(false);
   const [model, setModel] = useState<string[]>([]);
   const [country, setCountry] = useState<string[]>([]);
-  const [selectedModel, setSelectedModel] = useState<boolean>(false);
-  const [photos, setPhotos] = useState<File[]>([]);
-  const [videoUrl, setVideoUrl] = useState("");
+  const [_, setSelectedModel] = useState<boolean>(false);
+  const [__, setVideoUrl] = useState("");
   const [currency, setCurrency] = useState("$");
   const [markId, setMarkId] = useState<number | null>(null);
+  const [hasUploadedImages, setHasUploadedImages] = useState(false);
+  const [url, setUrl] = useState<string[]>([]);
 
   const [form] = Form.useForm();
 
-  const { data: userData } = useQuery(["userData"], async () => {
+  const { data: userData } = useQuery<IUser>(["userData"], async () => {
     const res = await api.get("/user-dashboard");
-    return res.data.userData;
+    return res.data;
   });
 
   const handleCurrencyChange = (value: any) => {
@@ -92,18 +84,31 @@ const NewPost = () => {
 
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
-      console.log(values);
+      console.log("values", values);
 
+      let endpoint = "";
       if (selectedType === "motorcycles") {
-        console.log("motoValues", values);
-        // const res = await api.post("/add-motorcycle", {
-        //   mark_id: markId,
-        // });
+        endpoint = "/add-motorcycle";
       } else if (selectedType === "commercial") {
-        console.log("commercialValues", values);
+        endpoint = "/add-commercial";
       } else if (selectedType === "cars") {
-        console.log("carValues", values);
+        endpoint = "/add-car";
       }
+
+      const { image, authoremail, ...filteredValues } = values;
+
+      const sanitizedPayload = Object.fromEntries(
+        Object.entries({
+          ...filteredValues,
+          authoremail: userData?.userData.email,
+          image: url,
+          mark_Id: markId,
+        }).filter(([_, value]) => value !== undefined)
+      );
+
+      console.log("Final payload:", sanitizedPayload);
+      const res = await api.post(endpoint, sanitizedPayload);
+      console.log("res:", res);
     } catch (error) {
       console.log("add error:", error);
     }
@@ -111,42 +116,40 @@ const NewPost = () => {
 
   return (
     <div className="flex justify-center py-12">
-      <div className=" xl:w-[800px] w-full ">
-        <div className="text-center space-y-2 mb-8">
-          <h1 className="text-3xl font-bold">Разместите объявление</h1>
-          <p className="text-muted-foreground">
-            Укажите данные об автомобиле для размещения объявления
-          </p>
-        </div>
-        <div className="bg-muted rounded-full p-1 mb-6">
-          <nav className="flex justify-between space-x-1" role="tablist">
-            {[
-              { id: "cars", label: "Автомобили" },
-              { id: "commercial", label: "Коммерческий транспорт" },
-              { id: "motorcycles", label: "Мотоциклы" },
-            ].map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setSelectedType(type.id)}
-                className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
+      <div className=" xl:w-[750px] w-full ">
+        <Form form={form} onFinish={handleSubmitPost} layout="vertical">
+          <div className="boxShadowC rounded-xl py-10 xl:px-16 my-4 px-4">
+            <div className="text-center space-y-2 mb-8">
+              <h1 className="text-3xl font-bold">Разместите объявление</h1>
+              <p className="text-muted-foreground">
+                Укажите данные об автомобиле для размещения объявления
+              </p>
+            </div>
+            <div className="bg-muted rounded-full p-1 mb-6">
+              <nav className="flex justify-between space-x-1" role="tablist">
+                {[
+                  { id: "cars", label: "Автомобили" },
+                  { id: "commercial", label: "Коммерческий транспорт" },
+                  { id: "motorcycles", label: "Мотоциклы" },
+                ].map((type) => (
+                  <button
+                    type="button"
+                    key={type.id}
+                    onClick={() => setSelectedType(type.id)}
+                    className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
                 ${
                   selectedType === type.id
                     ? "bg-background text-foreground shadow-sm"
                     : "text-muted-foreground hover:bg-background/50"
                 }`}
-                role="tab"
-                aria-selected={selectedType === type.id}
-              >
-                {type.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-        <Form form={form} onFinish={handleSubmitPost} layout="vertical">
-          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
-            {/* <Form.Item> */}
-
-            {/* </Form.Item> */}
+                    role="tab"
+                    aria-selected={selectedType === type.id}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
             <Form.Item
               rules={[
                 {
@@ -154,7 +157,7 @@ const NewPost = () => {
                   message: "Пожалуйста, выберите марку",
                 },
               ]}
-              name="mark_id"
+              // name="mark_id"
             >
               <Select
                 className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"
@@ -226,7 +229,7 @@ const NewPost = () => {
                 rules={[{ required: true, message: "Введите пробег" }]}
               >
                 <InputNumber
-                  min={1}
+                  min={0}
                   style={{
                     minWidth: "130px",
 
@@ -251,7 +254,7 @@ const NewPost = () => {
                 ]}
               >
                 <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                   placeholder="Страна"
                   options={[...new Set(country)].map((i, index) => ({
                     label: i,
@@ -275,7 +278,7 @@ const NewPost = () => {
                 ]}
               >
                 <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                   placeholder="Топливо"
                   options={engine.map((i, index) => ({
                     label: i.label,
@@ -326,7 +329,7 @@ const NewPost = () => {
               </Form.Item>
             </div>
             <Divider />
-            {selectedType !== "motorcycles" ? (
+            {selectedType === "motorcycles" ? (
               <>
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Привод</p>
@@ -340,7 +343,7 @@ const NewPost = () => {
                     ]}
                   >
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                       placeholder="Привод"
                       options={driveMoto.map((i, index) => ({
                         label: i.val,
@@ -366,7 +369,7 @@ const NewPost = () => {
                     ]}
                   >
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                       placeholder="Привод"
                       options={drive.map((i, index) => ({
                         label: i.val,
@@ -388,7 +391,7 @@ const NewPost = () => {
                 ]}
               >
                 <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                   placeholder="КПП"
                   options={kpp.map((i, index) => ({
                     label: i.label,
@@ -408,7 +411,7 @@ const NewPost = () => {
                     </p>
                     <Form.Item name="doors">
                       <Select
-                        className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                        className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                         placeholder="Колличество"
                         options={doors.map((i, index) => ({
                           label: i.val,
@@ -421,13 +424,13 @@ const NewPost = () => {
                   <Divider />
                 </>
               )}
-            {selectedType !== "motorcycles" ? (
+            {selectedType === "motorcycles" ? (
               <>
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Кузов</p>
                   <Form.Item name="body">
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[200px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[200px] h-[40px]"
                       placeholder="Кузов"
                       options={motoType.map((i, index) => ({
                         label: i.label,
@@ -445,7 +448,7 @@ const NewPost = () => {
                   <p className="text-[#989898] text-[15px]">Кузов</p>
                   <Form.Item name="body">
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[200px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[200px] h-[40px]"
                       placeholder="Кузов"
                       options={carTypes.map((i, index) => ({
                         label: i.label,
@@ -472,7 +475,7 @@ const NewPost = () => {
                     ]}
                   >
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                       placeholder="Состояние"
                       options={statement.map((i, index) => ({
                         label: i.label,
@@ -498,7 +501,7 @@ const NewPost = () => {
                     ]}
                   >
                     <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                       placeholder="Состояние"
                       options={statement.map((i, index) => ({
                         label: i.label,
@@ -515,7 +518,7 @@ const NewPost = () => {
               <p className="text-[#989898] text-[15px]">Цвет</p>
               <Form.Item name="color">
                 <Select
-                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 max-w-[160px] h-[40px]"
+                  className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                   placeholder="Цвет"
                   options={carColors.map((i, index) => ({
                     label: i.value,
@@ -531,34 +534,48 @@ const NewPost = () => {
               <Radio>Под заказ</Radio>
             </Form.Item>
           </div>
-          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
+          <div className="boxShadowC rounded-xl py-6 xl:px-12 my-4 px-4">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Фото</h2>
               <p className="text-sm text-muted-foreground">
                 Загрузите фото вашего автомобиля четко с разных ракурсов!
               </p>
               <Form.Item
-                name={"image"}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message:
-                //       "Пожалуйста, загрузите хотя бы одно фото вашего автомобиля",
-                //   },
-                // ]}
+                name="image"
+                valuePropName="value"
+                getValueFromEvent={(e) => {
+                  const fileList = e?.fileList;
+                  setHasUploadedImages(fileList && fileList.length > 0);
+                  return fileList;
+                }}
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      "Пожалуйста, загрузите хотя бы одно фото вашего автомобиля",
+                  },
+                ]}
               >
-                <PhotoUpload onPhotosChange={setPhotos} />
+                <PhotoUpload
+                  url={url}
+                  setUrl={setUrl}
+                  onPhotosChange={(fileList) => {
+                    form.setFieldsValue({ image: fileList });
+                    setHasUploadedImages(fileList && fileList.length > 0);
+                  }}
+                />
               </Form.Item>
             </div>
-
-            <div className="space-y-4">
-              <h2 className="font-semibold">Видео</h2>
-              <Form.Item>
-                <VideoInput onVideoChange={setVideoUrl} />
-              </Form.Item>
-            </div>
+            {hasUploadedImages && (
+              <div className="space-y-4 my-5">
+                <h2 className="font-semibold">Видео</h2>
+                <Form.Item>
+                  <VideoInput onVideoChange={setVideoUrl} />
+                </Form.Item>
+              </div>
+            )}
           </div>
-          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
+          <div className="boxShadowC rounded-xl py-6 xl:px-12 my-4 px-4">
             {/* <Form.Item> */}
             <p className="font-semibold text-[25px]">Описание</p>
             <p className="text-sm text-muted-foreground my-2">
@@ -572,7 +589,7 @@ const NewPost = () => {
               />
             </Form.Item>
           </div>
-          <div className="boxShadowC rounded-xl py-6 px-12 my-4">
+          <div className="boxShadowC rounded-xl py-6 xl:px-12 my-4 px-4">
             <div>
               <p className="text-[25px] text-[#293843]">Цена</p>
               <Form.Item
@@ -610,7 +627,12 @@ const NewPost = () => {
             </div>
           </div>
           <Form.Item>
-            <Button htmlType="submit">submit</Button>
+            <button
+              className="bg-[#D7EAFF] w-full border-0 text-[#2684E5] text-[15px] font-bold h-[70px] rounded-sm my-3"
+              type="submit"
+            >
+              Опубликовать объявление
+            </button>
           </Form.Item>
         </Form>
       </div>

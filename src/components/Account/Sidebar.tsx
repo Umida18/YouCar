@@ -111,7 +111,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
                 </Button>
                 <Button
                   className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => handleNavigation("/post/myPosts")}
+                  onClick={() => navigate("/account/myPosts")}
                 >
                   Мои объявления
                 </Button>

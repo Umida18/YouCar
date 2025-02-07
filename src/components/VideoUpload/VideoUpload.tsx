@@ -30,7 +30,7 @@ export function VideoInput({ onVideoChange }: VideoInputProps) {
             placeholder="Ссылка на YouTube"
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
-            className="bg-muted border-0"
+            className="bg-muted border-0 h-[45px]"
           />
           <button onClick={handleAdd}>Добавить</button>
         </div>

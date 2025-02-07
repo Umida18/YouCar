@@ -82,9 +82,9 @@ const ResponsiveHeader = ({
               <a href="/catalog" className="hover:underline">
                 Каталог
               </a>
-              <a href="/#about" className="hover:underline">
+              {/* <a href="/#about" className="hover:underline">
                 О нас
-              </a>
+              </a> */}
               <a href="/news" className="hover:underline">
                 Новости
               </a>
@@ -94,10 +94,10 @@ const ResponsiveHeader = ({
             </div>
             <div className="flex justify-center items-start gap-5">
               <LuBell style={{ fontSize: "22px" }} />
-              <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">
+              {/* <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">
                 <option>RU</option>
                 <option>EN</option>
-              </select>
+              </select> */}
             </div>
           </div>
           <div>

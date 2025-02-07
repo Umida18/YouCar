@@ -15,9 +15,9 @@ const TopHeader = () => {
           <a href="/catalog" className="hover:underline">
             Каталог
           </a>
-          <a href="/#about" className="hover:underline">
+          {/* <a href="/#about" className="hover:underline">
             О нас
-          </a>
+          </a> */}
           <a href="/news" className="hover:underline">
             Новости
           </a>

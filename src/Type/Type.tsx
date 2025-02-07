@@ -1,3 +1,5 @@
+import type { UploadFile } from "antd/es/upload/interface";
+
 export interface ICar {
   id: number;
   color: string;
@@ -154,7 +156,7 @@ export interface IUserData {
 
 export interface CarFormValues {
   color: string;
-  image: string[];
+  image: UploadFile[];
   country: string;
   year: number;
   cost: number;
@@ -172,4 +174,5 @@ export interface CarFormValues {
   rate: string;
   mark_id: number;
   model: string;
+  [key: string]: any;
 }

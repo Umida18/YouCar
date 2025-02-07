@@ -64,6 +64,7 @@
     @apply bg-background text-foreground;
   }
 }
+@import url(https://db.onlinewebfonts.com/c/ec14a1aec3fa7dda39cc4a34e1e61377?family=Nanami+W05+Medium);
 
 .boxShadowC {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

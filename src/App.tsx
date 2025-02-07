@@ -52,7 +52,8 @@ function App() {
                   <Route index element={<Favorites />} />
                   <Route path="/account/favorites" element={<Favorites />} />
                   <Route path="/account/messages" element={<Messages />} />
-                  <Route path="/account/post" element={<Post />} />
+                  {/* <Route path="/account/post" element={<Post />} /> */}
+                  <Route path="/account/myPosts" element={<Post />} />
                   <Route path="/account/tariff" element={<Settings />} />
                   <Route path="/account/settings" element={<Tariff />} />
                 </Route>
