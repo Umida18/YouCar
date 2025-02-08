@@ -62,6 +62,7 @@ export default function PostsUser() {
                     className="overflow-hidden hover:shadow-lg transition-shadow bg-[#F6F6F6] border-0 p-4"
                     bodyStyle={{ padding: 0 }}
                   >
+                    <h1>{item.id}</h1>
                     <div className="flex flex-col md:flex-row xl:h-[150px]">
                       <div className="w-full md:w-[300px] h-[150px] relative">
                         <img

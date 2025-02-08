@@ -1,6 +1,6 @@
 import api from "@/Api/Api";
 import { CarFormValues, IMark, IUser } from "@/Type/Type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   DatePicker,
   Divider,
@@ -9,6 +9,7 @@ import {
   Radio,
   Select,
   UploadFile,
+  notification,
 } from "antd";
 import { useEffect, useState } from "react";
 import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
@@ -39,6 +40,7 @@ const NewPost = () => {
   const [markId, setMarkId] = useState<number | null>(null);
   const [hasUploadedImages, setHasUploadedImages] = useState(false);
   const [url, setUrl] = useState<string[]>([]);
+  const queryClient = useQueryClient();
 
   const [fileL, setFileL] = useState<UploadFile[]>();
 
@@ -138,9 +140,21 @@ const NewPost = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      notification.success({
+        message: "Успешно!",
+        description: "Объявление успешно добавлено.",
+      });
+
+      form.resetFields();
+      queryClient.invalidateQueries(["userData"]);
+
       console.log("res:", res);
     } catch (error) {
       console.error("add error:", error);
+      notification.error({
+        message: "Ошибка",
+        description: "Произошла ошибка при добавлении объявления.",
+      });
     }
   };
 
