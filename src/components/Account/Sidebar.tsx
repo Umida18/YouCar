@@ -1,7 +1,6 @@
 import { Avatar, Button, Collapse, Divider } from "antd";
 import { IoMdStarOutline } from "react-icons/io";
 import { MdOutlineSms } from "react-icons/md";
-import { BsLightningCharge } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -23,7 +22,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const navigation = [
     { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
     { id: "messages", name: "Сообщения", icon: <MdOutlineSms /> },
-    { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
+    // { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
     { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
   ];
 
