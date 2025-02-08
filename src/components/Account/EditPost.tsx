@@ -27,7 +27,7 @@ import {
 
 const { Option } = Select;
 
-const NewPost = () => {
+const EditPost = () => {
   const [selectedType, setSelectedType] = useState("cars");
   const [marks, setMarks] = useState<IMark[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<boolean>(false);
@@ -100,11 +100,11 @@ const NewPost = () => {
 
       let endpoint = "";
       if (selectedType === "motorcycles") {
-        endpoint = "/add-motorcycle";
+        endpoint = "/update-motorcycle/";
       } else if (selectedType === "commercial") {
-        endpoint = "/add-commercial";
+        endpoint = "/update-commerce-car/";
       } else if (selectedType === "cars") {
-        endpoint = "/add-car";
+        endpoint = "/update-car/";
       }
 
       const { image, authoremail, ...filteredValues } = values;
@@ -134,7 +134,7 @@ const NewPost = () => {
 
       console.log("Final FormData payload:", formData);
 
-      const res = await api.post(endpoint, formData, {
+      const res = await api.put(endpoint, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -671,4 +671,4 @@ const NewPost = () => {
   );
 };
 
-export default NewPost;
+export default EditPost;

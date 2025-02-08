@@ -15,6 +15,8 @@ const CommerceCars = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { data: commerceCar } = useQuery<ICar[]>(["commerceCar"], async () => {
     const res = await api.get("/commerce-cars");
     return res.data;
@@ -34,6 +36,7 @@ const CommerceCars = () => {
           rate: params.rate ? params.rate : undefined,
           model: params.model,
           country: params.country,
+          page: currentPage,
         });
         console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
@@ -58,17 +61,23 @@ const CommerceCars = () => {
     if (values.maxPrice) query.maxPrice = values.maxPrice.toString();
     if (values.maxYear?.[0]) query.minYear = dayjs(values.maxYear[0]).format();
     if (values.maxYear?.[1]) query.maxYear = dayjs(values.maxYear[1]).format();
-
+    query.page = values.currentPage || 1;
     setSearchParams(query);
   };
 
   const handleSubmit = useCallback(
     async (values: any) => {
       updateQueryParams(values);
-      await refetch;
+      await refetch();
     },
-    [updateQueryParams, refetch]
+    [updateQueryParams, refetch, currentPage]
   );
+
+  useEffect(() => {
+    const queryParams = Object.fromEntries(searchParams);
+    const page = Number(queryParams.page) || 1;
+    setCurrentPage(page);
+  }, [searchParams]);
 
   useEffect(() => {
     const queryParams = Object.fromEntries(searchParams);

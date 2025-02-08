@@ -18,9 +18,10 @@ export default function CarBrands() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 ">
           {marks?.map((brand) => (
             <Card
+              hoverable
               onClick={() => navigate(`/brand?markId=${brand.id}`)}
               key={brand.id}
-              className="transition-shadow duration-300 rounded-none cursor-pointer"
+              className="transition-shadow duration-300 rounded-none cursor-pointer hover:border-0"
             >
               <div className="flex flex-col items-center space-y-2">
                 <div className="relative w-16 h-16">

@@ -9,14 +9,18 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
+import PaginationComponent from "@/components/Pagination/Pagination";
 
 const MotoPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [searchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: car } = useQuery<ICar[]>(["moto"], async () => {
-    const res = await api.get("/motorcycles");
+    const res = await api.get(
+      `/motorcycles?page=${currentPage}&pageSize=${12}`
+    );
     return res.data;
   });
 
@@ -117,6 +121,18 @@ const MotoPage = () => {
     return car || [];
   }, [filteredCars, car]);
 
+  const buttonAll = Math.ceil(filteredCars?.count / 10);
+  const buttonsPage = Array.from(
+    { length: buttonAll },
+    (_, index) => index + 1
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const queryParams = Object.fromEntries(searchParams);
+    setSearchParams({ ...queryParams, page: page.toString() });
+  };
+
   return (
     <div>
       <CarFilterCard
@@ -144,6 +160,13 @@ const MotoPage = () => {
             </Col>
           ))}
         </Row>
+      </div>
+      <div className="">
+        <PaginationComponent
+          buttonsPage={buttonsPage}
+          currentPage={currentPage}
+          setCurrentPage={handlePageChange}
+        />
       </div>
       <RequestBanner />
     </div>

@@ -20,9 +20,10 @@ const CarsPage = () => {
   const [form] = Form.useForm();
 
   const { data: car } = useQuery<ICar[]>(["car"], async () => {
-    const res = await api.get("/cars");
+    const res = await api.get(`/cars?page=${currentPage}&pageSize=${12}`);
     return res.data;
   });
+  console.log("car", car);
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
@@ -40,7 +41,7 @@ const CarsPage = () => {
           rate: rateVal ? rateVal : undefined,
           model: params.model,
           country: params.country,
-          page: 1,
+          page: currentPage,
         });
         console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
@@ -66,8 +67,7 @@ const CarsPage = () => {
     if (values.maxYear?.[0]) query.minYear = dayjs(values.maxYear[0]).format();
     if (values.maxYear?.[1]) query.maxYear = dayjs(values.maxYear[1]).format();
 
-    query.page = values.page?.toString() || "1";
-    query.pageSize = values.pageSize?.toString() || pageSize.toString();
+    query.page = values.currentPage || 1;
 
     setSearchParams(query);
   };
@@ -75,10 +75,16 @@ const CarsPage = () => {
   const handleSubmit = useCallback(
     async (values: any) => {
       updateQueryParams(values);
-      await refetch;
+      await refetch();
     },
-    [updateQueryParams, refetch]
+    [updateQueryParams, refetch, currentPage]
   );
+
+  useEffect(() => {
+    const queryParams = Object.fromEntries(searchParams);
+    const page = Number(queryParams.page) || 1;
+    setCurrentPage(page);
+  }, [searchParams]);
 
   useEffect(() => {
     const queryParams = Object.fromEntries(searchParams);
@@ -100,7 +106,6 @@ const CarsPage = () => {
       pageSize: Number(queryParams.pageSize) || pageSize,
     };
 
-    // setCurrentPage(Number(queryParams.page) || 1);
     setPageSize(Number(queryParams.pageSize) || pageSize);
     form.setFieldsValue(defaultValues);
     if (Object.keys(queryParams).length > 0) {
@@ -131,11 +136,23 @@ const CarsPage = () => {
     return car || [];
   }, [filteredCars, car]);
 
-  const buttonAll = Math.ceil(carsRender.length / 10);
+  const buttonAll = Math.ceil(
+    filteredCars?.count
+      ? filteredCars?.count / 12
+      : car
+      ? car?.length / 12
+      : filteredCars?.count / 12
+  );
   const buttonsPage = Array.from(
     { length: buttonAll },
     (_, index) => index + 1
   );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const queryParams = Object.fromEntries(searchParams);
+    setSearchParams({ ...queryParams, page: page.toString() });
+  };
 
   return (
     <div>
@@ -165,11 +182,11 @@ const CarsPage = () => {
           ))}
         </Row>
       </div>
-      <div className="bg-blue-400">
+      <div className="">
         <PaginationComponent
           buttonsPage={buttonsPage}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          setCurrentPage={handlePageChange}
         />
       </div>
       <RequestBanner />

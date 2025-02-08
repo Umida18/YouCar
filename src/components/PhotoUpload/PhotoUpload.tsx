@@ -11,6 +11,7 @@ interface PhotoUploadProps {
   value?: UploadFile[];
   url: string[] | null;
   setUrl: (i: any) => void;
+  setFileL: (i: any) => void;
 }
 
 export const BASE_URL = "https://api.youcarrf.ru";
@@ -20,15 +21,18 @@ export function PhotoUpload({
   value,
   setUrl,
   url,
+  setFileL,
 }: PhotoUploadProps) {
   const [fileList, setFileList] = useState<UploadFile[]>(value || []);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  console.log("fileList", fileList);
 
   useEffect(() => {
     if (value) {
       setFileList(value);
       // Initialize imageUrls from value if available
       setImageUrls(value.map((file) => file.url || ""));
+      setFileL(fileList);
     }
   }, [value]);
 

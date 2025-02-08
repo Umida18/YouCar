@@ -6,6 +6,7 @@ import Post from "../Account/Post";
 import Settings from "../Account/Settings";
 import Tariff from "../Account/Tariff";
 import { Col, Row } from "antd";
+import PostsUser from "../Account/Post";
 
 const Layout = () => {
   const [activeSection, setActiveSection] = useState("favorites");
@@ -29,6 +30,7 @@ const Layout = () => {
               {activeSection === "post" && <Post />}
               {activeSection === "settings" && <Settings />}
               {activeSection === "tariff" && <Tariff />}
+              {activeSection === "postsUser" && <PostsUser />}
             </div>
           </Col>
         </Row>

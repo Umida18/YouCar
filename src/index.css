@@ -64,7 +64,9 @@
     @apply bg-background text-foreground;
   }
 }
-@import url(https://db.onlinewebfonts.com/c/ec14a1aec3fa7dda39cc4a34e1e61377?family=Nanami+W05+Medium);
+/* @import url(https://db.onlinewebfonts.com/c/ec14a1aec3fa7dda39cc4a34e1e61377?family=Nanami+W05+Medium); */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 .boxShadowC {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -78,4 +80,11 @@
 .ant-input:focus {
   background-color: inherit !important;
   box-shadow: none !important;
+}
+
+.fontNanami {
+  font-family: "Nunito" !important;
+}
+body {
+  font-family: "Golos Text" !important;
 }

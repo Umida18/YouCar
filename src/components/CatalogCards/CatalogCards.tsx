@@ -84,13 +84,15 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
           </Col>
         ))}
       </Row>
-      <div className="bg-blue-400">
-        <PaginationComponent
-          buttonsPage={buttonsPage}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      </div>
+      {!limit && (
+        <div className="">
+          <PaginationComponent
+            buttonsPage={buttonsPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      )}
     </div>
   );
 };

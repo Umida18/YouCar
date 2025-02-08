@@ -23,7 +23,6 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const navigation = [
     { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
     { id: "messages", name: "Сообщения", icon: <MdOutlineSms /> },
-    // { id: "post", name: "Разместить объявление", icon: <MdOutlinePostAdd /> },
     { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
     { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
   ];
@@ -41,7 +40,6 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
     async () => {
       try {
         const res = await api.get("/user-dashboard");
-
         return res.data;
       } catch (error: any) {
         if (error.response?.status === 401) {
@@ -86,7 +84,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
         <p className="text-[#2684E5] text-[16px]">{user?.userData.email}</p>
       </div>
       <div className="flex flex-col gap-16">
-        <div className=" flex flex-col shadow-none gap-1">
+        <div className="flex flex-col shadow-none gap-1">
           <Collapse
             activeKey={activeKey}
             onChange={(key) => setActiveKey(key)}
@@ -111,7 +109,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
                 </Button>
                 <Button
                   className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => navigate("/account/myPosts")}
+                  onClick={() => navigate("/account/postsUser")}
                 >
                   Мои объявления
                 </Button>
@@ -136,7 +134,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
         <div>
           <Button
             onClick={handleLeave}
-            className="w-full  text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
+            className="w-full text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
           >
             Выйти
           </Button>
