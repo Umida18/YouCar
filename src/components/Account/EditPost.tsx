@@ -90,6 +90,7 @@ const EditPost = () => {
 
   const handleMark = (val: any) => {
     const selectedMark = marks.find((mark) => mark.mark === val);
+
     if (selectedMark) {
       setSelectedBrand(true);
       setMarkId(selectedMark.id);
@@ -97,6 +98,8 @@ const EditPost = () => {
     }
     console.log("val:", val);
   };
+
+  console.log("mark", marks);
 
   const mutation = useMutation(async (data: { mark_id: number }) => {
     const res = await api.post("/model-filter", data);
@@ -169,11 +172,12 @@ const EditPost = () => {
   };
 
   useEffect(() => {
-    if (editProd) {
+    if (editProd && marks.length > 0) {
+      const f = marks.find((mark) => mark.id === editProd.mark_id)?.mark;
       form.setFieldsValue({
         ...editProd,
-        year: editProd.year ? dayjs(editProd.year) : null,
-        mark_id: marks.find((mark) => mark.id === editProd.mark_id)?.mark,
+        year: editProd.year ? dayjs(`${editProd.year}-01-01`) : null,
+        mark_id: f,
         model: editProd.model,
       });
 
@@ -228,7 +232,7 @@ const EditPost = () => {
                   message: "Пожалуйста, выберите марку",
                 },
               ]}
-              // name="mark_id"
+              name="mark_id"
             >
               <Select
                 className=" [&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0"

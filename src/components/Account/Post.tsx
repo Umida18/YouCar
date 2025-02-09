@@ -46,7 +46,7 @@ export default function PostsUser() {
                 {getAllListings().map((item) => (
                   <Card
                     key={`${item.type}-${item.id}`}
-                    className="overflow-hidden hover:shadow-lg transition-shadow bg-[#F6F6F6] border-0 p-4"
+                    className="overflow-hidden hover:shadow-lg transition-shadow bg-[#F6F6F6] border-0 p-4 [&_.ant-card-body]:!p-0 "
                   >
                     {/* <h1>{item.id}</h1> */}
                     <div className="flex flex-col md:flex-row xl:h-[150px]">
