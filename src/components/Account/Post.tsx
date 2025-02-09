@@ -1,5 +1,3 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, Card, Button, Dropdown } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
@@ -31,18 +29,7 @@ export default function PostsUser() {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   };
-
-  const items = [
-    {
-      key: "1",
-      label: "Редактировать",
-      onclick: () => navigate("editPost"),
-    },
-    {
-      key: "2",
-      label: "Снять с публикации",
-    },
-  ];
+  console.log(getAllListings());
 
   return (
     <div className="max-w-7xl mx-auto p-4">
@@ -60,9 +47,8 @@ export default function PostsUser() {
                   <Card
                     key={`${item.type}-${item.id}`}
                     className="overflow-hidden hover:shadow-lg transition-shadow bg-[#F6F6F6] border-0 p-4"
-                    bodyStyle={{ padding: 0 }}
                   >
-                    <h1>{item.id}</h1>
+                    {/* <h1>{item.id}</h1> */}
                     <div className="flex flex-col md:flex-row xl:h-[150px]">
                       <div className="w-full md:w-[300px] h-[150px] relative">
                         <img
@@ -109,7 +95,25 @@ export default function PostsUser() {
                               <span>Нет новый сообщений</span>
                             </div>
                           </div>
-                          <Dropdown menu={{ items }} placement="bottomRight">
+                          <Dropdown
+                            menu={{
+                              items: [
+                                {
+                                  key: "1",
+                                  label: "Редактировать",
+                                  onClick: () =>
+                                    navigate(
+                                      `/editPost/${item.id}?type=${item.type}`
+                                    ),
+                                },
+                                {
+                                  key: "2",
+                                  label: "Снять с публикации",
+                                },
+                              ],
+                            }}
+                            placement="bottomRight"
+                          >
                             <Button
                               className="bg-white"
                               type="text"

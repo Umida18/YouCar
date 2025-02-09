@@ -24,6 +24,8 @@ import {
   motoType,
   statement,
 } from "@/Data/Data";
+import { useParams, useSearchParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -39,6 +41,10 @@ const EditPost = () => {
   const [markId, setMarkId] = useState<number | null>(null);
   const [hasUploadedImages, setHasUploadedImages] = useState(false);
   const [url, setUrl] = useState<string[]>([]);
+  const [param] = useSearchParams();
+  const { id } = useParams();
+  console.log(id);
+  const type = param.get("type");
 
   const [fileL, setFileL] = useState<UploadFile[]>();
 
@@ -50,6 +56,24 @@ const EditPost = () => {
 
     return res.data;
   });
+
+  const { data: editProd } = useQuery(["editProd"], async () => {
+    let endpoint = "";
+    if (type === "car") {
+      endpoint = `/cars/${id}`;
+    } else if (type === "moto") {
+      endpoint = `/motorcycles/${id}`;
+    } else if (type === "commerce") {
+      endpoint = `/commerce-cars/${id}`;
+    }
+
+    const res = await api.get(endpoint);
+    console.log("res444", res);
+
+    return res.data.result;
+  });
+
+  console.log("editProd", editProd);
 
   const handleCurrencyChange = (value: any) => {
     setCurrency(value);
@@ -143,6 +167,23 @@ const EditPost = () => {
       console.error("add error:", error);
     }
   };
+
+  useEffect(() => {
+    if (editProd) {
+      form.setFieldsValue({
+        ...editProd,
+        year: editProd.year ? dayjs(editProd.year) : null,
+        mark_id: marks.find((mark) => mark.id === editProd.mark_id)?.mark,
+        model: editProd.model,
+      });
+
+      if (editProd.mark_id && !markId) {
+        setSelectedBrand(true);
+        setMarkId(editProd.mark_id);
+        mutation.mutate({ mark_id: editProd.mark_id });
+      }
+    }
+  }, [editProd, form, marks]);
 
   return (
     <div className="flex justify-center py-12">

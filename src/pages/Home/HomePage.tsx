@@ -142,7 +142,9 @@ const HomePage = () => {
         setSelectedTab={setSelectedTab}
         setButtonLabel={setButtonLabel}
       />
-      <p className="text-3xl font-bold mt-12 mb-12">Автомобильный каталог</p>
+      <p className="text-3xl font-bold mt-12 mb-12 text-[#293843]">
+        Автомобильный каталог
+      </p>
       <CatalogCards limit={6} filteredCars={filteredCars} />
       <div className="flex justify-end">
         <Button
