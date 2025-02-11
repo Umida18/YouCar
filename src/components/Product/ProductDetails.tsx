@@ -17,7 +17,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
         <div className="px-7 py-5">
-          <p className="text-[25px] font-bold">{`${item?.mark}, ${item?.model}`}</p>
+          <p className="text-[25px] font-bold">{`${item?.mark_id}, ${item?.model}`}</p>
           <div className="flex justify-between items-center">
             <div className="flex gap-4 justify-center items-center text-[#989898] text-[16px] mt-3">
               <p>{formatDate(item?.createdAt)}</p>
@@ -37,7 +37,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
           <div className=" text-[15px] flex flex-col gap-3 w-[50%]">
             <div className="flex justify-between">
               <p className="text-[#989898]">Марка:</p>
-              <p className="font-semibold">{item?.mark}</p>
+              <p className="font-semibold">{item?.mark_id}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-[#989898]">Модель:</p>

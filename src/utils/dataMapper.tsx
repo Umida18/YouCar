@@ -19,7 +19,7 @@ export const mapCarDataToItem = (car: ICar) => ({
   description: car.description,
   authoremail: car.authoremail,
   rate: car.rate,
-  mark: car.mark,
+  mark_id: car.mark_id,
   model: car.model,
   seen: car.seen,
   liked: car.liked,

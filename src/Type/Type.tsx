@@ -20,7 +20,7 @@ export interface ICar {
   description: string;
   authoremail: string;
   rate: string;
-  mark: string;
+  mark_id: string;
   model: string;
   seen: number;
   liked: number;

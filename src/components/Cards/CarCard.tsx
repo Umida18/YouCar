@@ -1,7 +1,7 @@
 import api from "../../Api/Api";
 import { ICar } from "../../Type/Type";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, Carousel, ConfigProvider, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -66,10 +66,25 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const handleCardClick = () => {
     navigate(
       `/productDetailsPage/${item?.id}?mark=${encodeURIComponent(
-        item?.mark || ""
+        item?.mark_id || ""
       )}&model=${encodeURIComponent(item?.model || "")}&type=${itemType}`
     );
   };
+  console.log("usefinedTekshirish", item);
+
+  const { data: markId } = useQuery(
+    ["markId", item?.mark_id],
+    async () => {
+      if (typeof item?.mark_id === "number") {
+        const res = await api.get(`/marks/${item?.mark_id}`);
+        return res.data;
+      }
+      return null;
+    },
+    {
+      enabled: typeof item?.mark_id === "number",
+    }
+  );
 
   const handleLikeClick = async (id: number | any) => {
     try {
@@ -179,7 +194,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
             {/* <h1>{item?.id}</h1>
           <h1>{item?.type}</h1> */}
             <div className="flex justify-between flex-col items-start space-y-1 mb-1">
-              <h2 className="text-xl font-semibold">{`${item?.mark}, ${item?.model}`}</h2>
+              <h2 className="text-xl font-semibold text-[#293843]">{`${markId}, ${item?.model}`}</h2>
               <span className="text-xl font-bold ">{item?.cost} $</span>
             </div>
             <div className="flex justify-between text-[#989898]">
