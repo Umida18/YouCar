@@ -122,6 +122,7 @@ const NewPost = () => {
         year: correctedYear,
         authoremail: userData?.userData.email,
         mark_id: markId,
+        milage: values.milage ? values.milage : 0,
       }).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
           formData.append(key, value.toString());
@@ -274,7 +275,7 @@ const NewPost = () => {
                   <p className="text-[#989898] text-[15px]">Пробег</p>
                   <Form.Item
                     name="milage"
-                    rules={[{ required: true, message: "Введите пробег" }]}
+                    // rules={[{ required: true, message: "Введите пробег" }]}
                   >
                     <InputNumber
                       min={0}

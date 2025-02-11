@@ -176,3 +176,13 @@ export interface CarFormValues {
   model: string;
   [key: string]: any;
 }
+
+export interface CustomFile {
+  uid: string;
+  name: string;
+  lastModified: number;
+  size: number;
+  type: string;
+  percent: number;
+  originFileObj: File;
+}

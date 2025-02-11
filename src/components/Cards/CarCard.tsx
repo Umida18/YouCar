@@ -22,7 +22,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const [itemType, setItemType] = useState<string | undefined>(type);
 
   useEffect(() => {
-    setItemType(type || item?.type || "car");
+    setItemType(item?.type || type);
   }, [item, type]);
 
   const mutation = useMutation(
@@ -129,6 +129,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
     >
       <div className="flex gap-7">
         <div className="flex-1">
+          <h1>{item?.id}</h1>
+          <h1>{item?.type}</h1>
           <div className="flex justify-between flex-col items-start space-y-1 mb-1">
             <h2 className="text-xl font-semibold">{`${item?.mark}, ${item?.model}`}</h2>
             <span className="text-xl font-bold ">{item?.cost} $</span>

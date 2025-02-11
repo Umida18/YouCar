@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Upload } from "antd";
 import type { UploadFile } from "antd/es/upload/interface";
 import { FaRegTrashAlt } from "react-icons/fa";
+// import { urlToCustomFile } from "@/utils/urlToFile";
 
 interface PhotoUploadProps {
   onPhotosChange?: (fileList: UploadFile[], urls: string[]) => void;
@@ -12,6 +13,7 @@ interface PhotoUploadProps {
   url: string[] | null;
   setUrl: (i: any) => void;
   setFileL: (i: any) => void;
+  existingImages?: string[];
 }
 
 export const BASE_URL = "https://api.youcarrf.ru";
@@ -20,17 +22,46 @@ export function PhotoUpload({
   onPhotosChange,
   value,
   setUrl,
-  url,
+  // url,
   setFileL,
-}: PhotoUploadProps) {
+}: // existingImages,
+PhotoUploadProps) {
   const [fileList, setFileList] = useState<UploadFile[]>(value || []);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  // const [arrFile, setArrFile] = useState<UploadFile[]>(value || []);
   console.log("fileList", fileList);
+  // const arrFile = [];
+
+  // useEffect(() => {
+  //   const f = async () => {
+  //     // console.log("fileList", fileList); // Debugging step
+
+  //     let updatedFiles: UploadFile[] = []; // Temporary array
+
+  //     for (const file of fileList) {
+  //       if (typeof file === "string") {
+  //         console.log("Processing URL:", file);
+  //         const d = await urlToCustomFile(file);
+  //         updatedFiles.push(d as UploadFile); // Collect files in temporary array
+  //       }
+  //     }
+
+  //     if (updatedFiles.length > 0) {
+  //       setFileList((prev) => {
+  //         // Filter out string elements and add new UploadFile objects
+  //         const filteredPrev = prev.filter((i) => typeof i !== "string");
+  //         return [...filteredPrev, ...updatedFiles];
+  //       });
+  //     }
+  //   };
+
+  //   f();
+  // }, [fileList]);
+  // Depend on `fileList` to re-run when it changes
 
   useEffect(() => {
     if (value) {
       setFileList(value);
-      // Initialize imageUrls from value if available
       setImageUrls(value.map((file) => file.url || ""));
       setFileL(fileList);
     }
@@ -45,9 +76,6 @@ export function PhotoUpload({
 
     const updatedList = [...fileList, ...newFileList];
     setFileList(updatedList);
-    console.log("updatedList", updatedList);
-    // console.log("imageUrls", imageUrls);
-    // console.log("url", url);
 
     const newUrls = newFileList.map((file) => {
       if (file.originFileObj) {
@@ -57,9 +85,6 @@ export function PhotoUpload({
     });
 
     setImageUrls((prevUrls) => [...prevUrls, ...newUrls]);
-    console.log("fileList22", fileList);
-    console.log("imageUrls22", imageUrls);
-    console.log("url22", url);
 
     onPhotosChange?.(updatedList, [...imageUrls, ...newUrls]);
     setUrl((prev: any) => [...prev, ...imageUrls]);
@@ -81,6 +106,9 @@ export function PhotoUpload({
       ]);
     }
   }, [imageUrls]);
+
+  // console.log("existingImages", existingImages);
+  // console.log("fileList", fileList);
 
   return (
     <div className="w-full ">
@@ -108,27 +136,36 @@ export function PhotoUpload({
         </Upload>
       ) : (
         <div className="flex flex-wrap gap-4">
-          {fileList.map((file, index) => (
-            <div key={file.uid} className="relative">
-              <img
-                src={
-                  file.originFileObj
-                    ? URL.createObjectURL(file.originFileObj)
-                    : file.url
-                    ? `${BASE_URL}${file.url}`
-                    : ""
-                }
-                alt={`Photo ${index + 1}`}
-                className="h-[150px] w-[150px] object-cover rounded-lg"
-              />
-              <button
-                onClick={() => handleRemove(index)}
-                className="absolute top-2 right-2 bg-white text-[#2684E5] hover:bg-[#2684E5] hover:text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
+          {fileList.map((file, index) => {
+            let src = "";
+            if (typeof file === "string") {
+              src = file;
+            } else if (file.originFileObj) {
+              src = URL.createObjectURL(file.originFileObj);
+            } else if (file.url) {
+              src = `${BASE_URL}${file.url}`;
+            }
+
+            return (
+              <div
+                key={typeof file === "object" && file.uid ? file.uid : index}
+                className="relative"
               >
-                <FaRegTrashAlt />
-              </button>
-            </div>
-          ))}
+                <img
+                  src={src}
+                  alt={`Photo ${index + 1}`}
+                  className="h-[150px] w-[150px] object-cover rounded-lg"
+                />
+                <button
+                  onClick={() => handleRemove(index)}
+                  className="absolute top-2 right-2 bg-white text-[#2684E5] hover:bg-[#2684E5] hover:text-white rounded-full w-8 h-8 flex items-center justify-center text-sm"
+                >
+                  <FaRegTrashAlt />
+                </button>
+              </div>
+            );
+          })}
+
           <Upload
             listType="picture-card"
             fileList={[]}

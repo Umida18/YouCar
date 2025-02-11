@@ -11,10 +11,14 @@ import { useNavigate } from "react-router-dom";
 export default function PostsUser() {
   const navigate = useNavigate();
 
-  const { data: userData } = useQuery(["userData"], async () => {
-    const res = await api.get("/user-dashboard");
-    return res.data;
-  });
+  const { data: userData } = useQuery(
+    ["userData"],
+    async () => {
+      const res = await api.get("/user-dashboard");
+      return res.data;
+    },
+    { staleTime: 0 }
+  );
 
   const getAllListings = () => {
     if (!userData?.yours?.result) return [];
@@ -29,7 +33,7 @@ export default function PostsUser() {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   };
-  console.log(getAllListings());
+  console.log("getttt", getAllListings());
 
   return (
     <div className="max-w-7xl mx-auto p-4">

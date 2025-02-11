@@ -1,6 +1,6 @@
 import api from "@/Api/Api";
 import { CarFormValues, IMark, IUser } from "@/Type/Type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   DatePicker,
   Divider,
@@ -9,6 +9,7 @@ import {
   Radio,
   Select,
   UploadFile,
+  notification,
 } from "antd";
 import { useEffect, useState } from "react";
 import { PhotoUpload } from "../PhotoUpload/PhotoUpload";
@@ -24,8 +25,9 @@ import {
   motoType,
   statement,
 } from "@/Data/Data";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
+import { urlToCustomFile } from "@/utils/urlToFile";
 
 const { Option } = Select;
 
@@ -43,8 +45,9 @@ const EditPost = () => {
   const [url, setUrl] = useState<string[]>([]);
   const [param] = useSearchParams();
   const { id } = useParams();
-  console.log(id);
-  const type = param.get("type");
+  const typeC = param.get("type");
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [fileL, setFileL] = useState<UploadFile[]>();
 
@@ -59,12 +62,15 @@ const EditPost = () => {
 
   const { data: editProd } = useQuery(["editProd"], async () => {
     let endpoint = "";
-    if (type === "car") {
+    if (typeC === "car") {
       endpoint = `/cars/${id}`;
-    } else if (type === "moto") {
+      setSelectedType(typeC);
+    } else if (typeC === "moto") {
       endpoint = `/motorcycles/${id}`;
-    } else if (type === "commerce") {
+      setSelectedType(typeC);
+    } else if (typeC === "commerce") {
       endpoint = `/commerce-cars/${id}`;
+      setSelectedType(typeC);
     }
 
     const res = await api.get(endpoint);
@@ -72,8 +78,6 @@ const EditPost = () => {
 
     return res.data.result;
   });
-
-  console.log("editProd", editProd);
 
   const handleCurrencyChange = (value: any) => {
     setCurrency(value);
@@ -99,8 +103,6 @@ const EditPost = () => {
     console.log("val:", val);
   };
 
-  console.log("mark", marks);
-
   const mutation = useMutation(async (data: { mark_id: number }) => {
     const res = await api.post("/model-filter", data);
     setModel([
@@ -121,55 +123,103 @@ const EditPost = () => {
     return res.data;
   });
 
+  console.log("fileee", fileL);
+
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
-      console.log("values", values);
+      console.log("values1111", values);
 
       let endpoint = "";
-      if (selectedType === "motorcycles") {
-        endpoint = "/update-motorcycle/";
-      } else if (selectedType === "commercial") {
-        endpoint = "/update-commerce-car/";
-      } else if (selectedType === "cars") {
-        endpoint = "/update-car/";
+      if (selectedType === "moto") {
+        endpoint = "/update-motorcycle";
+      } else if (selectedType === "commerce") {
+        endpoint = "/update-commerce-car";
+      } else if (selectedType === "car") {
+        endpoint = "/update-car";
       }
 
       const { image, authoremail, ...filteredValues } = values;
-
-      const formData = new FormData();
 
       const correctedYear = values.year
         ? new Date(values.year).getFullYear()
         : null;
 
-      Object.entries({
+      const formattedValues = {
         ...filteredValues,
-        year: correctedYear,
+        year: correctedYear ? Number(correctedYear) : undefined,
+        cost: values.cost ? Number(values.cost) : undefined,
+        milage: values.milage ? Number(values.milage) : undefined,
+        volume: values.volume ? Number(values.volume) : undefined,
+        horsepower: values.horsepower ? Number(values.horsepower) : undefined,
+        doors: values.doors ? Number(values.doors) : undefined,
+        mark_id: markId ? Number(markId) : undefined,
         authoremail: userData?.userData.email,
-        mark_id: markId,
-      }).forEach(([key, value]) => {
+      };
+
+      const formData = new FormData();
+
+      Object.entries(formattedValues).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
           formData.append(key, value.toString());
         }
       });
 
-      fileL?.forEach((file: any) => {
-        if (file.originFileObj) {
+      // fileL?.forEach((file: UploadFile<any>) => {
+      //   if (file?.originFileObj) {
+      //     // If it's an uploaded file object with originFileObj
+      //     // formData.append("image", file.originFileObj);
+      //   } else {
+      //     console.warn("Unexpected file format:", file);
+      //   }
+      // });
+
+      // const arrImg = [];
+      for (const file of values.image) {
+        if (typeof file === "string") {
+          console.log("Processing URL:", file);
+          const d = await urlToCustomFile(file);
+          console.log("Converted file:", d);
+
+          if (d.originFileObj) {
+            formData.append("image", d.originFileObj); // Haqiqiy File obyekti
+          } else {
+            console.error("Missing originFileObj in converted file:", d);
+          }
+        } else if (file?.originFileObj) {
+          // Agar allaqachon UploadFile bo‘lsa
           formData.append("image", file.originFileObj);
         }
-      });
+      }
 
+      // arrImg.forEach((file) => {
+      //   formData.append("image", file.originFileObj);
+      // });
+
+      // console.log("arrImg", arrImg);
       console.log("Final FormData payload:", formData);
+      console.log(`${endpoint}/${id}`);
 
-      const res = await api.put(endpoint, formData, {
+      const res = await api.put(`${endpoint}/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       console.log("res:", res);
+      notification.success({
+        message: "Успешно",
+        description: "Данные успешно обновлены!",
+      });
+      queryClient.invalidateQueries(["userData"]);
+      navigate("/account/myPosts");
     } catch (error) {
       console.error("add error:", error);
+      notification.error({
+        message: "Ошибка",
+        description: "Произошла ошибка при обновлении транспортного средства.",
+      });
     }
   };
+
+  console.log("fileL", fileL);
 
   useEffect(() => {
     if (editProd && marks.length > 0) {
@@ -188,6 +238,7 @@ const EditPost = () => {
       }
     }
   }, [editProd, form, marks]);
+  console.log(editProd);
 
   return (
     <div className="flex justify-center py-12">
@@ -203,9 +254,9 @@ const EditPost = () => {
             <div className="bg-muted rounded-full p-1 mb-6">
               <nav className="flex justify-between space-x-1" role="tablist">
                 {[
-                  { id: "cars", label: "Автомобили" },
-                  { id: "commercial", label: "Коммерческий транспорт" },
-                  { id: "motorcycles", label: "Мотоциклы" },
+                  { id: "car", label: "Автомобили" },
+                  { id: "commerce", label: "Коммерческий транспорт" },
+                  { id: "moto", label: "Мотоциклы" },
                 ].map((type) => (
                   <button
                     type="button"
@@ -213,9 +264,9 @@ const EditPost = () => {
                     onClick={() => setSelectedType(type.id)}
                     className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
                 ${
-                  selectedType === type.id
+                  selectedType === typeC && selectedType === type.id
                     ? "bg-background text-foreground shadow-sm"
-                    : "text-muted-foreground hover:bg-background/50"
+                    : "text-muted-foreground hover:bg-background/50 cursor-not-allowed"
                 }`}
                     role="tab"
                     aria-selected={selectedType === type.id}
@@ -287,7 +338,6 @@ const EditPost = () => {
                   placeholder="Год"
                   style={{
                     width: "80px",
-                    //   height: "63px",
                     backgroundColor: "#F4F4F4",
                     border: 0,
                   }}
@@ -634,6 +684,7 @@ const EditPost = () => {
                 <PhotoUpload
                   url={url}
                   setUrl={setUrl}
+                  existingImages={editProd?.image}
                   onPhotosChange={(fileList) => {
                     form.setFieldsValue({ image: fileList });
                     setHasUploadedImages(fileList && fileList.length > 0);
