@@ -2,6 +2,7 @@ import { Card } from "antd";
 import { INews } from "../../Type/Type";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 interface PropsNews {
   item: INews | undefined;
@@ -30,23 +31,13 @@ const NewsCard: React.FC<PropsNews> = ({ item }) => {
       }
     >
       <div className=" space-y-3 p-0">
-        <h2 className="text-xl font-semibold line-clamp-2">{item?.title}</h2>
-        <p className="text-gray-600 line-clamp-2 max-w-96">{item?.content}</p>
-        <button className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-2">
+        <h2 className="text-xl font-bold line-clamp-2 text-[#293843]">
+          {item?.title}
+        </h2>
+        <p className="text-[#989898] line-clamp-2 max-w-80">{item?.content}</p>
+        <button className="text-[#293843] font-medium inline-flex items-center gap-1 underline">
           Подробнее
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+          <IoIosArrowRoundForward className="mt-1 text-[26px]" />
         </button>
       </div>
     </Card>

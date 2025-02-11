@@ -1,4 +1,5 @@
 import { Rate } from "antd";
+import { GoLinkExternal } from "react-icons/go";
 
 interface Review {
   name: string;
@@ -37,34 +38,30 @@ export default function Reviews() {
           <div key={index} className="bg-white rounded-lg boxShadowC p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 relative mr-4">
+                <div className="w-16 h-16 relative mr-4">
                   <div className="absolute inset-0 bg-[#FF4B4B] rounded-full flex items-center justify-center text-white text-2xl font-bold">
                     Я
                   </div>
                 </div>
                 <div>
+                  <p className="flex items-center gap-1 text-[#8C8C8C]">
+                    Яндекс <GoLinkExternal className="mt-1" />
+                  </p>
                   <div className="flex items-center">
                     <h3 className="text-lg font-medium mr-2">{review.name}</h3>
-                    {/* <img
-                    src="/placeholder.svg"
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="opacity-60"
-                  /> */}
                   </div>
-                  <p className="text-gray-500 text-sm">{review.date}</p>
+                  <p className="text-[#8C8C8C] text-sm">{review.date}</p>
                 </div>
               </div>
               <div>
                 <Rate
                   disabled
                   defaultValue={review.rating}
-                  className="mb-4 text-yellow-400"
+                  className="mb-4 text-[#F5AB30]"
                 />
               </div>
             </div>
-            <p className="text-gray-700 text-sm leading-relaxed">
+            <p className="text-[#414141] text-sm leading-relaxed">
               {review.text}
             </p>
           </div>
