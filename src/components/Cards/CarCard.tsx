@@ -2,8 +2,8 @@ import api from "../../Api/Api";
 import { ICar } from "../../Type/Type";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card, notification } from "antd";
-import { useEffect, useState } from "react";
+import { Card, Carousel, ConfigProvider, notification } from "antd";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ItemCardProps {
@@ -18,7 +18,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const queryClient = useQueryClient();
 
   const [liked, setLiked] = useState(false);
-
+  const [_, setCurrentSlide] = useState(0);
+  const carouselRef = React.useRef<any>();
   const [itemType, setItemType] = useState<string | undefined>(type);
 
   useEffect(() => {
@@ -112,57 +113,104 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
     }
   }, [item?.liked_user]);
 
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: false,
+    draggable: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   return (
-    <Card
-      hoverable
-      onClick={handleCardClick}
-      className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:px-4 boxShadowC cursor-pointer"
-      cover={
-        <div className="relative h-[240px]">
-          <img
-            src={item?.image[0]}
-            alt={item?.model}
-            className="object-cover h-full w-full rounded-2xl "
-          />
-        </div>
-      }
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#2684E5",
+        },
+      }}
     >
-      <div className="flex gap-7">
-        <div className="flex-1">
-          <h1>{item?.id}</h1>
-          <h1>{item?.type}</h1>
-          <div className="flex justify-between flex-col items-start space-y-1 mb-1">
-            <h2 className="text-xl font-semibold">{`${item?.mark}, ${item?.model}`}</h2>
-            <span className="text-xl font-bold ">{item?.cost} $</span>
-          </div>
-          <div className="flex justify-between text-[#989898]">
-            <div className="flex flex-col space-y-1">
-              <span>{item?.milage} км</span>
-              <span>{item?.engine}</span>
+      <Card
+        hoverable
+        className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:p-0 boxShadowC cursor-pointer"
+      >
+        <Carousel
+          className="[&_.slick-dots]:!bottom-0 [&_.slick-dots]:!w-full [&_.slick-dots-bottom]:!w-full
+           [&_.slick-dots]:!mb-0 [&_.slick-dots]:absolute [&_.slick-dots]:flex 
+           [&_.slick-dots]:justify-between [&_.slick-dots]:px-4
+           [&_.slick-dots_li]:!flex-1 [&_.slick-dots_li]:!m-0
+           [&_.slick-dots_li_button]:!h-1 [&_.slick-dots_li_button]:!w-full
+           [&_.slick-dots_li_button]:!rounded-md [&_.slick-dots_li_button]:!bg-gray-300
+           [&_.slick-dots_li.slick-active_button]:!bg-blue-500"
+          ref={carouselRef}
+          {...carouselSettings}
+          beforeChange={(_, to) => setCurrentSlide(to)}
+        >
+          {item?.image.map((i) => (
+            <div
+              className="relative h-[240px] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={i}
+                alt={item?.model}
+                className="object-cover h-full w-full rounded-2xl "
+              />
             </div>
-            <div className="flex flex-col space-y-1">
-              <span>{item?.checkpoint}</span>
-              <span>{item?.drive}</span>
+          ))}
+        </Carousel>
+        <div className="flex gap-7 p-4" onClick={handleCardClick}>
+          <div className="flex-1">
+            {/* <h1>{item?.id}</h1>
+          <h1>{item?.type}</h1> */}
+            <div className="flex justify-between flex-col items-start space-y-1 mb-1">
+              <h2 className="text-xl font-semibold">{`${item?.mark}, ${item?.model}`}</h2>
+              <span className="text-xl font-bold ">{item?.cost} $</span>
             </div>
+            <div className="flex justify-between text-[#989898]">
+              <div className="flex flex-col space-y-1">
+                <span>{item?.milage} км</span>
+                <span>{item?.engine}</span>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <span>{item?.checkpoint}</span>
+                <span>{item?.drive}</span>
+              </div>
+            </div>
+            <div className="pt-2 text-gray-500">{item?.country}</div>
           </div>
-          <div className="pt-2 text-gray-500">{item?.country}</div>
+          <div className="px-2 flex  items-end">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLikeClick(item?.id);
+              }}
+            >
+              {liked ? (
+                <HeartFilled style={{ color: "red", fontSize: "20px" }} />
+              ) : (
+                <HeartOutlined style={{ color: "#989898", fontSize: "20px" }} />
+              )}
+            </button>
+          </div>
         </div>
-        <div className="px-2 flex  items-end">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleLikeClick(item?.id);
-            }}
-          >
-            {liked ? (
-              <HeartFilled style={{ color: "red", fontSize: "20px" }} />
-            ) : (
-              <HeartOutlined style={{ color: "#989898", fontSize: "20px" }} />
-            )}
-          </button>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </ConfigProvider>
   );
 };
 
