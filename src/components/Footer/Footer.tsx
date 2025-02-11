@@ -3,7 +3,7 @@ import { IMarks } from "@/Type/Type";
 import { useQuery } from "@tanstack/react-query";
 import { Row, Col, Typography, Space } from "antd";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export default function FooterComponent() {
   const { data: marks } = useQuery<IMarks[]>(["marksBrand"], async () => {
@@ -30,17 +30,15 @@ export default function FooterComponent() {
         <div className=" border-t border-gray-200 pt-12 flex flex-col justify-between">
           <Row gutter={[32, 32]} className="mb-8">
             <Col xs={24} md={6}>
-              <div className="space-y-4">
+              <div className="">
                 <a href="/" className="inline-block">
-                  <div className="flex items-center space-x-1">
-                    <span className="text-2xl font-bold text-blue-500">
-                      You
-                    </span>
-                    <span className="text-2xl font-bold">Car</span>
+                  <div className="flex items-center mb-5 text-[30px]">
+                    <span className=" font-bold text-blue-500">You</span>
+                    <span className=" font-bold">Car</span>
                   </div>
                 </a>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-gray-500 hover:text-gray-700">
+                <div className="flex space-x-4 mb-5 !text-[#989898] ">
+                  <a href="#" className=" ">
                     <svg
                       className="w-6 h-6"
                       viewBox="0 0 24 24"
@@ -49,7 +47,7 @@ export default function FooterComponent() {
                       <path d="M21.547 7.016c0.014 0.188 0.014 0.375 0.014 0.563 0 5.766-4.391 12.422-12.422 12.422-2.469 0-4.766-0.719-6.703-1.969 0.352 0.039 0.688 0.053 1.055 0.053 2.039 0 3.922-0.695 5.422-1.875-1.922-0.039-3.531-1.305-4.086-3.047 0.27 0.039 0.547 0.066 0.832 0.066 0.398 0 0.797-0.053 1.168-0.156-2.004-0.406-3.508-2.172-3.508-4.297v-0.055c0.578 0.32 1.25 0.516 1.961 0.539-1.18-0.785-1.953-2.133-1.953-3.656 0-0.813 0.219-1.562 0.598-2.211 2.156 2.656 5.391 4.391 9.023 4.578-0.070-0.32-0.109-0.652-0.109-0.984 0-2.367 1.914-4.281 4.281-4.281 1.234 0 2.344 0.52 3.125 1.355 0.969-0.188 1.891-0.539 2.711-1.023-0.32 0.992-0.992 1.828-1.875 2.355 0.859-0.094 1.688-0.328 2.453-0.66-0.578 0.852-1.305 1.602-2.133 2.203z" />
                     </svg>
                   </a>
-                  <a href="#" className="text-gray-500 hover:text-gray-700">
+                  <a href="#" className=" ">
                     <svg
                       className="w-6 h-6"
                       viewBox="0 0 24 24"
@@ -58,7 +56,7 @@ export default function FooterComponent() {
                       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                     </svg>
                   </a>
-                  <a href="#" className="text-gray-500 hover:text-gray-700">
+                  <a href="#" className="">
                     <svg
                       className="w-6 h-6"
                       viewBox="0 0 24 24"
@@ -68,14 +66,14 @@ export default function FooterComponent() {
                     </svg>
                   </a>
                 </div>
-                <Text className="text-gray-500 block">© 1-й автоброкер</Text>
-                <Text className="text-gray-500 block">
+                <p className="text-gray-500 block">© 1-й автоброкер</p>
+                <p className="text-gray-500 block">
                   Внесём качественные изменения в Вашу жизнь!
-                </Text>
+                </p>
               </div>
             </Col>
 
-            <Col xs={24} md={4}>
+            <Col xs={12} md={4}>
               <Title level={5} className="mb-4">
                 Компания
               </Title>
@@ -107,7 +105,7 @@ export default function FooterComponent() {
               </Space>
             </Col>
 
-            <Col xs={24} md={4}>
+            <Col xs={12} md={4}>
               <Title level={5} className="mb-4">
                 Автомобили
               </Title>
@@ -144,14 +142,18 @@ export default function FooterComponent() {
             </Col>
           </Row>
 
-          <Row className="pt-4 border-t border-gray-200">
-            <Col span={12}>
-              <a href="#" className="text-gray-500 hover:text-gray-700">
+          <Row className="pt-4 flex ">
+            <Col
+              xs={14}
+              span={8}
+              className="flex justify-start xl:justify-end "
+            >
+              <a href="#" className="text-gray-500 hover:text-gray-700 ">
                 Политика конфиденциальности
               </a>
             </Col>
-            <Col span={12} className="text-right">
-              <Text className="text-gray-500">Сделано в UserTech</Text>
+            <Col xs={10} span={8} className="text-right">
+              <p className="text-gray-500">Сделано в UserTech</p>
             </Col>
           </Row>
         </div>
