@@ -27,7 +27,7 @@ const RequestBanner = () => {
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">
             <div>
-              <div className="flex flex-col  justify-center relative text-white px-5">
+              <div className="flex flex-col  justify-center relative text-white px-5 gap-1">
                 <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
                   Не можете определится с выбором?
                 </h3>
