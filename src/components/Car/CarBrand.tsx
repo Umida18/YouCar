@@ -21,18 +21,17 @@ export default function CarBrands() {
               hoverable
               onClick={() => navigate(`/brand?markId=${brand.id}`)}
               key={brand.id}
-              className="transition-shadow duration-300 rounded-none cursor-pointer hover:border-0"
+              className="transition-shadow duration-300 rounded-none cursor-pointer outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:p-2 flex flex-col justify-center items-center "
             >
               <div className="flex flex-col items-center space-y-2">
-                <div className="relative w-16 h-16">
-                  <img
-                    src={brand.image}
-                    alt={`${brand.mark_name} logo`}
-                    className="object-contain"
-                  />
-                </div>
+                {/* <div className="relative w-16 h-16 fl"> */}
+                <img
+                  src={brand.image}
+                  alt={`${brand.mark_name} logo`}
+                  className="object-contain w-[130px]"
+                />
+                {/* </div> */}
                 <span className="text-center text-sm font-medium">
-                  {brand.id}
                   {brand.mark_name}
                 </span>
               </div>

@@ -194,8 +194,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
             {/* <h1>{item?.id}</h1>
           <h1>{item?.type}</h1> */}
             <div className="flex justify-between flex-col items-start space-y-1 mb-1">
-              <h2 className="text-xl font-semibold text-[#293843]">{`${markId}, ${item?.model}`}</h2>
-              <span className="text-xl font-bold ">{item?.cost} $</span>
+              <h2 className="text-xl font-semibold text-[#293843] ">{`${markId}, ${item?.model}`}</h2>
+              <span className="text-xl font-bold text-[#293843]">
+                {item?.cost} $
+              </span>
             </div>
             <div className="flex justify-between text-[#989898]">
               <div className="flex flex-col space-y-1">
