@@ -53,7 +53,10 @@ const ProductPage = () => {
   );
 
   const breadcrumbItems = [
-    { label: `${markId} ${car?.result.model}`, path: "/catalog" },
+    {
+      label: `${markId} ${car?.result.model} ${car?.result.year}`,
+      path: "/productDetailsPage/:id",
+    },
   ];
 
   return (

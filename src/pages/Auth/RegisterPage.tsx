@@ -101,10 +101,10 @@ const RegisterPage = () => {
             rules={[{ required: true, message: "Введите имя." }]}
             style={{ width: "100%" }}
           >
-            <Input
+            <input
               placeholder="Имя"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-2 rounded-md"
             />
           </Form.Item>
           <Form.Item
@@ -115,10 +115,10 @@ const RegisterPage = () => {
             ]}
             style={{ width: "100%" }}
           >
-            <Input
+            <input
               placeholder="E-mail"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-2 rounded-md"
             />
           </Form.Item>
           <Form.Item

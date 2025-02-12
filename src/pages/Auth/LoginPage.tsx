@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, notification } from "antd";
+import { Button, Checkbox, Form, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../Api/Api";
@@ -76,17 +76,17 @@ const LoginPage = () => {
           className="w-full flex flex-col items-center"
         >
           <Form.Item name={"email"} style={{ width: "100%" }}>
-            <Input
+            <input
               placeholder="E-mail"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-2 rounded-md"
             />
           </Form.Item>
           <Form.Item name={"password"} style={{ width: "100%" }}>
-            <Input
+            <input
               placeholder="Введите пароль"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-2 rounded-md"
             />
           </Form.Item>
           <div className="flex justify-between items-center w-full">
