@@ -84,7 +84,7 @@ const BottomHeader = () => {
               >
                 <a
                   href="/cars"
-                  className="flex justify-center gap-2 items-center"
+                  className="flex justify-center gap-2 items-center text-black hover:text-black"
                 >
                   <span className="text-[16px] ">Автомобили</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
@@ -103,7 +103,7 @@ const BottomHeader = () => {
               >
                 <a
                   href="/commerceCars"
-                  className="flex justify-center gap-2 items-center"
+                  className="flex justify-center gap-2 items-center text-black hover:text-black"
                 >
                   <span className="text-[16px]">Коммерческий транспорт</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
@@ -122,7 +122,7 @@ const BottomHeader = () => {
               >
                 <a
                   href="/motobykes"
-                  className="flex justify-center gap-2 items-center"
+                  className="flex justify-center gap-2 items-center text-black hover:text-black"
                 >
                   <span className="text-[16px]">Мотоциклы</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />

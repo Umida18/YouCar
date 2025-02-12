@@ -18,22 +18,6 @@ export function CountryDropdown({
   onClose: () => void;
   type?: "cars" | "commerceCars" | "motobykes";
 }) {
-  //   const [countries, _] = useState<Country[]>([
-  //     { id: 1, name: "Авто из ОАЭ", image: "https://example.com/uae-flag.png" },
-  //     {
-  //       id: 2,
-  //       name: "Авто из Китая",
-  //       image: "https://example.com/china-flag.png",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Авто из Кореи",
-  //       image: "https://example.com/korea-flag.png",
-  //     },
-  //     { id: 4, name: "Авто из Европы", image: "https://example.com/eu-flag.png" },
-  //     { id: 5, name: "Авто из США", image: "https://example.com/usa-flag.png" },
-  //   ]);
-
   const { data: countries } = useQuery<Country[]>(["countries"], async () => {
     const res = await api.get("/country");
     return res.data;
