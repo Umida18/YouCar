@@ -1,9 +1,7 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { Carousel } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import type { ICar } from "../../Type/Type";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 
 interface PropsCar {
   item: ICar;
@@ -15,12 +13,10 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
   const carouselRef = React.useRef<any>();
   const VISIBLE_THUMBNAILS = 4;
 
-  // Thumbnaillar oralig'ini hisoblash
   const endIndex = thumbnailStartIndex + VISIBLE_THUMBNAILS;
   const hasNextImages = endIndex < item.image.length;
   const hasPrevImages = thumbnailStartIndex > 0;
 
-  // Carousel o'zgarganda thumbnaillarni sync qilish
   useEffect(() => {
     if (currentSlide < thumbnailStartIndex) {
       setThumbnailStartIndex(
@@ -33,14 +29,12 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
     }
   }, [currentSlide, thumbnailStartIndex, endIndex]);
 
-  // Keyingi thumbnaillar guruhiga o'tish
   const showNextThumbnails = () => {
     const newStartIndex = endIndex;
     setThumbnailStartIndex(newStartIndex);
     carouselRef.current?.goTo(newStartIndex);
   };
 
-  // Oldingi thumbnaillar guruhiga o'tish
   const showPrevThumbnails = () => {
     const newStartIndex = Math.max(0, thumbnailStartIndex - VISIBLE_THUMBNAILS);
     setThumbnailStartIndex(newStartIndex);
@@ -51,6 +45,8 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
     <div className="rounded-xl">
       <div className="relative mb-4">
         <Carousel
+          dots={false}
+          draggable={true}
           ref={carouselRef}
           beforeChange={(_, to) => setCurrentSlide(to)}
         >
@@ -67,15 +63,15 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
 
         <button
           onClick={() => carouselRef.current?.prev()}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-lg hover:bg-white"
         >
-          <LeftOutlined className="text-xl" />
+          <IoIosArrowRoundBack className="text-xl" />
         </button>
         <button
           onClick={() => carouselRef.current?.next()}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-lg hover:bg-white"
         >
-          <RightOutlined className="text-xl" />
+          <IoIosArrowRoundForward className="text-xl" />
         </button>
       </div>
 

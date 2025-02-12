@@ -21,9 +21,12 @@ const Favorites = () => {
       <Row gutter={[36, 36]}>
         {fav &&
           [
-            ...(fav.cars || []),
-            ...(fav.moto || []),
-            ...(fav.commerce || []),
+            ...(fav.cars || []).map((item: any) => ({ ...item, type: "car" })),
+            ...(fav.moto || []).map((item: any) => ({ ...item, type: "moto" })),
+            ...(fav.commerce || []).map((item: any) => ({
+              ...item,
+              type: "commerce",
+            })),
           ].map((item, index) => (
             <Col key={index} xl={12}>
               <ItemCard item={item} />

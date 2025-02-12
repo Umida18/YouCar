@@ -23,7 +23,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const [itemType, setItemType] = useState<string | undefined>(type);
 
   useEffect(() => {
-    setItemType(item?.type || type);
+    setItemType(item?.type || type || "car");
   }, [item, type]);
 
   const mutation = useMutation(

@@ -53,6 +53,18 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                     <p className="text-[#989898]">Топливо:</p>
                     <p className="font-semibold">{item?.engine}</p>
                   </div>
+                  <div className="flex justify-between">
+                    <p className="text-[#989898]">Владельцы:</p>
+                    <p className="font-semibold">1</p>
+                  </div>
+                  <div className="flex justify-between">
+                    <p className="text-[#989898]">Мощность:</p>
+                    <p className="font-semibold">{item.horsepower}</p>
+                  </div>
+                  <div className="flex justify-between">
+                    <p className="text-[#989898]">Объем:</p>
+                    <p className="font-semibold">{item.volume}</p>
+                  </div>
                 </div>
               </div>
             </div>
