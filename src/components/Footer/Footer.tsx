@@ -24,6 +24,21 @@ export default function FooterComponent() {
 
   const chunks = chunkArray(marks || [], chunkSize);
 
+  const country = [
+    { label: "Из Европы" },
+    { label: "Из США" },
+    { label: "Из ОАЭ" },
+    { label: "Из Китая" },
+    { label: "Из Кореи" },
+  ];
+
+  const navig = [
+    { link: "/catalog", label: "Каталог" },
+    { link: "/news", label: "Новости" },
+    { link: "/contact", label: "Контакты" },
+    { link: "/account/favorites", label: "Избранные" },
+  ];
+
   return (
     <div>
       <div className="container mx-auto bg-white pt-8 pb-4 xl:!px-14 px-4">
@@ -78,30 +93,11 @@ export default function FooterComponent() {
                 Компания
               </Title>
               <Space direction="vertical" className="w-full">
-                <a
-                  href="/catalog"
-                  className="text-gray-500 hover:text-blue-500"
-                >
-                  Каталог
-                </a>
-                <a href="/#about" className="text-gray-500 hover:text-blue-500">
-                  О нас
-                </a>
-                <a href="/news" className="text-gray-500 hover:text-blue-500">
-                  Новости
-                </a>
-                <a
-                  href="/contact"
-                  className="text-gray-500 hover:text-blue-500"
-                >
-                  Контакты
-                </a>
-                <a
-                  href="/account/favorites"
-                  className="text-gray-500 hover:text-blue-500"
-                >
-                  Избранные
-                </a>
+                {navig.map((i) => (
+                  <a href={i.link} className="text-[#5A5A5A]">
+                    {i.label}
+                  </a>
+                ))}
               </Space>
             </Col>
 
@@ -110,11 +106,9 @@ export default function FooterComponent() {
                 Автомобили
               </Title>
               <Space direction="vertical" className="w-full">
-                <p className="text-gray-500 hover:text-gray-700">Из Европы</p>
-                <p className="text-gray-500 hover:text-gray-700">Из США</p>
-                <p className="text-gray-500 hover:text-gray-700">Из ОАЭ</p>
-                <p className="text-gray-500 hover:text-gray-700">Из Китая</p>
-                <p className="text-gray-500 hover:text-gray-700">Из Кореи</p>
+                {country.map((i) => (
+                  <p className="text-[#5A5A5A]">{i.label}</p>
+                ))}
               </Space>
             </Col>
 
@@ -130,7 +124,7 @@ export default function FooterComponent() {
                         <a
                           href={`/brand?markId=${mark.id}`}
                           key={mark.id}
-                          className="text-gray-500 hover:text-blue-500"
+                          className="text-[#5A5A5A] font-semibold"
                         >
                           {mark.mark_name}
                         </a>

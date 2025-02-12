@@ -70,7 +70,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
       )}&model=${encodeURIComponent(item?.model || "")}&type=${itemType}`
     );
   };
-  console.log("usefinedTekshirish", item);
 
   const { data: markId } = useQuery(
     ["markId", item?.mark_id],

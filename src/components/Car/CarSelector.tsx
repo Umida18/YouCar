@@ -111,7 +111,7 @@ export default function CarSelector({
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">
-        <h1 className="text-3xl font-bold mt-12 mb-12 text-[#293843]">
+        <h1 className="text-3xl font-bold  mb-12 text-[#293843]">
           {title ? title : "Подбор авто"}
         </h1>
 

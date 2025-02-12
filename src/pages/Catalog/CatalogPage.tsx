@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
 import CarSelector from "../../components/Car/CarSelector";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 
 dayjs.extend(utc);
 
@@ -109,8 +110,11 @@ const CatalogPage = () => {
     }
   }, [searchParams, form, refetch, selectedTab]);
 
+  const breadcrumbItems = [{ label: "Каталог", path: "/catalog" }];
+
   return (
     <>
+      <Breadcrumb items={breadcrumbItems} />
       <CarSelector
         form={form}
         handleSubmit={handleSubmit}

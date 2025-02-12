@@ -20,6 +20,7 @@ const HomePage = () => {
   const [filteredCars, setFilteredCars] = useState<FilteredAuto | null>(null);
   const [buttonLabel, setButtonLabel] = useState("Поиск");
   const [selectedTab, setSelectedTab] = useState<string>("car");
+  // const [changesVal, setChangedVal] = useState<FilteredAuto | null>(null);
 
   const [form] = Form.useForm();
 
@@ -105,7 +106,7 @@ const HomePage = () => {
         maxPrice: allValues.maxPrice,
       });
       console.log("allValues.rate:", allValues);
-      console.log("changed All:", allValues);
+      console.log("changed All:", response.data);
 
       const buttonLabel = `${response.data.count} Предложений`;
       setButtonLabel(buttonLabel);
