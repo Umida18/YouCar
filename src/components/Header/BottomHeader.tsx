@@ -82,13 +82,10 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("cars")}
                 onMouseLeave={handleMouseLeave}
               >
-                <a
-                  href="/cars"
-                  className="flex justify-center gap-2 items-center text-black hover:text-black"
-                >
+                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px] ">Автомобили</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
-                </a>
+                </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "cars"}
                   onClose={() => setActiveDropdown(null)}
@@ -101,13 +98,10 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("commerceCars")}
                 onMouseLeave={handleMouseLeave}
               >
-                <a
-                  href="/commerceCars"
-                  className="flex justify-center gap-2 items-center text-black hover:text-black"
-                >
+                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px]">Коммерческий транспорт</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
-                </a>
+                </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "commerceCars"}
                   onClose={() => setActiveDropdown(null)}
@@ -120,13 +114,10 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("motobykes")}
                 onMouseLeave={handleMouseLeave}
               >
-                <a
-                  href="/motobykes"
-                  className="flex justify-center gap-2 items-center text-black hover:text-black"
-                >
+                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px]">Мотоциклы</span>
                   <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
-                </a>
+                </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "motobykes"}
                   onClose={() => setActiveDropdown(null)}
@@ -206,7 +197,7 @@ const BottomHeader = () => {
         <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
           <a
             href="/"
-            className="flex justify-center items-center font-bold text-[30px]"
+            className="flex justify-center items-center font-bold text-[24px]"
           >
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>

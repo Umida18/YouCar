@@ -14,7 +14,7 @@ const News = ({ limit }: { limit?: number }) => {
   const newsChan = limit ? news?.slice(0, limit) : news;
 
   return (
-    <div className=" my-4 py-10">
+    <div className="  mb-4 py-2">
       <h1 className="text-3xl font-bold mb-14">Новости</h1>
       <Row gutter={[16, 16]}>
         {newsChan?.map((item) => (

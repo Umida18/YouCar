@@ -109,7 +109,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
       <div className="boxShadowC rounded-xl">
         <div className="xl:px-7 px-2 py-5">
           <p className="text-[25px] font-bold">{`${item?.mark_id}, ${item?.model}`}</p>
-          <div className="flex justify-between items-center">
+          <div className="flex xl:justify-between items-center flex-wrap gap-5">
             <div className="flex gap-4 justify-center items-center text-[#989898] text-[16px] mt-3">
               <p>{formatDate(item?.createdAt)}</p>
               <p className="flex justify-center items-center gap-2">

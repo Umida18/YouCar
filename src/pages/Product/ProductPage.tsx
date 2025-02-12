@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/Api/Api";
 import { useState } from "react";
 import { IUserData } from "../../Type/Type";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -37,22 +38,41 @@ const ProductPage = () => {
     return res.data;
   });
 
+  const { data: markId } = useQuery(
+    ["markId", car?.result?.mark_id],
+    async () => {
+      if (typeof car?.result?.mark_id === "number") {
+        const res = await api.get(`/marks/${car?.result?.mark_id}`);
+        return res.data;
+      }
+      return null;
+    },
+    {
+      enabled: typeof car?.result?.mark_id === "number",
+    }
+  );
+
+  const breadcrumbItems = [
+    { label: `${markId} ${car?.result.model}`, path: "/catalog" },
+  ];
+
   return (
-    <div className="py-10">
+    <div className="py-2">
+      <Breadcrumb items={breadcrumbItems} />
       {car ? (
         <>
           <Row gutter={[20, 20]}>
             <Col xl={14}>
-              <PhotoGallery item={mapCarDataToItem(car.result)} />
+              <PhotoGallery item={mapCarDataToItem(car?.result)} />
             </Col>
             <Col xl={10}>
               <ProductDetails
-                item={mapCarDataToItem(car.result)}
+                item={mapCarDataToItem(car?.result)}
                 userData={userData}
               />
             </Col>
           </Row>
-          <ProductDescription item={mapCarDataToItem(car.result)} />
+          <ProductDescription item={mapCarDataToItem(car?.result)} />
         </>
       ) : (
         <p>Car not found!</p>
