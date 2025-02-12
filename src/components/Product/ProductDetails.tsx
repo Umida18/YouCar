@@ -1,5 +1,5 @@
 import { ICar, IUserData } from "../../Type/Type";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Divider, notification } from "antd";
 import { MdOutlineSms } from "react-icons/md";
 import { formatDate } from "../../utils/formatDate";
@@ -21,6 +21,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
   const itemType = param.get("type");
   const [liked, setLiked] = useState(false);
   const user_id = Number(localStorage.getItem("id"));
+  const email = localStorage.getItem("email") || (undefined as any);
 
   const mutation = useMutation(
     async (data: { id: number; user_id: number; count: number }) => {
@@ -95,10 +96,18 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
 
   const rateType = item.rate === "cash" ? "В наличии" : "Под заказ";
 
+  useEffect(() => {
+    if (item?.liked_user.includes(email)) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  }, [item?.liked_user]);
+
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
-        <div className="px-7 py-5">
+        <div className="xl:px-7 px-2 py-5">
           <p className="text-[25px] font-bold">{`${item?.mark_id}, ${item?.model}`}</p>
           <div className="flex justify-between items-center">
             <div className="flex gap-4 justify-center items-center text-[#989898] text-[16px] mt-3">
@@ -122,7 +131,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
                 )}
               </button>
             </div>
-            <div className="flex justify-center items-center gap-2 text-[16px]">
+            <div className="flex justify-center items-center gap-2 text-[16px] mt-2">
               <span className="flex justify-center items-center h-[25px] w-[25px] rounded-full !bg-[#DDFADC]">
                 <FaCheck className="text-[#07C553]" />
               </span>
@@ -130,7 +139,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
             </div>
           </div>
           <Divider />
-          <div className=" text-[15px] flex flex-col gap-3 w-[50%]">
+          <div className=" text-[15px] flex flex-col gap-3 justify-between xl:w-[50%]">
             <div className="flex justify-between">
               <p className="text-[#989898]">Марка:</p>
               <p className="font-semibold">{item?.mark_id}</p>
@@ -161,15 +170,15 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
             </div>
           </div>
         </div>
-        <div className="bg-[#2684E5] w-full h-[70px] text-white text-[16px] font-semibold px-7 py-5 ">
-          <div className="flex justify-between w-[50%]">
+        <div className="bg-[#2684E5] w-full h-[70px] text-white text-[16px] font-semibold xl:px-7 px-2 py-5 ">
+          <div className="flex justify-between xl:w-[50%]">
             <p>ЦЕНА:</p>
-            <p>{item?.cost}$</p>
+            <p className="text-[20px] font-semibold">{item?.cost}$</p>
           </div>
         </div>
 
-        <div className="text-[16px] px-7 py-5">
-          <div className="flex items-center border-2 border-[#F0F0F0] px-5 py-4 rounded-xl justify-between ">
+        <div className="text-[16px] xl:px-7 px-2 py-5">
+          <div className="flex items-center border-2 border-[#F0F0F0] xl:px-5 px-2 py-4 rounded-xl justify-between ">
             <div className="flex items-center gap-2">
               <Avatar className="text-[18px] h-[40px] w-[40px]">
                 {userData?.name.charAt(0)}
@@ -178,10 +187,9 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
                 <p>{userData?.name}</p>
               </div>
             </div>
-            {/* <Divider type="vertical" style={{ height: 60 }} /> */}
             <button
               style={{ boxShadow: "none" }}
-              className="flex items-center justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] px-4"
+              className="flex items-center justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] xl:px-4 px-2"
             >
               <MdOutlineSms className="text-[#2684E5] text-xl mt-1 ml-2" />
               <p className="text-[16px]">Написать</p>
