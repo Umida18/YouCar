@@ -12,11 +12,13 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../Api/Api";
 import { IUser } from "../../Type/Type";
 import { IoIosArrowForward } from "react-icons/io";
+import { CountryDropdown } from "./CountryDropdown";
 
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const { data: user } = useQuery<IUser>(
     ["user"],
@@ -53,6 +55,14 @@ const BottomHeader = () => {
     }
   }, [user]);
 
+  const handleMouseEnter = (type: string) => {
+    setActiveDropdown(type);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveDropdown(null);
+  };
+
   return (
     <div className="h-full">
       <div className="shadow-md">
@@ -65,32 +75,66 @@ const BottomHeader = () => {
             <span className="text-[#0b0f32]">Car</span>
           </a>
 
-          <div className="flex items-center justify-between gap-7">
-            <a href="/cars" className="flex justify-center gap-2 items-center ">
-              <span className="text-[16px]">Автомобили</span>
-              <span>
-                <IoIosArrowForward className="text-[#2684E5] mt-1" />
-              </span>
-            </a>
-            <a
-              href="/commerceCars"
-              className="flex justify-center gap-2 items-center "
-            >
-              <span className="text-[16px]">Коммерческий транспорт</span>
-              <span>
-                <IoIosArrowForward className="text-[#2684E5] mt-1" />
-              </span>
-            </a>
-            <a
-              href="/motobykes"
-              className="flex justify-center gap-2 items-center "
-            >
-              <span className="text-[16px]">Мотоциклы</span>
-              <span>
-                <IoIosArrowForward className="text-[#2684E5] mt-1" />
-              </span>
-            </a>
-          </div>
+          <nav className="relative">
+            <div className="flex items-center justify-between gap-7">
+              <div
+                className="relative group"
+                onMouseEnter={() => handleMouseEnter("cars")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <a
+                  href="/cars"
+                  className="flex justify-center gap-2 items-center"
+                >
+                  <span className="text-[16px] ">Автомобили</span>
+                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                </a>
+                <CountryDropdown
+                  isOpen={activeDropdown === "cars"}
+                  onClose={() => setActiveDropdown(null)}
+                  type="cars"
+                />
+              </div>
+
+              <div
+                className="relative group"
+                onMouseEnter={() => handleMouseEnter("commerceCars")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <a
+                  href="/commerceCars"
+                  className="flex justify-center gap-2 items-center"
+                >
+                  <span className="text-[16px]">Коммерческий транспорт</span>
+                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                </a>
+                <CountryDropdown
+                  isOpen={activeDropdown === "commerceCars"}
+                  onClose={() => setActiveDropdown(null)}
+                  type="commerceCars"
+                />
+              </div>
+
+              <div
+                className="relative group"
+                onMouseEnter={() => handleMouseEnter("motobykes")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <a
+                  href="/motobykes"
+                  className="flex justify-center gap-2 items-center"
+                >
+                  <span className="text-[16px]">Мотоциклы</span>
+                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                </a>
+                <CountryDropdown
+                  isOpen={activeDropdown === "motobykes"}
+                  onClose={() => setActiveDropdown(null)}
+                  type="motobykes"
+                />
+              </div>
+            </div>
+          </nav>
           <div className="relative bg-[#F6F6F6]">
             <CiSearch
               style={{ color: "#989898", fontSize: "22px" }}
