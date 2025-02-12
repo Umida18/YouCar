@@ -31,6 +31,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
     localStorage.removeItem("id");
     localStorage.removeItem("token");
     queryClient.invalidateQueries(["user"]);
+    queryClient.invalidateQueries(["userData"]);
     navigate("/");
   };
 

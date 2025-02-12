@@ -22,7 +22,7 @@ const RequestModal = ({
           rules={[{ required: true, message: "Пожалуйста введите ваше имя" }]}
         >
           <input
-            placeholder="Имя"
+            placeholder="Ваше имя"
             className="w-full px-4 py-2 rounded-sm h-[50px] bg-[#f6f6f6] border-0"
           />
         </Form.Item>

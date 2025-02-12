@@ -79,14 +79,14 @@ const LoginPage = () => {
             <input
               placeholder="E-mail"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-2 rounded-md"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-3 rounded-md"
             />
           </Form.Item>
           <Form.Item name={"password"} style={{ width: "100%" }}>
             <input
               placeholder="Введите пароль"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-2 rounded-md"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-3 rounded-md"
             />
           </Form.Item>
           <div className="flex justify-between items-center w-full">

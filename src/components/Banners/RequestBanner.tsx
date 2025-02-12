@@ -23,11 +23,11 @@ const RequestBanner = () => {
 
   return (
     <div className="py-10">
-      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0 p-0 xl:p-4">
+      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0 p-0 xl:px-3 [&_.ant-card-body]:px-0 [&_.ant-card-body]:py-4 h-[414px]  xl:h-[250px]">
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">
-            <div>
-              <div className="flex flex-col  justify-center relative text-white xl:px-5 gap-1">
+            <div className="px-3">
+              <div className="flex flex-col  justify-center relative text-white p-0 gap-1">
                 <h3 className="xl:text-[28px] text-[22px] font-bold mb-2">
                   Не можете определиться с выбором?
                 </h3>
@@ -57,10 +57,16 @@ const RequestBanner = () => {
             xl={12}
             style={{
               backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
+              // backgroundSize: "contain",
             }}
           >
-            <img src="/ban.png" alt="" />
+            <div className=" overflow-hidden">
+              <img
+                src="/ban.png"
+                alt=""
+                className=" relative left-32 overflow-hidden xl:left-0"
+              />
+            </div>
           </Col>
         </Row>
       </Card>

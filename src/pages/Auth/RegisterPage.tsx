@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../Api/Api";
-import { Button, Checkbox, Form, Input, notification } from "antd";
+import { Button, Checkbox, Form, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
@@ -104,7 +104,7 @@ const RegisterPage = () => {
             <input
               placeholder="Имя"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-2 rounded-md"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0 px-3 rounded-md"
             />
           </Form.Item>
           <Form.Item
@@ -118,7 +118,7 @@ const RegisterPage = () => {
             <input
               placeholder="E-mail"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-2 rounded-md"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-3 rounded-md"
             />
           </Form.Item>
           <Form.Item
@@ -126,10 +126,11 @@ const RegisterPage = () => {
             rules={[{ required: true, message: "Введите пароль." }]}
             style={{ width: "100%" }}
           >
-            <Input.Password
+            <input
+              type="password"
               placeholder="Введите пароль"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-3 rounded-md"
             />
           </Form.Item>
           <Form.Item
@@ -137,10 +138,11 @@ const RegisterPage = () => {
             rules={[{ required: true, message: "Повторите пароль." }]}
             style={{ width: "100%" }}
           >
-            <Input.Password
+            <input
+              type="password"
               placeholder="Повторите пароль"
               style={{ width: "100%" }}
-              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0"
+              className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-3 rounded-md"
             />
           </Form.Item>
           <Form.Item
