@@ -23,7 +23,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                 <div className=" text-[15px] flex flex-col gap-3 w-[50%]">
                   <div className="flex justify-between">
                     <p className="text-[#989898]">Марка:</p>
-                    <p className="font-semibold">{item?.mark}</p>
+                    <p className="font-semibold">{item?.mark_id}</p>
                   </div>
                   <div className="flex justify-between">
                     <p className="text-[#989898]">Модель:</p>

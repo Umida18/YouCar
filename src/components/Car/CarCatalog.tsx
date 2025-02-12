@@ -38,7 +38,7 @@ const CarCatalog = () => {
                 <div className="flex-1">
                   <div className="flex justify-between flex-col items-start space-y-1 mb-1">
                     <h2 className="text-xl font-semibold">
-                      {`${car.mark} ${car.model}, ${car.year}`}
+                      {`${car.mark_id} ${car.model}, ${car.year}`}
                     </h2>
                     <span className="text-xl font-bold ">{car.cost} $</span>
                   </div>
