@@ -71,7 +71,7 @@ const HeroBanner = () => {
         >
           {slides.map((slide) => (
             <div key={slide.id}>
-              <Card className="bg-[#F4F4F4] h-[575px] xl:h-full w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
+              <Card className="bg-[#F4F4F4] h-[550px] xl:h-full w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
                 <Row>
                   <Col md={24} xl={12} className="flex flex-col xl:px-7 px-4">
                     <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
@@ -102,7 +102,7 @@ const HeroBanner = () => {
                     <img
                       src={slide.image || "/placeholder.svg"}
                       alt={slide.title}
-                      className="relative xl:top-0 top-24 xl:left-0 xl:scale-95 left-20 scale-150"
+                      className="relative xl:top-0 top-14 xl:left-0 xl:scale-95 lg:scale-95 left-20 scale-[2]"
                     />
                   </Col>
                 </Row>

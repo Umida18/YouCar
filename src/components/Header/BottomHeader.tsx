@@ -198,7 +198,7 @@ const BottomHeader = () => {
         <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
           <a
             href="/"
-            className="flex justify-center items-center font-bold text-[24px]"
+            className="flex justify-center items-center font-bold text-[22px]"
           >
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
@@ -206,11 +206,11 @@ const BottomHeader = () => {
           <div className="relative bg-[#F6F6F6] w-full">
             <CiSearch
               style={{ color: "#989898", fontSize: "22px" }}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
             <Input
               style={{ border: 0, backgroundColor: "transparent" }}
-              className=" flex min-w-full h-[45px] pl-11"
+              className=" flex min-w-full h-[45px] pl-9"
               placeholder="Поиск по названию"
             />
           </div>
