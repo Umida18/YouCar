@@ -24,7 +24,7 @@ const Layout = () => {
             </div>
           </Col>
           <Col xl={18} className="min-h-full">
-            <div className="boxShadowC rounded-xl py-7 !px-7 h-full">
+            <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full">
               {activeSection === "favorites" && <Favorites />}
               {activeSection === "messages" && <Messages />}
               {activeSection === "post" && <Post />}

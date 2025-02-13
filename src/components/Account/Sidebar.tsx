@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IUser } from "../../Type/Type";
 import api from "../../Api/Api";
+import ProfilePage from "./sidebarMobile";
 
 interface SidebarProps {
   activeSection: string;
@@ -67,80 +68,85 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   };
 
   return (
-    <div className="py-7 px-4 boxShadowC w-full rounded-xl">
-      <div className="flex gap-3 text-[17px] font-semibold items-center">
-        <div>
-          <Avatar className="h-[50px] w-[50px] text-xl">
-            {user?.userData.name?.charAt(0)}
-          </Avatar>
+    <>
+      <div className="py-7 px-4 boxShadowC w-full rounded-xl xl:block hidden">
+        <div className="flex gap-3 text-[17px] font-semibold items-center">
+          <div>
+            <Avatar className="h-[50px] w-[50px] text-xl">
+              {user?.userData.name?.charAt(0)}
+            </Avatar>
+          </div>
+          <div>
+            <p>{user?.userData.name}</p>
+          </div>
         </div>
-        <div>
-          <p>{user?.userData.name}</p>
+        <Divider />
+        <div className="flex justify-between items-center mb-8">
+          <p className="text-[#5A5A5A] text-[16px]">E-mail</p>
+          <p className="text-[#2684E5] text-[16px]">{user?.userData.email}</p>
         </div>
-      </div>
-      <Divider />
-      <div className="flex justify-between items-center mb-8">
-        <p className="text-[#5A5A5A] text-[16px]">E-mail</p>
-        <p className="text-[#2684E5] text-[16px]">{user?.userData.email}</p>
-      </div>
-      <div className="flex flex-col gap-16">
-        <div className="flex flex-col shadow-none gap-1">
-          <Collapse
-            activeKey={activeKey}
-            onChange={(key) => setActiveKey(key)}
-            ghost
-          >
-            <Collapse.Panel
-              key="post"
-              header={
-                <div className="flex flex-row-reverse items-center justify-between w-full text-[15px] font-medium">
-                  <span className="flex-grow text-left">
-                    Разместить объявление
-                  </span>
+        <div className="flex flex-col gap-16">
+          <div className="flex flex-col shadow-none gap-1">
+            <Collapse
+              activeKey={activeKey}
+              onChange={(key) => setActiveKey(key)}
+              ghost
+            >
+              <Collapse.Panel
+                key="post"
+                header={
+                  <div className="flex flex-row-reverse items-center justify-between w-full text-[15px] font-medium">
+                    <span className="flex-grow text-left">
+                      Разместить объявление
+                    </span>
+                  </div>
+                }
+              >
+                <div className="flex flex-col gap-2">
+                  <Button
+                    className="w-full text-left text-gray-700 hover:bg-gray-100"
+                    onClick={() => navigate("/newPost")}
+                  >
+                    Новое объявление
+                  </Button>
+                  <Button
+                    className="w-full text-left text-gray-700 hover:bg-gray-100"
+                    onClick={() => navigate("/account/postsUser")}
+                  >
+                    Мои объявления
+                  </Button>
                 </div>
-              }
-            >
-              <div className="flex flex-col gap-2">
-                <Button
-                  className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => navigate("/newPost")}
-                >
-                  Новое объявление
-                </Button>
-                <Button
-                  className="w-full text-left text-gray-700 hover:bg-gray-100"
-                  onClick={() => navigate("/account/postsUser")}
-                >
-                  Мои объявления
-                </Button>
-              </div>
-            </Collapse.Panel>
-          </Collapse>
-          {navigation.map((item) => (
+              </Collapse.Panel>
+            </Collapse>
+            {navigation.map((item) => (
+              <Button
+                className={`w-full justify-start !shadow-none text-[15px] h-[53px] border-0 ${
+                  activeSection === item.id
+                    ? "bg-[#F3F5FC] text-black hover:text-white hover:!bg-[##F3F5FC]"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`}
+                onClick={() => handleNavigation(item.id)}
+                key={item.id}
+              >
+                <span>{item.icon}</span>
+                <span>{item.name}</span>
+              </Button>
+            ))}
+          </div>
+          <div>
             <Button
-              className={`w-full justify-start !shadow-none text-[15px] h-[53px] border-0 ${
-                activeSection === item.id
-                  ? "bg-[#F3F5FC] text-black hover:text-white hover:!bg-[##F3F5FC]"
-                  : "text-gray-600 hover:bg-gray-100"
-              }`}
-              onClick={() => handleNavigation(item.id)}
-              key={item.id}
+              onClick={handleLeave}
+              className="w-full text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
             >
-              <span>{item.icon}</span>
-              <span>{item.name}</span>
+              Выйти
             </Button>
-          ))}
-        </div>
-        <div>
-          <Button
-            onClick={handleLeave}
-            className="w-full text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
-          >
-            Выйти
-          </Button>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="xl:hidden block">
+        <ProfilePage />
+      </div>
+    </>
   );
 };
 

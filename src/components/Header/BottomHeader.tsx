@@ -4,7 +4,6 @@ import { LuBell } from "react-icons/lu";
 import "./Header.scss";
 import { useEffect, useState } from "react";
 import { FiAlignRight } from "react-icons/fi";
-
 import { Input } from "@/components/ui/input";
 import ResponsiveHeader from "./ResponsiveHeader";
 import { useNavigate } from "react-router-dom";
@@ -82,9 +81,9 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("cars")}
                 onMouseLeave={handleMouseLeave}
               >
-                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
+                <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px] ">Автомобили</span>
-                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "cars"}
@@ -98,9 +97,11 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("commerceCars")}
                 onMouseLeave={handleMouseLeave}
               >
-                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
-                  <span className="text-[16px]">Коммерческий транспорт</span>
-                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                <p className="flex justify-center items-center gap-1 cursor-pointer text-black hover:text-black">
+                  <span className="text-[16px] leading-tight">
+                    Коммерческий транспорт
+                  </span>
+                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "commerceCars"}
@@ -114,9 +115,9 @@ const BottomHeader = () => {
                 onMouseEnter={() => handleMouseEnter("motobykes")}
                 onMouseLeave={handleMouseLeave}
               >
-                <p className="flex justify-center gap-2 items-center cursor-pointer text-black hover:text-black">
+                <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px]">Мотоциклы</span>
-                  <IoIosArrowForward className="text-[#2684E5] transition-transform duration-300 group-hover:-rotate-90" />
+                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "motobykes"}
@@ -133,7 +134,7 @@ const BottomHeader = () => {
             />
             <Input
               style={{ border: 0, backgroundColor: "transparent" }}
-              className=" flex w-[345px] h-[52px] pl-11"
+              className=" flex w-[340px] h-[52px] pl-11"
               placeholder="Поиск по названию"
             />
           </div>
@@ -186,7 +187,7 @@ const BottomHeader = () => {
                   fontSize: "16px",
                 }}
               >
-                <p className="max-w-[300px] max-h-[65px] ">
+                <p className="max-w-[300px] max-h-[65px] leading-tight !block">
                   {user?.userData.name}
                 </p>
                 <Avatar>{user?.userData.name?.charAt(0)}</Avatar>

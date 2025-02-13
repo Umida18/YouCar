@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, Card, Button, Dropdown } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import api from "@/Api/Api";
 import { MdOutlineSms } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
@@ -36,7 +36,7 @@ export default function PostsUser() {
   console.log("getttt", getAllListings());
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
+    <div className="max-w-7xl mx-auto xl:p-4 px-0">
       <h1 className="text-3xl font-bold mb-6">Мои объявления</h1>
 
       <Tabs
@@ -131,8 +131,20 @@ export default function PostsUser() {
                 ))}
 
                 {getAllListings().length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
-                    Нет активных объявлений
+                  <div className="flex flex-col items-center justify-center min-h-screen ">
+                    <div className="text-center mb-8">
+                      <p className="text-xl mb-4">
+                        Вами еще не было создано объявлений. Опубликуйте первое!
+                      </p>
+                      <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        size="large"
+                        className="bg-[#1c80e7] hover:bg-[#1666b8] border-none"
+                      >
+                        Создать объявление
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -141,7 +153,9 @@ export default function PostsUser() {
           {
             key: "2",
             label: "Архив",
-            children: <div>Archive content</div>,
+            children: (
+              <div className="text-gray-500">В архиве пока ничего нет...</div>
+            ),
           },
         ]}
       />

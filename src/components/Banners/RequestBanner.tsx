@@ -23,7 +23,7 @@ const RequestBanner = () => {
 
   return (
     <div className="py-10">
-      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0 p-0 xl:px-3 [&_.ant-card-body]:px-0 [&_.ant-card-body]:py-4 h-[414px]  xl:h-[250px]">
+      <Card className=" bg-gradient-to-r from-[#3593F3] to-[#0C74DF] border-0 p-0 xl:px-3 [&_.ant-card-body]:px-0 [&_.ant-card-body]:py-4 h-[430px]  xl:h-[250px]">
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">
             <div className="px-3">
@@ -64,7 +64,7 @@ const RequestBanner = () => {
               <img
                 src="/ban.png"
                 alt=""
-                className=" relative left-32 overflow-hidden xl:left-0"
+                className=" relative left-24 overflow-hidden xl:left-0 min-h-[173px] min-w-[503px]"
               />
             </div>
           </Col>

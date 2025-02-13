@@ -2,6 +2,7 @@ import api from "@/Api/Api";
 import { IMarks } from "@/Type/Type";
 import { useQuery } from "@tanstack/react-query";
 import { Row, Col, Typography, Space } from "antd";
+import { SlSocialVkontakte } from "react-icons/sl";
 
 const { Title } = Typography;
 
@@ -54,13 +55,7 @@ export default function FooterComponent() {
                 </a>
                 <div className="flex space-x-4 mb-5 !text-[#989898] ">
                   <a href="#" className=" ">
-                    <svg
-                      className="w-6 h-6"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M21.547 7.016c0.014 0.188 0.014 0.375 0.014 0.563 0 5.766-4.391 12.422-12.422 12.422-2.469 0-4.766-0.719-6.703-1.969 0.352 0.039 0.688 0.053 1.055 0.053 2.039 0 3.922-0.695 5.422-1.875-1.922-0.039-3.531-1.305-4.086-3.047 0.27 0.039 0.547 0.066 0.832 0.066 0.398 0 0.797-0.053 1.168-0.156-2.004-0.406-3.508-2.172-3.508-4.297v-0.055c0.578 0.32 1.25 0.516 1.961 0.539-1.18-0.785-1.953-2.133-1.953-3.656 0-0.813 0.219-1.562 0.598-2.211 2.156 2.656 5.391 4.391 9.023 4.578-0.070-0.32-0.109-0.652-0.109-0.984 0-2.367 1.914-4.281 4.281-4.281 1.234 0 2.344 0.52 3.125 1.355 0.969-0.188 1.891-0.539 2.711-1.023-0.32 0.992-0.992 1.828-1.875 2.355 0.859-0.094 1.688-0.328 2.453-0.66-0.578 0.852-1.305 1.602-2.133 2.203z" />
-                    </svg>
+                    <SlSocialVkontakte className="text-[24px]" />
                   </a>
                   <a href="#" className=" ">
                     <svg
@@ -124,7 +119,7 @@ export default function FooterComponent() {
                         <a
                           href={`/brand?markId=${mark.id}`}
                           key={mark.id}
-                          className="text-[#5A5A5A] font-semibold"
+                          className="text-[#5A5A5A] font-semibold capitalize"
                         >
                           {mark.mark_name}
                         </a>

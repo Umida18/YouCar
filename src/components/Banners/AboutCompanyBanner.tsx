@@ -52,7 +52,7 @@ const AboutCompanyBanner = () => {
                   backgroundSize: "contain",
                 }}
               >
-                <img className="  relative -right-24" src="/n1.png" alt="" />
+                <img className="  relative  -right-24" src="/n1.png" alt="" />
               </div>
             </div>
           </Col>

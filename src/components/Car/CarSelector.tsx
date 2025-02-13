@@ -126,7 +126,7 @@ export default function CarSelector({
             <div className="flex items-center gap-12 flex-wrap mb-6">
               <Tabs
                 value={selectedTab}
-                className="xl:w-[40%] w-full  h-full"
+                className="xl:w-[40%] w-full   h-full"
                 onValueChange={(value) => {
                   setSelectedTab(value);
                   updateQueryParams
@@ -138,11 +138,11 @@ export default function CarSelector({
                   console.log("Selected Tab:", value);
                 }}
               >
-                <TabsList className="w-full bg-[#F4F4F4] p-0 rounded-xl h-full">
+                <TabsList className="!w-full bg-[#F4F4F4]  p-0 rounded-xl h-full">
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
                       value="car"
-                      className="flex-1 w-full h-[57px] data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
+                      className="flex-1 p-1 w-full h-[57px] data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
                       Автомобили
                     </TabsTrigger>
@@ -151,16 +151,16 @@ export default function CarSelector({
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
                       value="commerce"
-                      className="flex-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
+                      className="flex-1 p-1 h-[57px] overflow-auto w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
-                      Коммерческий транспорт
+                      Коммерческий <br className="xl:hidden" /> транспорт
                     </TabsTrigger>
                   </Form.Item>
 
                   <Form.Item className="w-full mb-0">
                     <TabsTrigger
                       value="moto"
-                      className="flex-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
+                      className="flex-1 p-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
                       Мотоциклы
                     </TabsTrigger>

@@ -67,11 +67,11 @@ const HeroBanner = () => {
           ref={carouselRef}
           {...carouselSettings}
           beforeChange={(_, to) => setCurrentSlide(to)}
-          className="[&_.slick-dots]:!bottom-8 [&_.slick-dots]:!right-36 [&_.slick-dots]:!justify-end [&_.slick-dots]:!w-auto [&_.slick-dots_li.slick-active_button]:6 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-600 [&_.slick-dots_li]:!mx-1"
+          className="  [&_.slick-dots]:!bottom-8 [&_.slick-dots]:!right-36 [&_.slick-dots]:!justify-end [&_.slick-dots]:!w-auto [&_.slick-dots_li.slick-active_button]:6 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-600 [&_.slick-dots_li]:!mx-1"
         >
           {slides.map((slide) => (
             <div key={slide.id}>
-              <Card className="bg-[#F4F4F4] w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
+              <Card className="bg-[#F4F4F4] h-[575px] xl:h-full w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
                 <Row>
                   <Col md={24} xl={12} className="flex flex-col xl:px-7 px-4">
                     <h3 className="xl:text-[35px] text-[24px] font-bold mb-2">
@@ -81,13 +81,14 @@ const HeroBanner = () => {
                       {slide.description}
                     </p>
                     <Button
+                      className="xl:w-[187px]"
                       style={{
                         border: 0,
                         backgroundColor: "#2684E5",
                         borderRadius: 4,
                         color: "white",
                         height: "56px",
-                        width: "187px",
+                        // width: "187px",
                       }}
                     >
                       Подробнее
@@ -101,7 +102,7 @@ const HeroBanner = () => {
                     <img
                       src={slide.image || "/placeholder.svg"}
                       alt={slide.title}
-                      className=","
+                      className="relative xl:top-0 top-24 xl:left-0 xl:scale-95 left-20 scale-150"
                     />
                   </Col>
                 </Row>
@@ -112,7 +113,7 @@ const HeroBanner = () => {
         <button
           // onClick={prevSlide}
           onClick={() => carouselRef.current?.prev()}
-          className="absolute right-20 bottom-0 -translate-y-1/2 p-2 bg-white rounded-full hover:bg-white transition-colors z-10"
+          className="absolute right-20 bottom-0  -translate-y-1/2 p-2 bg-white rounded-full hover:bg-white transition-colors z-10"
         >
           <IoIosArrowRoundBack className="h-6 w-6 text-[#989898]" />
         </button>
