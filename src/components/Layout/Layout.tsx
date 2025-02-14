@@ -28,7 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
               />
             </div>
           </Col>
-          <Col xl={18} className="min-h-full">
+          <Col xl={18} className="min-h-full w-full">
             <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full">
               {children}
               {activeSection === "favorites" && <Favorites />}
