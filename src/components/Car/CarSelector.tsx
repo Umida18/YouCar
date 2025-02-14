@@ -273,6 +273,7 @@ export default function CarSelector({
               <Col xs={24} sm={24} md={12} xl={4} style={{ width: "20%" }}>
                 <Form.Item name="maxYear" label="Год">
                   <RangePicker
+                    placeholder={["Год начала", "Год окончания"]}
                     className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0"
                     picker="year"
                     id={{ start: "startInput", end: "endInput" }}

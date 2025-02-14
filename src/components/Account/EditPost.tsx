@@ -244,7 +244,7 @@ const EditPost = () => {
     <div className="flex justify-center py-12">
       <div className=" xl:w-[750px] w-full ">
         <Form form={form} onFinish={handleSubmitPost} layout="vertical">
-          <div className="boxShadowC rounded-xl py-10 xl:px-16 my-4 px-4">
+          <div className="boxShadowC rounded-xl py-10 xl:px-16 my-4 px-2">
             <div className="text-center space-y-2 mb-8">
               <h1 className="text-3xl font-bold">Разместите объявление</h1>
               <p className="text-muted-foreground">
@@ -252,7 +252,7 @@ const EditPost = () => {
               </p>
             </div>
             <div className="bg-muted rounded-full p-1 mb-6">
-              <nav className="flex justify-between space-x-1" role="tablist">
+              <nav className="flex justify-between " role="tablist">
                 {[
                   { id: "car", label: "Автомобили" },
                   { id: "commerce", label: "Коммерческий транспорт" },
@@ -262,7 +262,7 @@ const EditPost = () => {
                     type="button"
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
-                    className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
+                    className={`flex-1 px-2 py-2 text-sm rounded-full transition-colors
                 ${
                   selectedType === typeC && selectedType === type.id
                     ? "bg-background text-foreground shadow-sm"
