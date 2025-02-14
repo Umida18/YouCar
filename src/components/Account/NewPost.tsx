@@ -119,10 +119,15 @@ const NewPost = () => {
 
       Object.entries({
         ...filteredValues,
-        year: correctedYear,
+        year: Number(correctedYear),
         authoremail: userData?.userData.email,
-        mark_id: markId,
-        milage: values.milage ? values.milage : 0,
+        mark_id: Number(markId),
+        milage: values.milage ? Number(values.milage) : 0,
+        cost: values.cost ? Number(values.cost) : undefined,
+        // milage: values.milage ? Number(values.milage) : undefined,
+        volume: values.volume ? Number(values.volume) : undefined,
+        horsepower: values.horsepower ? Number(values.horsepower) : undefined,
+        doors: values.doors ? Number(values.doors) : undefined,
       }).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
           formData.append(key, value.toString());

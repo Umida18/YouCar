@@ -1,149 +1,261 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar } from "@/components/ui/avatar";
-import { Paperclip, MoreVertical, ArrowLeft, Send } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+"use client";
 
-interface Message {
-  id: number;
-  sender: string;
-  content: string;
-  timestamp: string;
-  isOnline?: boolean;
-  isSeen: boolean;
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import { Check, CheckCheck } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { io, type Socket } from "socket.io-client";
+import axios from "axios";
+
+interface Chat {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+  lastMessage: {
+    text: string;
+    timestamp: string;
+    status: "sent" | "seen";
+  };
+  unreadCount: number;
 }
 
-const mockMessages: Message[] = [
-  {
-    id: 1,
-    sender: "Александр Петров",
-    content: "Здравствуйте, цена окончательная?",
-    timestamp: "10:38 AM",
-    isOnline: true,
-    isSeen: true,
-  },
-  {
-    id: 2,
-    sender: "Сергей Иванович",
-    content: "Хорошо!",
-    timestamp: "10:35 AM",
-    isOnline: false,
-    isSeen: true,
-  },
-  {
-    id: 3,
-    sender: "Сергей Иванович",
-    content: "Здравствуйте",
-    timestamp: "10:33 AM",
-    isOnline: true,
-    isSeen: false,
-  },
-];
+interface Message {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  timestamp: string;
+  status: "sent" | "seen";
+  type: string;
+}
 
 export default function Messages() {
-  const [selectedChat, setSelectedChat] = useState<Message | null>(null);
-  const [newMessage, setNewMessage] = useState("");
-  // const navigate = useNavigate();
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const socketRef = useRef<Socket | null>(null);
+  const navigate = useNavigate();
+  const currentUserId = localStorage.getItem("id");
 
-  if (selectedChat) {
+  useEffect(() => {
+    socketRef.current = io("https://api.youcarrf.ru", {
+      transports: ["websocket"],
+    });
+
+    const socket = socketRef.current;
+
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+      if (currentUserId) {
+        socket.emit("join", currentUserId);
+        console.log("Joined chat with userId:", currentUserId);
+      }
+    });
+
+    socket.on("receive message", (newMessage: Message) => {
+      console.log("Received new message:", newMessage);
+      updateChatsWithNewMessage(newMessage);
+    });
+
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+      setError("Failed to connect to chat server. Please try again later.");
+    });
+
+    return () => {
+      if (socket) {
+        socket.off("connect");
+        socket.off("receive message");
+        socket.off("connect_error");
+        socket.disconnect();
+      }
+    };
+  }, [currentUserId]);
+
+  const updateChatsWithNewMessage = (newMessage: Message) => {
+    setChats((prevChats) => {
+      const otherUserId =
+        newMessage.senderId === currentUserId
+          ? newMessage.receiverId
+          : newMessage.senderId;
+
+      const existingChatIndex = prevChats.findIndex(
+        (chat) => chat.user.id === otherUserId
+      );
+
+      if (existingChatIndex > -1) {
+        const updatedChats = [...prevChats];
+        const chat = updatedChats[existingChatIndex];
+
+        updatedChats[existingChatIndex] = {
+          ...chat,
+          lastMessage: {
+            text: newMessage.message,
+            timestamp: newMessage.timestamp,
+            status: newMessage.status,
+          },
+          unreadCount:
+            newMessage.senderId !== currentUserId
+              ? (chat.unreadCount || 0) + 1
+              : chat.unreadCount,
+        };
+
+        updatedChats.unshift(...updatedChats.splice(existingChatIndex, 1));
+        return updatedChats;
+      } else {
+        const newChat: Chat = {
+          id: newMessage.id,
+          user: {
+            id: otherUserId,
+            name: `User ${otherUserId}`,
+          },
+          lastMessage: {
+            text: newMessage.message,
+            timestamp: newMessage.timestamp,
+            status: newMessage.status,
+          },
+          unreadCount: newMessage.senderId !== currentUserId ? 1 : 0,
+        };
+        return [newChat, ...prevChats];
+      }
+    });
+  };
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      if (!currentUserId) {
+        setError("User ID not found. Please log in.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `https://api.youcarrf.ru/chat/users/${currentUserId}`
+        );
+
+        if (response.status === 200 && response.data.status === "Success") {
+          setChats(response.data.data);
+          setError(null);
+        } else if (response.status === 404) {
+          setChats([]);
+          setError(null);
+        } else {
+          throw new Error(response.data.message || "Failed to fetch chats");
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+        setError("Failed to load chats. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChats();
+  }, [currentUserId]);
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+  };
+
+  const formatMessageTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+
+    if (date.toDateString() === now.toDateString()) {
+      return format(date, "HH:mm");
+    }
+    return format(date, "dd.MM.yy");
+  };
+
+  if (loading) {
     return (
-      <div className="flex flex-col h-screen bg-gray-50">
-        <div className="flex items-center p-4 border-b bg-white">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSelectedChat(null)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <Avatar className="w-8 h-8 mx-3">
-            <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-sm">АА</span>
-            </div>
-          </Avatar>
-          <div className="flex-1">
-            <h2 className="text-sm font-medium">{selectedChat.sender}</h2>
-          </div>
-          <Button variant="ghost" size="icon">
-            <MoreVertical className="h-5 w-5" />
-          </Button>
-        </div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-4">
-            <div className="flex justify-end">
-              <div className="bg-blue-500 text-white rounded-2xl py-2 px-4 max-w-[80%]">
-                {selectedChat.content}
-              </div>
-            </div>
-            <div className="flex justify-start">
-              <div className="bg-white rounded-2xl py-2 px-4 max-w-[80%] shadow-sm">
-                Здравствуйте, да
-              </div>
-            </div>
-          </div>
-        </ScrollArea>
-
-        <div className="p-4 bg-white border-t">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
-              <Paperclip className="h-5 w-5" />
-            </Button>
-            <Input
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Введите сообщение..."
-              className="flex-1"
-            />
-            <Button size="icon" className="text-blue-500">
-              <Send className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="h-screen ">
-      <div className="mb-6 bg-white">
-        <p className="text-[30px] font-semibold text-[#293843] font-['Golos_Text']">
-          Сообщения
-        </p>
+    <div className="flex flex-col h-screen bg-background">
+      <div className="border-b p-4">
+        <h1 className="text-2xl font-semibold">Сообщения</h1>
       </div>
 
-      <ScrollArea className="h-[calc(100vh-140px)] gap-3">
-        {mockMessages.map((message) => (
-          <div
-            key={message.id}
-            className="flex items-center p-4 hover:bg-gray-100 cursor-pointer bg-[#F6F6F6] my-2 rounded-lg"
-            // onClick={() =>  navigate(`/account/messagingPage/${userData?.id}`)}
-          >
-            <Avatar className="w-14 h-14">
-              <div className="w-full h-full bg-[#D9D9D9] rounded-full flex items-center justify-center">
-                <span className="text-sm">АА</span>
-              </div>
-            </Avatar>
-            {message.isOnline ? (
-              <div className="w-3 h-3 bg-green-500 rounded-full relative -bottom-4 -left-3 border-white border-2" />
-            ) : (
-              <div className="w-3 h-3 bg-[#989898] rounded-full relative -bottom-4 -left-3 border-white border-2" />
-            )}
-            <div className="ml-3 flex-1">
-              <div className="flex justify-between items-start">
-                <h3 className="font-medium text-sm">{message.sender}</h3>
-                <span className="text-xs text-gray-500">
-                  {message.timestamp}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 truncate">
-                {message.content}
-              </p>
+      <ScrollArea className="flex-1">
+        <div className="divide-y">
+          {chats.length === 0 ? (
+            <div className="p-4 text-center text-muted-foreground">
+              Нет сообщений
             </div>
-          </div>
-        ))}
+          ) : (
+            chats.map((chat) => (
+              <div
+                key={chat.id}
+                className="flex items-center gap-4 p-4 hover:bg-accent cursor-pointer transition-colors"
+                onClick={() => navigate(`/messages/${chat.user.id}`)}
+              >
+                <Avatar className="h-12 w-12">
+                  {chat.user.avatar ? (
+                    <img
+                      src={chat.user.avatar || "/placeholder.svg"}
+                      alt={chat.user.name}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <AvatarFallback>
+                      {getInitials(chat.user.name)}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-medium truncate">{chat.user.name}</h3>
+                    <span className="text-xs text-muted-foreground">
+                      {formatMessageTime(chat.lastMessage.timestamp)}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-sm text-muted-foreground truncate">
+                      {chat.lastMessage.text}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      {chat.lastMessage.status === "seen" ? (
+                        <CheckCheck className="h-4 w-4 text-primary" />
+                      ) : (
+                        <Check className="h-4 w-4 text-primary" />
+                      )}
+                      {chat.unreadCount > 0 && (
+                        <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5 min-w-[1.25rem] text-center">
+                          {chat.unreadCount}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </ScrollArea>
     </div>
   );
