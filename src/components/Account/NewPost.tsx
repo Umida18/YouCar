@@ -168,7 +168,7 @@ const NewPost = () => {
     <div className="flex justify-center py-12">
       <div className=" xl:w-[750px] w-full ">
         <Form form={form} onFinish={handleSubmitPost} layout="vertical">
-          <div className="boxShadowC rounded-xl py-10 xl:px-16 my-4 px-4">
+          <div className="boxShadowC rounded-xl py-10 xl:px-16 my-4 px-2">
             <div className="text-center space-y-2 mb-8">
               <h1 className="text-3xl font-bold">Разместите объявление</h1>
               <p className="text-muted-foreground">
@@ -176,7 +176,7 @@ const NewPost = () => {
               </p>
             </div>
             <div className="bg-muted rounded-full p-1 mb-6">
-              <nav className="flex justify-between space-x-1" role="tablist">
+              <nav className="flex justify-between" role="tablist">
                 {[
                   { id: "cars", label: "Автомобили" },
                   { id: "commercial", label: "Коммерческий транспорт" },
@@ -186,10 +186,10 @@ const NewPost = () => {
                     type="button"
                     key={type.id}
                     onClick={() => setSelectedType(type.id)}
-                    className={`flex-1 px-3 py-2 text-sm rounded-full transition-colors
+                    className={`flex-1 px-2 !mr-0 py-2 text-sm rounded-full transition-colors
                 ${
                   selectedType === type.id
-                    ? "bg-background text-foreground shadow-sm"
+                    ? "bg-background text-foreground !mr-0 shadow-sm"
                     : "text-muted-foreground hover:bg-background/50"
                 }`}
                     role="tab"
@@ -254,9 +254,10 @@ const NewPost = () => {
               <>
                 <p className="text-[25px] font-bold">Характеристики</p>
                 <Divider />
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                   <p className="text-[#989898] text-[15px]">Год выпуска</p>
                   <Form.Item
+                    className="mb-0"
                     name="year"
                     rules={[
                       { required: true, message: "Выберите год выпуска" },
@@ -279,6 +280,7 @@ const NewPost = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Пробег</p>
                   <Form.Item
+                    className="mb-0"
                     name="milage"
                     // rules={[{ required: true, message: "Введите пробег" }]}
                   >
@@ -299,6 +301,7 @@ const NewPost = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Страна</p>
                   <Form.Item
+                    className="mb-0"
                     name="country"
                     rules={[
                       {
@@ -323,6 +326,7 @@ const NewPost = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Топливо</p>
                   <Form.Item
+                    className="mb-0"
                     name="engine"
                     rules={[
                       {
@@ -346,6 +350,7 @@ const NewPost = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Объем</p>
                   <Form.Item
+                    className="mb-0"
                     name="volume"
                     rules={[
                       { required: true, message: "Введите объем двигателя" },
@@ -368,6 +373,7 @@ const NewPost = () => {
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Мощность</p>
                   <Form.Item
+                    className="mb-0"
                     name="horsepower"
                     rules={[{ required: true, message: "Введите мощность" }]}
                   >
@@ -390,6 +396,7 @@ const NewPost = () => {
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Привод</p>
                       <Form.Item
+                        className="mb-0"
                         name="drive"
                         rules={[
                           {
@@ -416,6 +423,7 @@ const NewPost = () => {
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Привод</p>
                       <Form.Item
+                        className="mb-0"
                         name="drive"
                         rules={[
                           {
@@ -442,6 +450,7 @@ const NewPost = () => {
                   <p className="text-[#989898] text-[15px]">КПП</p>
                   {selectedType === "motorcycles" ? (
                     <Form.Item
+                      className="mb-0"
                       name="transmission"
                       rules={[
                         {
@@ -462,6 +471,7 @@ const NewPost = () => {
                     </Form.Item>
                   ) : (
                     <Form.Item
+                      className="mb-0"
                       name="checkpoint"
                       rules={[
                         {
@@ -490,7 +500,7 @@ const NewPost = () => {
                         <p className="text-[#989898] text-[15px]">
                           Колличество дверей
                         </p>
-                        <Form.Item name="doors">
+                        <Form.Item className="mb-0" name="doors">
                           <Select
                             className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                             placeholder="Колличество"
@@ -509,7 +519,7 @@ const NewPost = () => {
                   <>
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Кузов</p>
-                      <Form.Item name="body">
+                      <Form.Item className="mb-0" name="body">
                         <Select
                           className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[200px] h-[40px]"
                           placeholder="Кузов"
@@ -527,7 +537,7 @@ const NewPost = () => {
                   <div>
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Кузов</p>
-                      <Form.Item name="body">
+                      <Form.Item className="mb-0" name="body">
                         <Select
                           className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[200px] h-[40px]"
                           placeholder="Кузов"
@@ -547,6 +557,7 @@ const NewPost = () => {
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Состояние</p>
                       <Form.Item
+                        className="mb-0"
                         name="condition"
                         rules={[
                           {
@@ -573,6 +584,7 @@ const NewPost = () => {
                     <div className="flex justify-between items-center">
                       <p className="text-[#989898] text-[15px]">Состояние</p>
                       <Form.Item
+                        className="mb-0"
                         name="statement"
                         rules={[
                           {
@@ -597,7 +609,7 @@ const NewPost = () => {
                 )}
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">Цвет</p>
-                  <Form.Item name="color">
+                  <Form.Item className="mb-0" name="color">
                     <Select
                       className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
                       placeholder="Цвет"
