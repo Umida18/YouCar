@@ -7,7 +7,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "@/Api/Api";
 
 interface PropsCar {
@@ -22,6 +22,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
   const [liked, setLiked] = useState(false);
   const user_id = Number(localStorage.getItem("id"));
   const email = localStorage.getItem("email") || (undefined as any);
+  const navigate = useNavigate();
 
   const mutation = useMutation(
     async (data: { id: number; user_id: number; count: number }) => {
@@ -103,6 +104,10 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
       setLiked(false);
     }
   }, [item?.liked_user]);
+
+  const handleMessage = () => {
+    navigate(`/account/messagingPage/${userData?.id}`);
+  };
 
   return (
     <div className="flex flex-col">
@@ -188,6 +193,7 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
               </div>
             </div>
             <button
+              onClick={handleMessage}
               style={{ boxShadow: "none" }}
               className="flex items-center justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] xl:px-4 px-2"
             >

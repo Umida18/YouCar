@@ -28,6 +28,7 @@ import PostCom from "./components/Account/Post";
 import PostsUser from "./components/Account/Post";
 import EditPost from "./components/Account/EditPost";
 import ErrorBoundary from "./components/ErrorBoundary";
+import MessagingPage from "./components/Account/Chat";
 
 function App() {
   return (
@@ -55,6 +56,10 @@ function App() {
                   <Route path="/brand" element={<Brand />} />
                   <Route path="/account" element={<AccountPage />}>
                     <Route index element={<Favorites />} />
+                    <Route
+                      path="messagingPage/:id"
+                      element={<MessagingPage />}
+                    />
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="postsUser" element={<PostsUser />} />
                     <Route path="messages" element={<Messages />} />

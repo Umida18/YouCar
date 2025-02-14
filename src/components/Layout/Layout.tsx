@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Sidebar from "../Account/Sidebar";
 import Favorites from "../Account/Favorites";
 import Messages from "../Account/Messages";
@@ -7,8 +7,13 @@ import Settings from "../Account/Settings";
 import Tariff from "../Account/Tariff";
 import { Col, Row } from "antd";
 import PostsUser from "../Account/Post";
+// import MessagingPage from "../Account/Chat";
 
-const Layout = () => {
+type LayoutProps = {
+  children?: ReactNode;
+};
+
+const Layout = ({ children }: LayoutProps) => {
   const [activeSection, setActiveSection] = useState("favorites");
 
   return (
@@ -25,12 +30,14 @@ const Layout = () => {
           </Col>
           <Col xl={18} className="min-h-full">
             <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full">
+              {children}
               {activeSection === "favorites" && <Favorites />}
               {activeSection === "messages" && <Messages />}
               {activeSection === "post" && <Post />}
               {activeSection === "settings" && <Settings />}
               {activeSection === "tariff" && <Tariff />}
               {activeSection === "postsUser" && <PostsUser />}
+              {/* {activeSection === "messagingPage/:id" && <MessagingPage />} */}
             </div>
           </Col>
         </Row>

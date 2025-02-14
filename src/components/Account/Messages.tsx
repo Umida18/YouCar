@@ -1,11 +1,10 @@
-"use client";
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar } from "@/components/ui/avatar";
 import { Paperclip, MoreVertical, ArrowLeft, Send } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: number;
@@ -46,6 +45,7 @@ const mockMessages: Message[] = [
 export default function Messages() {
   const [selectedChat, setSelectedChat] = useState<Message | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  // const navigate = useNavigate();
 
   if (selectedChat) {
     return (
@@ -119,7 +119,7 @@ export default function Messages() {
           <div
             key={message.id}
             className="flex items-center p-4 hover:bg-gray-100 cursor-pointer bg-[#F6F6F6] my-2 rounded-lg"
-            onClick={() => setSelectedChat(message)}
+            // onClick={() =>  navigate(`/account/messagingPage/${userData?.id}`)}
           >
             <Avatar className="w-14 h-14">
               <div className="w-full h-full bg-[#D9D9D9] rounded-full flex items-center justify-center">
