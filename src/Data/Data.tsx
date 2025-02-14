@@ -22,6 +22,11 @@ export const kpp = [
   { id: 2, val: "manual", label: "Механика" },
 ];
 
+export const kppMoto = [
+  { id: 1, val: "automatic", label: "Автомат" },
+  { id: 2, val: "manual", label: "Механика" },
+];
+
 export const doors = [
   { id: 1, val: 2 },
   { id: 2, val: 3 },

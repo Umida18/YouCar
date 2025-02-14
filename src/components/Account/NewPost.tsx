@@ -104,7 +104,7 @@ const NewPost = () => {
       if (selectedType === "motorcycles") {
         endpoint = "/add-motorcycle";
       } else if (selectedType === "commercial") {
-        endpoint = "/add-commercial";
+        endpoint = "/add-commerce-car";
       } else if (selectedType === "cars") {
         endpoint = "/add-car";
       }
@@ -125,7 +125,7 @@ const NewPost = () => {
         milage: values.milage ? Number(values.milage) : 0,
         cost: values.cost ? Number(values.cost) : undefined,
         // milage: values.milage ? Number(values.milage) : undefined,
-        volume: values.volume ? Number(values.volume) : undefined,
+        volume: values.volume ? values.volume : undefined,
         horsepower: values.horsepower ? Number(values.horsepower) : undefined,
         doors: values.doors ? Number(values.doors) : undefined,
       }).forEach(([key, value]) => {
@@ -440,25 +440,47 @@ const NewPost = () => {
                 )}
                 <div className="flex justify-between items-center">
                   <p className="text-[#989898] text-[15px]">КПП</p>
-                  <Form.Item
-                    name="checkpoint"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Пожалуйста, выберите тип КПП",
-                      },
-                    ]}
-                  >
-                    <Select
-                      className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
-                      placeholder="КПП"
-                      options={kpp.map((i, index) => ({
-                        label: i.label,
-                        value: i.val,
-                        key: `${i.val}-${index}`,
-                      }))}
-                    />
-                  </Form.Item>
+                  {selectedType === "motorcycles" ? (
+                    <Form.Item
+                      name="transmission"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Пожалуйста, выберите тип КПП",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
+                        placeholder="КПП"
+                        options={kpp.map((i, index) => ({
+                          label: i.label,
+                          value: i.val,
+                          key: `${i.val}-${index}`,
+                        }))}
+                      />
+                    </Form.Item>
+                  ) : (
+                    <Form.Item
+                      name="checkpoint"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Пожалуйста, выберите тип КПП",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="[&_.ant-select-selector]:!bg-[#F4F4F4] [&_.ant-select-selector]:!border-0 min-w-[160px] h-[40px]"
+                        placeholder="КПП"
+                        options={kpp.map((i, index) => ({
+                          label: i.label,
+                          value: i.val,
+                          key: `${i.val}-${index}`,
+                        }))}
+                      />
+                    </Form.Item>
+                  )}
                 </div>
                 <Divider />
                 {selectedType !== "commercial" &&

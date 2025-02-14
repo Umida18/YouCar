@@ -1,12 +1,6 @@
 import { ReactNode, useState } from "react";
 import Sidebar from "../Account/Sidebar";
-import Favorites from "../Account/Favorites";
-import Messages from "../Account/Messages";
-import Post from "../Account/Post";
-import Settings from "../Account/Settings";
-import Tariff from "../Account/Tariff";
 import { Col, Row } from "antd";
-import PostsUser from "../Account/Post";
 // import MessagingPage from "../Account/Chat";
 
 type LayoutProps = {
@@ -31,12 +25,12 @@ const Layout = ({ children }: LayoutProps) => {
           <Col xl={18} className="min-h-full w-full">
             <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full">
               {children}
-              {activeSection === "favorites" && <Favorites />}
+              {/* {activeSection === "favorites" && <Favorites />}
               {activeSection === "messages" && <Messages />}
               {activeSection === "post" && <Post />}
               {activeSection === "settings" && <Settings />}
               {activeSection === "tariff" && <Tariff />}
-              {activeSection === "postsUser" && <PostsUser />}
+              {activeSection === "postsUser" && <PostsUser />} */}
               {/* {activeSection === "messagingPage/:id" && <MessagingPage />} */}
             </div>
           </Col>
