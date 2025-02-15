@@ -1,28 +1,26 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
-import { Check, CheckCheck } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+// import { useNavigate } from "react-router-dom";/
+// import { format } from "date-fns";
+// import { Check, CheckCheck } from "lucide-react";
+// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { io, type Socket } from "socket.io-client";
 import axios from "axios";
 
-interface Chat {
-  id: string;
-  user: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
-  lastMessage: {
-    text: string;
-    timestamp: string;
-    status: "sent" | "seen";
-  };
-  unreadCount: number;
-}
+// interface Chat {
+//   id: string;
+//   user: {
+//     id: string;
+//     name: string;
+//     avatar?: string;
+//   };
+//   lastMessage: {
+//     text: string;
+//     timestamp: string;
+//     status: "sent" | "seen";
+//   };
+//   unreadCount: number;
+// }
 
 interface Message {
   id: string;
@@ -35,21 +33,21 @@ interface Message {
 }
 
 export default function Messages() {
-  const [chats, setChats] = useState<Chat[]>([]);
+  const [_, setChats] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const socketRef = useRef<Socket | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const currentUserId = localStorage.getItem("id");
 
   useEffect(() => {
-    socketRef.current = io("https://api.youcarrf.ru", {
+    socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
     });
 
     const socket = socketRef.current;
 
-    socket.on("connect", () => {
+    socket.on("connection", () => {
       console.log("Connected to socket server");
       if (currentUserId) {
         socket.emit("join", currentUserId);
@@ -59,7 +57,7 @@ export default function Messages() {
 
     socket.on("receive message", (newMessage: Message) => {
       console.log("Received new message:", newMessage);
-      updateChatsWithNewMessage(newMessage);
+      // updateChatsWithNewMessage(newMessage);
     });
 
     socket.on("connect_error", (error) => {
@@ -77,54 +75,54 @@ export default function Messages() {
     };
   }, [currentUserId]);
 
-  const updateChatsWithNewMessage = (newMessage: Message) => {
-    setChats((prevChats) => {
-      const otherUserId =
-        newMessage.senderId === currentUserId
-          ? newMessage.receiverId
-          : newMessage.senderId;
+  // const updateChatsWithNewMessage = (newMessage: Message) => {
+  //   setChats((prevChats) => {
+  //     const otherUserId =
+  //       newMessage.senderId === currentUserId
+  //         ? newMessage.receiverId
+  //         : newMessage.senderId;
 
-      const existingChatIndex = prevChats.findIndex(
-        (chat) => chat.user.id === otherUserId
-      );
+  //     const existingChatIndex = prevChats.findIndex(
+  //       (chat) => chat.user.id === otherUserId
+  //     );
 
-      if (existingChatIndex > -1) {
-        const updatedChats = [...prevChats];
-        const chat = updatedChats[existingChatIndex];
+  //     if (existingChatIndex > -1) {
+  //       const updatedChats = [...prevChats];
+  //       const chat = updatedChats[existingChatIndex];
 
-        updatedChats[existingChatIndex] = {
-          ...chat,
-          lastMessage: {
-            text: newMessage.message,
-            timestamp: newMessage.timestamp,
-            status: newMessage.status,
-          },
-          unreadCount:
-            newMessage.senderId !== currentUserId
-              ? (chat.unreadCount || 0) + 1
-              : chat.unreadCount,
-        };
+  //       updatedChats[existingChatIndex] = {
+  //         ...chat,
+  //         lastMessage: {
+  //           text: newMessage.message,
+  //           timestamp: newMessage.timestamp,
+  //           status: newMessage.status,
+  //         },
+  //         unreadCount:
+  //           newMessage.senderId !== currentUserId
+  //             ? (chat.unreadCount || 0) + 1
+  //             : chat.unreadCount,
+  //       };
 
-        updatedChats.unshift(...updatedChats.splice(existingChatIndex, 1));
-        return updatedChats;
-      } else {
-        const newChat: Chat = {
-          id: newMessage.id,
-          user: {
-            id: otherUserId,
-            name: `User ${otherUserId}`,
-          },
-          lastMessage: {
-            text: newMessage.message,
-            timestamp: newMessage.timestamp,
-            status: newMessage.status,
-          },
-          unreadCount: newMessage.senderId !== currentUserId ? 1 : 0,
-        };
-        return [newChat, ...prevChats];
-      }
-    });
-  };
+  //       updatedChats.unshift(...updatedChats.splice(existingChatIndex, 1));
+  //       return updatedChats;
+  //     } else {
+  //       const newChat: Chat = {
+  //         id: newMessage.id,
+  //         user: {
+  //           id: otherUserId,
+  //           name: `User ${otherUserId}`,
+  //         },
+  //         lastMessage: {
+  //           text: newMessage.message,
+  //           timestamp: newMessage.timestamp,
+  //           status: newMessage.status,
+  //         },
+  //         unreadCount: newMessage.senderId !== currentUserId ? 1 : 0,
+  //       };
+  //       return [newChat, ...prevChats];
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -142,8 +140,9 @@ export default function Messages() {
         if (response.status === 200 && response.data.status === "Success") {
           setChats(response.data.data);
           setError(null);
+          console.log("response.data.data", response.data.data);
         } else if (response.status === 404) {
-          setChats([]);
+          // setChats([]);
           setError(null);
         } else {
           throw new Error(response.data.message || "Failed to fetch chats");
@@ -159,23 +158,23 @@ export default function Messages() {
     fetchChats();
   }, [currentUserId]);
 
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase();
-  };
+  // const getInitials = (name: string) => {
+  //   return name
+  //     .split(" ")
+  //     .map((part) => part[0])
+  //     .join("")
+  //     .toUpperCase();
+  // };
 
-  const formatMessageTime = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const now = new Date();
+  // const formatMessageTime = (timestamp: string) => {
+  //   const date = new Date(timestamp);
+  //   const now = new Date();
 
-    if (date.toDateString() === now.toDateString()) {
-      return format(date, "HH:mm");
-    }
-    return format(date, "dd.MM.yy");
-  };
+  //   if (date.toDateString() === now.toDateString()) {
+  //     return format(date, "HH:mm");
+  //   }
+  //   return format(date, "dd.MM.yy");
+  // };
 
   if (loading) {
     return (
@@ -200,13 +199,13 @@ export default function Messages() {
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="divide-y">
-          {chats.length === 0 ? (
+        {/* <div className="divide-y">
+          {chats?.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
               Нет сообщений
             </div>
           ) : (
-            chats.map((chat) => (
+            chats?.map((chat) => (
               <div
                 key={chat.id}
                 className="flex items-center gap-4 p-4 hover:bg-accent cursor-pointer transition-colors"
@@ -255,7 +254,7 @@ export default function Messages() {
               </div>
             ))
           )}
-        </div>
+        </div> */}
       </ScrollArea>
     </div>
   );

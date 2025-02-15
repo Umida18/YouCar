@@ -78,20 +78,20 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               <p className="text-[24px] font-bold mb-8">
                 Задайте вопрос продавцу
               </p>
-              <div className="flex flex-wrap gap-4 ">
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full">
+              <div className="flex flex-wrap xl:gap-4 gap-2 ">
+                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]">
                   Здравствуйте
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full">
+                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]">
                   Какой срок доставки?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full">
+                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]">
                   ПТС ОРИГИНАЛ?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full">
+                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]">
                   Пробег оригинал?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full">
+                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]">
                   Какой бензин?
                 </button>
               </div>

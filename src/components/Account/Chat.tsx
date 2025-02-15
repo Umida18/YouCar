@@ -63,7 +63,7 @@ export default function MessagingPage() {
     initializeChatSession();
 
     // Set up the socket connection
-    socketRef.current = io("https://api.youcarrf.ru", {
+    socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
     });
 
