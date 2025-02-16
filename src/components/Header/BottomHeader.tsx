@@ -19,6 +19,8 @@ const BottomHeader = () => {
   const navigate = useNavigate();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
+  const token = localStorage.getItem("token");
+
   const { data: user } = useQuery<IUser>(
     ["user"],
     async () => {
@@ -38,6 +40,7 @@ const BottomHeader = () => {
       }
     },
     {
+      enabled: !!localStorage.getItem("token"),
       onError: (error: any) => {
         if (error.response?.status === 401) {
           setIsRegistered(false);
@@ -45,14 +48,13 @@ const BottomHeader = () => {
       },
     }
   );
-
   useEffect(() => {
-    if (user) {
-      setIsRegistered(true);
-    } else {
+    if (!token) {
       setIsRegistered(false);
+    } else {
+      setIsRegistered(true);
     }
-  }, [user]);
+  }, [token]);
 
   const handleMouseEnter = (type: string) => {
     setActiveDropdown(type);

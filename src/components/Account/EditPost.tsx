@@ -48,6 +48,7 @@ const EditPost = () => {
   const typeC = param.get("type");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [fileL, setFileL] = useState<UploadFile[]>();
 
@@ -127,6 +128,7 @@ const EditPost = () => {
 
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
+      setLoading(true);
       console.log("values1111", values);
 
       let endpoint = "";
@@ -216,6 +218,8 @@ const EditPost = () => {
         message: "Ошибка",
         description: "Произошла ошибка при обновлении транспортного средства.",
       });
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -758,7 +762,7 @@ const EditPost = () => {
               className="bg-[#D7EAFF] w-full border-0 text-[#2684E5] text-[15px] font-bold h-[70px] rounded-sm my-3"
               type="submit"
             >
-              Опубликовать объявление
+              {loading ? "Загрузка..." : "Опубликовать объявление"}
             </button>
           </Form.Item>
         </Form>

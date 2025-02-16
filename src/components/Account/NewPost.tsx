@@ -41,6 +41,7 @@ const NewPost = () => {
   const [hasUploadedImages, setHasUploadedImages] = useState(false);
   const [url, setUrl] = useState<string[]>([]);
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
 
   const [fileL, setFileL] = useState<UploadFile[]>();
 
@@ -98,6 +99,7 @@ const NewPost = () => {
 
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
+      setLoading(true);
       console.log("values", values);
 
       let endpoint = "";
@@ -161,6 +163,8 @@ const NewPost = () => {
         message: "Ошибка",
         description: "Произошла ошибка при добавлении объявления.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -726,7 +730,7 @@ const NewPost = () => {
                     className="bg-[#D7EAFF] w-full border-0 text-[#2684E5] text-[15px] font-bold h-[70px] rounded-sm my-3"
                     type="submit"
                   >
-                    Опубликовать объявление
+                    {loading ? "Загрузка..." : "Опубликовать объявление"}
                   </button>
                 </Form.Item>
               </>
