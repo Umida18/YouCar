@@ -64,8 +64,8 @@ function App() {
                     <Route path="postsUser" element={<PostsUser />} />
                     <Route path="messages" element={<Messages />} />
                     <Route path="myPosts" element={<PostCom />} />
-                    <Route path="tariff" element={<Settings />} />
-                    <Route path="settings" element={<Tariff />} />
+                    <Route path="tariff" element={<Tariff />} />
+                    <Route path="settings" element={<Settings />} />
                   </Route>
                   <Route
                     path="/productDetailsPage/:id"
