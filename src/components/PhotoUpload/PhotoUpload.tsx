@@ -29,7 +29,6 @@ PhotoUploadProps) {
   const [fileList, setFileList] = useState<UploadFile[]>(value || []);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   // const [arrFile, setArrFile] = useState<UploadFile[]>(value || []);
-  console.log("fileList", fileList);
   // const arrFile = [];
 
   // useEffect(() => {
@@ -72,8 +71,6 @@ PhotoUploadProps) {
   }: {
     fileList: UploadFile[];
   }) => {
-    console.log("PhotoUpload handleChange:", newFileList);
-
     const updatedList = [...fileList, ...newFileList];
     setFileList(updatedList);
 
@@ -106,9 +103,6 @@ PhotoUploadProps) {
       ]);
     }
   }, [imageUrls]);
-
-  // console.log("existingImages", existingImages);
-  // console.log("fileList", fileList);
 
   return (
     <div className="w-full ">

@@ -1,4 +1,4 @@
-import { Avatar, Button, Collapse, Divider } from "antd";
+import { Avatar, Divider } from "antd";
 import { IoMdStarOutline } from "react-icons/io";
 import { MdOutlineSms } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { IUser } from "../../Type/Type";
 import api from "../../Api/Api";
 import ProfilePage from "./sidebarMobile";
+import { TbLayoutSidebar } from "react-icons/tb";
+import { BsWindowSidebar } from "react-icons/bs";
 
 interface SidebarProps {
   activeSection: string;
@@ -19,13 +21,14 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeKey, setActiveKey] = useState<string | string[]>([]);
+  const [isOpenCallapse, setIsOpenCallapse] = useState(false);
 
-  const navigation = [
-    { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
-    { id: "messages", name: "Сообщения", icon: <MdOutlineSms /> },
-    // { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
-    { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
-  ];
+  // const navigation = [
+  //   { id: "favorites", name: "Избранное", icon: <IoMdStarOutline /> },
+  //   { id: "messages", name: "Сообщения", icon: <MdOutlineSms /> },
+  //   // { id: "tariff", name: "Тариф", icon: <BsLightningCharge /> },
+  //   { id: "settings", name: "Настройки аккаунта", icon: <IoSettingsOutline /> },
+  // ];
 
   const handleLeave = () => {
     localStorage.removeItem("email");
@@ -87,12 +90,76 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
         </div>
         <div className="flex flex-col gap-16">
           <div className="flex flex-col shadow-none gap-1">
-            <Collapse
+            <button
+              className={`w-full flex px-3 gap-2 rounded-md justify-start items-center !shadow-none text-[15px] h-[53px] border-0 ${
+                activeSection === "favorites"
+                  ? "bg-[#F3F5FC] text-black "
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              onClick={() => handleNavigation("favorites")}
+              key={"favorites"}
+            >
+              <IoMdStarOutline className="text-[24px] hover:text-black" />
+              <span className="text-[#293843] font-medium">Избранное</span>
+            </button>
+
+            <div>
+              <button
+                className={`w-full flex px-3 gap-2 rounded-md justify-start items-center !shadow-none text-[15px] h-[53px] border-0 ${
+                  activeSection === "post"
+                    ? "bg-[#F3F5FC] text-black "
+                    : "text-gray-600 hover:bg-gray-100"
+                }`}
+                onClick={() => setIsOpenCallapse(!isOpenCallapse)}
+                key={"post"}
+              >
+                <TbLayoutSidebar className="text-[24px] hover:text-black" />
+                <span className="text-[#293843] font-medium">
+                  Разместить объявление
+                </span>
+              </button>
+              {isOpenCallapse && (
+                <div className="flex flex-col gap-2 px-8">
+                  <button
+                    className="w-full flex items-center px-2 gap-2 text-left rounded-md h-[40px] text-gray-700 hover:bg-gray-100"
+                    onClick={() => navigate("/newPost")}
+                  >
+                    <TbLayoutSidebar className="text-[24px] hover:text-black" />
+                    Новое объявление
+                  </button>
+                  <button
+                    className="w-full text-left flex px-3  items-center rounded-md h-[40px] gap-2 text-gray-700 hover:bg-gray-100"
+                    onClick={() => navigate("/account/postsUser")}
+                  >
+                    <BsWindowSidebar className="text-[18px] hover:text-black" />
+                    Мои объявления
+                  </button>
+                </div>
+              )}
+              <div></div>
+            </div>
+
+            <button
+              className={`w-full flex px-3 gap-2 rounded-md justify-start items-center !shadow-none text-[15px] h-[53px] border-0 ${
+                activeSection === "messages"
+                  ? "bg-[#F3F5FC] text-black "
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              onClick={() => handleNavigation("messages")}
+              key={"messages"}
+            >
+              <MdOutlineSms className="text-[24px] hover:text-black" />
+              <span className="text-[#293843] font-medium">Сообщения</span>
+            </button>
+
+            {/* <Collapse
               activeKey={activeKey}
               onChange={(key) => setActiveKey(key)}
               ghost
+          
             >
               <Collapse.Panel
+              
                 key="post"
                 header={
                   <div className="flex flex-row-reverse items-center justify-between w-full text-[15px] font-medium">
@@ -117,8 +184,8 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
                   </Button>
                 </div>
               </Collapse.Panel>
-            </Collapse>
-            {navigation.map((item) => (
+            </Collapse> */}
+            {/* {navigation.map((item) => (
               <Button
                 className={`w-full justify-start !shadow-none text-[15px] h-[53px] border-0 ${
                   activeSection === item.id
@@ -131,15 +198,30 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
                 <span>{item.icon}</span>
                 <span>{item.name}</span>
               </Button>
-            ))}
+            ))} */}
+
+            <button
+              className={`w-full flex px-3 gap-2 rounded-md justify-start items-center !shadow-none text-[15px] h-[53px] border-0 ${
+                activeSection === "settings"
+                  ? "bg-[#F3F5FC] text-black "
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              onClick={() => handleNavigation("settings")}
+              key={"settings"}
+            >
+              <IoSettingsOutline className="text-[24px] hover:text-black" />
+              <span className="text-[#293843] font-medium">
+                Настройки аккаунта
+              </span>
+            </button>
           </div>
           <div>
-            <Button
+            <button
               onClick={handleLeave}
-              className="w-full text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
+              className="w-full rounded-md text-black text-[15px] font-semibold hover:bg-red-50 hover:!text-red-700 border-0 bg-[#F6F6F6] !text-center h-[53px]"
             >
               Выйти
-            </Button>
+            </button>
           </div>
         </div>
       </div>

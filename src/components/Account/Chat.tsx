@@ -31,11 +31,10 @@ export default function MessagingPage() {
   const { id: receiverId } = useParams();
   const navigate = useNavigate();
 
-  // Function to initialize the chat session
   const initializeChatSession = async () => {
     if (currentUserId && receiverId) {
       try {
-        const response = await fetch("https://api.youcarrf.ru/chat/add", {
+        const response = await fetch("wss://api.youcarrf.ru", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,10 +58,8 @@ export default function MessagingPage() {
   };
 
   useEffect(() => {
-    // Initialize the chat session
     initializeChatSession();
 
-    // Set up the socket connection
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
     });
@@ -77,7 +74,6 @@ export default function MessagingPage() {
         socket.emit("join", currentUserId);
         console.log("Joined chat with userId:", currentUserId);
 
-        // Fetch messages after the chat session is initialized
         socket.emit("fetch messages", {
           userId: currentUserId,
           otherUserId: receiverId,

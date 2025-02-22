@@ -23,7 +23,6 @@ const CarsPage = () => {
     const res = await api.get(`/cars?page=${currentPage}&pageSize=${12}`);
     return res.data;
   });
-  console.log("car", car);
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
@@ -43,7 +42,6 @@ const CarsPage = () => {
           country: params.country,
           page: currentPage,
         });
-        console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
         return res.data;
       }

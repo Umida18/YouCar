@@ -134,7 +134,7 @@ export default function Messages() {
 
       try {
         const response = await axios.get(
-          `https://api.youcarrf.ru/chat/users/${currentUserId}`
+          `wss://api.youcarrf.ru/chat/users/${currentUserId}`
         );
 
         if (response.status === 200 && response.data.status === "Success") {

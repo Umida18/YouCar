@@ -29,8 +29,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
   const mutation = useMutation(
     async (data: { id: number; user_id: number; count: number }) => {
       let url = "";
-      console.log("dataa", data);
-      console.log("dataTypeeee", itemType);
 
       if (!itemType) {
         throw new Error("Item type is undefined");
@@ -48,11 +46,9 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
 
       if (itemType === "car") {
         const res = await api.post(url, {});
-        console.log("Response:", res);
         return res.data;
       } else {
         const res = await api.get(url);
-        console.log("Response:", res);
         return res.data;
       }
     },
@@ -99,9 +95,6 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
       const count = liked ? -1 : 1;
 
       setLiked(!liked);
-
-      console.log("Type:", item?.type);
-      console.log("Item:", item);
 
       mutation.mutate(
         { id, user_id, count },

@@ -50,13 +50,12 @@ const EditPost = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const [fileL, setFileL] = useState<UploadFile[]>();
+  const [___, setFileL] = useState<UploadFile[]>();
 
   const [form] = Form.useForm();
 
   const { data: userData } = useQuery<IUser>(["userData"], async () => {
     const res = await api.get("/user-dashboard");
-    console.log(res.data);
 
     return res.data;
   });
@@ -75,7 +74,6 @@ const EditPost = () => {
     }
 
     const res = await api.get(endpoint);
-    console.log("res444", res);
 
     return res.data.result;
   });
@@ -101,7 +99,6 @@ const EditPost = () => {
       setMarkId(selectedMark.id);
       mutation.mutate({ mark_id: selectedMark.id });
     }
-    console.log("val:", val);
   };
 
   const mutation = useMutation(async (data: { mark_id: number }) => {
@@ -124,12 +121,9 @@ const EditPost = () => {
     return res.data;
   });
 
-  console.log("fileee", fileL);
-
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
       setLoading(true);
-      console.log("values1111", values);
 
       let endpoint = "";
       if (selectedType === "moto") {
@@ -178,9 +172,7 @@ const EditPost = () => {
       // const arrImg = [];
       for (const file of values.image) {
         if (typeof file === "string") {
-          console.log("Processing URL:", file);
           const d = await urlToCustomFile(file);
-          console.log("Converted file:", d);
 
           if (d.originFileObj) {
             formData.append("image", d.originFileObj); // Haqiqiy File obyekti
@@ -197,15 +189,10 @@ const EditPost = () => {
       //   formData.append("image", file.originFileObj);
       // });
 
-      // console.log("arrImg", arrImg);
-      console.log("Final FormData payload:", formData);
-      console.log(`${endpoint}/${id}`);
-
-      const res = await api.put(`${endpoint}/${id}`, formData, {
+      await api.put(`${endpoint}/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("res:", res);
       notification.success({
         message: "Успешно",
         description: "Данные успешно обновлены!",
@@ -222,8 +209,6 @@ const EditPost = () => {
       setLoading(false); // Stop loading
     }
   };
-
-  console.log("fileL", fileL);
 
   useEffect(() => {
     if (editProd && marks.length > 0) {
@@ -242,7 +227,6 @@ const EditPost = () => {
       }
     }
   }, [editProd, form, marks]);
-  console.log(editProd);
 
   return (
     <div className="flex justify-center py-12">

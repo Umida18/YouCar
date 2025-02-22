@@ -56,7 +56,6 @@ const HomePage = () => {
 
       const response = await api.post(endpoint, requestData);
 
-      console.log("values.maxYear:", values);
       setFilteredCars(response.data);
 
       navigate(
@@ -70,7 +69,6 @@ const HomePage = () => {
           values.maxYear?.[1] || currentYear
         }&count=${buttonLabel}`
       );
-      console.log("Filtered cars:", response.data);
     } catch (error) {
       console.error("Error filtering cars:", error);
     }
@@ -105,14 +103,11 @@ const HomePage = () => {
         minPrice: allValues.minPrice,
         maxPrice: allValues.maxPrice,
       });
-      console.log("allValues.rate:", allValues);
-      console.log("changed All:", response.data);
 
       const buttonLabel = `${response.data.count} Предложений`;
       setButtonLabel(buttonLabel);
     } catch (error) {
       console.error("Error filtering cars:", error);
-      console.log("allValues.rate:", allValues);
     }
   };
 

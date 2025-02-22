@@ -22,7 +22,6 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
     ["cars"],
     async () => {
       const res = await api.get("/cars");
-      console.log("cars:", res);
       return res.data;
     },
     {
@@ -31,7 +30,6 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
       },
     }
   );
-  console.log("filteredCars", filteredCars);
 
   const carsRender = useMemo(() => {
     if (filteredCars) {
@@ -55,8 +53,6 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
     }
     return cars || [];
   }, [filteredCars, cars]);
-
-  console.log("activeCars", carsRender);
 
   const filtered = id
     ? carsRender?.filter((car) => car.id !== Number(id))

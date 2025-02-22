@@ -10,7 +10,6 @@ const Favorites = () => {
 
   const { data: fav } = useQuery(["fav"], async () => {
     const res = await api.get(`/favourite?user_email=${email}`);
-    console.log("fav", res.data);
 
     return res.data;
   });

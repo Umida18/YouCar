@@ -20,13 +20,10 @@ const Brand = () => {
 
   const [buttonLabel, setButtonLabel] = useState("Поиск");
 
-  console.log("markId", markId);
-
   const [form] = Form.useForm();
 
   const { data: markBrand } = useQuery(["markBrand"], async () => {
     const res = await api.get(`/mark/${markId}?page=1&pageSize=12`);
-    console.log("markBrand", res.data);
 
     const vehicles = res.data?.vehicles || {};
 
@@ -45,7 +42,6 @@ const Brand = () => {
       })),
     ];
   });
-  console.log(markBrand);
 
   const { data: filteredCars, refetch } = useQuery(
     ["filteredCars", searchParams.toString()],
@@ -73,7 +69,6 @@ const Brand = () => {
           model: params.model,
           country: params.country,
         });
-        console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
         return res.data;
       }
@@ -140,8 +135,6 @@ const Brand = () => {
       refetch();
     }
   }, [searchParams, form, refetch, selectedTab]);
-
-  console.log("markFil", markFil);
 
   return (
     <div>

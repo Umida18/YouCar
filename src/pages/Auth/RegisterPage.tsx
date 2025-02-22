@@ -25,7 +25,6 @@ const RegisterPage = () => {
           description: "Ваш аккаунт успешно зарегистрирован. Добро пожаловать!",
           placement: "topRight",
         });
-        console.log("Registration successful:", data);
 
         if (data.token) {
           localStorage.setItem("token", data.token);

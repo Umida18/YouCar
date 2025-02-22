@@ -38,7 +38,6 @@ const CommerceCars = () => {
           country: params.country,
           page: currentPage,
         });
-        console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
         return res.data;
       }

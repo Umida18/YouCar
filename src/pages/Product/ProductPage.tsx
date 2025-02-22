@@ -32,7 +32,6 @@ const ProductPage = () => {
       endpoint = "/motorcycles";
     }
     const res = await api.get(`${endpoint}/${id}`);
-    console.log("ressssss", res.data);
     setUserData(res.data.userData);
 
     return res.data;

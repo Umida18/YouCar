@@ -33,7 +33,6 @@ export default function PostsUser() {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   };
-  console.log("getttt", getAllListings());
 
   return (
     <div className="max-w-7xl mx-auto xl:p-4 px-0">

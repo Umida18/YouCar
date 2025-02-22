@@ -54,7 +54,6 @@ if (typeof window !== "undefined") {
       const { userId, token } = response.data;
       if (userId) {
         localStorage.setItem("userId", userId);
-        console.log("Token", token);
       }
       return response;
     },

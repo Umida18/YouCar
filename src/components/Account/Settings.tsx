@@ -11,10 +11,8 @@ const Settings = () => {
 
   const { data: user } = useQuery<IUser>(["user"], async () => {
     const res = await api.get("/user-dashboard");
-    console.log("user", user);
     return res.data;
   });
-  console.log("user", user);
 
   useEffect(() => {
     form1.setFieldsValue({
@@ -38,10 +36,9 @@ const Settings = () => {
   const handleChangeUser = async (values: any) => {
     const id = localStorage.getItem("id");
     try {
-      const res = await api.put(`/update-name-email/${id}`, {
+      await api.put(`/update-name-email/${id}`, {
         ...values,
       });
-      console.log("user update response:", res);
     } catch (error) {
       console.error("user update failed:", error);
     }
@@ -66,11 +63,10 @@ const Settings = () => {
 
       const id = localStorage.getItem("id");
 
-      const res = await api.put(`/update-password/${id}`, {
+      await api.put(`/update-password/${id}`, {
         oldPass: values.oldPass,
         newPass: values.newPass,
       });
-      console.log("Password update response:", res);
     } catch (error) {
       console.error("Password update failed:", error);
     }

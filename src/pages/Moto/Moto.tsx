@@ -40,7 +40,6 @@ const MotoPage = () => {
           model: params.model,
           country: params.country,
         });
-        console.log("resdata", res.data);
         setButtonLabel(`${res.data.count} Предложений`);
         return res.data;
       }

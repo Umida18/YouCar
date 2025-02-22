@@ -135,7 +135,6 @@ export default function CarSelector({
                         selectedTab: value,
                       })
                     : null;
-                  console.log("Selected Tab:", value);
                 }}
               >
                 <TabsList className="!w-full bg-[#F4F4F4]  p-0 rounded-xl h-full">

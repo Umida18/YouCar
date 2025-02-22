@@ -140,7 +140,6 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
                     statement: value,
                   };
                   updateQueryParams(updatedValues);
-                  console.log("Updated values:", updatedValues);
                 }}
               >
                 <Form.Item name="statement" hidden>

@@ -12,7 +12,6 @@ const CarCatalog = () => {
 
   const { data: cars } = useQuery<ICar[]>(["cars"], async () => {
     const res = await api.get("/cars");
-    console.log("cars:", res);
     return res.data;
   });
 

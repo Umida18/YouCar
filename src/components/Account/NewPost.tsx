@@ -49,7 +49,6 @@ const NewPost = () => {
 
   const { data: userData } = useQuery<IUser>(["userData"], async () => {
     const res = await api.get("/user-dashboard");
-    console.log(res.data);
 
     return res.data;
   });
@@ -74,7 +73,6 @@ const NewPost = () => {
       setMarkId(selectedMark.id);
       mutation.mutate({ mark_id: selectedMark.id });
     }
-    console.log("val:", val);
   };
 
   const mutation = useMutation(async (data: { mark_id: number }) => {
@@ -100,7 +98,6 @@ const NewPost = () => {
   const handleSubmitPost = async (values: CarFormValues) => {
     try {
       setLoading(true);
-      console.log("values", values);
 
       let endpoint = "";
       if (selectedType === "motorcycles") {
@@ -141,8 +138,6 @@ const NewPost = () => {
           formData.append("image", file.originFileObj);
         }
       });
-
-      console.log("Final FormData payload:", formData);
 
       const res = await api.post(endpoint, formData, {
         headers: { "Content-Type": "multipart/form-data" },

@@ -28,7 +28,6 @@ const LoginPage = () => {
           description: "Вы успешно вошли в систему!",
           placement: "topRight",
         });
-        console.log("Registration successful:", data);
 
         if (data.token) {
           localStorage.setItem("token", data.token);
@@ -59,7 +58,6 @@ const LoginPage = () => {
     } else {
       localStorage.removeItem("rememberedEmail");
     }
-    console.log("values.email", values.email);
     mutation.mutate({ email: values.email, password: values.password });
   };
 

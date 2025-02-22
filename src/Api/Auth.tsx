@@ -4,7 +4,6 @@ import { BASE_URL } from "../config";
 export const login = async (data: { username: string; password: string }) => {
   try {
     const response = await axios.post(`${BASE_URL}/login`, data);
-    console.log("Login response:", response);
 
     const token = response.data?.token;
     const user = response.data?.user; // Assuming user info is returned in the response.
@@ -22,7 +21,6 @@ export const login = async (data: { username: string; password: string }) => {
       //   })
       // );
       window.location.href = "/";
-      console.log("Token and user info saved to localStorage:", token, user);
 
       return response.data;
     } else {
@@ -47,7 +45,6 @@ export const register = async (data: {
   balance: number;
 }) => {
   try {
-    console.log("Sending registration data:", data);
     const response = await axios.post(`${BASE_URL}/auth/register`, data);
 
     const token = response.data?.token;
@@ -57,8 +54,6 @@ export const register = async (data: {
       // Save token and user data to localStorage
       localStorage.setItem("token", token);
       // localStorage.setItem("user", JSON.stringify(user));
-
-      console.log("User registered and logged in successfully:", user);
 
       // Navigate to home page
       window.location.href = "/"; // Or use React Router's `useNavigate` for navigation

@@ -7,7 +7,6 @@ import NewsCard from "../Cards/NewsCard";
 const News = ({ limit }: { limit?: number }) => {
   const { data: news } = useQuery<INews[]>(["news"], async () => {
     const res = await api.get("/news");
-    console.log("news:", res);
     return res.data;
   });
 
