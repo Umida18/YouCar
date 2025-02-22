@@ -13,8 +13,8 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
       <div className="w-full">
-        <Row gutter={[20, 20]}>
-          <Col xl={6}>
+        <Row gutter={[20, 20]} style={{ minWidth: "100%" }}>
+          <Col xl={6} className="xlw-auto w-full">
             <div className="">
               <Sidebar
                 activeSection={activeSection}
@@ -22,8 +22,8 @@ const Layout = ({ children }: LayoutProps) => {
               />
             </div>
           </Col>
-          <Col xl={18} className="min-h-full w-full">
-            <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full">
+          <Col xl={18} md={24} sm={24}>
+            <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full !min-w-full">
               {children}
               {/* {activeSection === "favorites" && <Favorites />}
               {activeSection === "messages" && <Messages />}

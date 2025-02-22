@@ -1,5 +1,5 @@
 import { Avatar, Divider } from "antd";
-import { IoMdStarOutline } from "react-icons/io";
+import { IoIosArrowForward, IoMdStarOutline } from "react-icons/io";
 import { MdOutlineSms } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { IUser } from "../../Type/Type";
 import api from "../../Api/Api";
 import ProfilePage from "./sidebarMobile";
 import { TbLayoutSidebar } from "react-icons/tb";
-import { BsWindowSidebar } from "react-icons/bs";
+import { TbLayoutSidebarRight } from "react-icons/tb";
 
 interface SidebarProps {
   activeSection: string;
@@ -20,7 +20,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeKey, setActiveKey] = useState<string | string[]>([]);
+  // const [activeKey, setActiveKey] = useState<string | string[]>([]);
   const [isOpenCallapse, setIsOpenCallapse] = useState(false);
 
   // const navigation = [
@@ -114,28 +114,35 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
                 key={"post"}
               >
                 <TbLayoutSidebar className="text-[24px] hover:text-black" />
-                <span className="text-[#293843] font-medium">
-                  Разместить объявление
+                <span className="text-[#293843] font-medium flex items-center gap-3">
+                  Разместить объявление{" "}
+                  <IoIosArrowForward
+                    className={`mt-1 transition-transform duration-300 ${
+                      isOpenCallapse ? " -rotate-90 " : ""
+                    } `}
+                  />
                 </span>
               </button>
-              {isOpenCallapse && (
-                <div className="flex flex-col gap-2 px-8">
-                  <button
-                    className="w-full flex items-center px-2 gap-2 text-left rounded-md h-[40px] text-gray-700 hover:bg-gray-100"
-                    onClick={() => navigate("/newPost")}
-                  >
-                    <TbLayoutSidebar className="text-[24px] hover:text-black" />
-                    Новое объявление
-                  </button>
-                  <button
-                    className="w-full text-left flex px-3  items-center rounded-md h-[40px] gap-2 text-gray-700 hover:bg-gray-100"
-                    onClick={() => navigate("/account/postsUser")}
-                  >
-                    <BsWindowSidebar className="text-[18px] hover:text-black" />
-                    Мои объявления
-                  </button>
-                </div>
-              )}
+              <div className="transition-transform duration-1000 ease-in-out ease-[cubic-bezier(0.25,1,0.5,1)] delay-200 will-change-transform">
+                {isOpenCallapse && (
+                  <div className="flex flex-col gap-2 px-8 transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform delay-200">
+                    <button
+                      className="w-full flex items-center px-2 gap-2 text-left rounded-md h-[40px] text-gray-700 hover:bg-gray-100"
+                      onClick={() => navigate("/newPost")}
+                    >
+                      <TbLayoutSidebar className="text-[24px] hover:text-black" />
+                      Новое объявление
+                    </button>
+                    <button
+                      className="w-full text-left flex px-2  items-center rounded-md h-[40px] gap-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => navigate("/account/postsUser")}
+                    >
+                      <TbLayoutSidebarRight className="text-[24px] hover:text-black" />
+                      Мои объявления
+                    </button>
+                  </div>
+                )}
+              </div>
               <div></div>
             </div>
 
@@ -225,7 +232,7 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
           </div>
         </div>
       </div>
-      <div className="xl:hidden block">
+      <div className="xl:hidden block w-full">
         <ProfilePage />
       </div>
     </>

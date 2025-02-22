@@ -6,10 +6,10 @@ import { io, type Socket } from "socket.io-client";
 import { useParams, useNavigate } from "react-router-dom";
 
 interface Message {
-  id: string;
+  chat_id: string;
   message: string;
-  senderId: string;
-  receiverId: string;
+  senderId: number;
+  receiverId: number;
   status: "sent" | "seen";
   timestamp: string;
   type?: string;
@@ -21,6 +21,14 @@ interface SellerData {
   avatar: string;
 }
 
+interface IData {
+  chat_id: string;
+  chat_user_id: number;
+  create_at: string;
+  mute_type: false;
+  user_id: number;
+}
+
 export default function MessagingPage() {
   const socketRef = useRef<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -28,20 +36,26 @@ export default function MessagingPage() {
   const [seller, __] = useState<SellerData | null>(null);
   const currentUserId = localStorage.getItem("id");
   const [connected, setConnected] = useState(false);
-  const { id: receiverId } = useParams();
+  const [data, setdata] = useState<IData | null>(null);
+  const { id } = useParams();
   const navigate = useNavigate();
 
+  console.log("data", data);
+  console.log("messages", messages);
+  console.log("message", message);
+
+  // Function to initialize the chat session
   const initializeChatSession = async () => {
-    if (currentUserId && receiverId) {
+    if (currentUserId && id) {
       try {
-        const response = await fetch("wss://api.youcarrf.ru", {
+        const response = await fetch("https://api.youcarrf.ru/chat/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             senderId: currentUserId,
-            receiverId: receiverId,
+            receiverId: id,
           }),
         });
 
@@ -51,6 +65,7 @@ export default function MessagingPage() {
 
         const data = await response.json();
         console.log("Chat session initialized:", data);
+        setdata(data.data);
       } catch (error) {
         console.error("Error initializing chat session:", error);
       }
@@ -58,8 +73,10 @@ export default function MessagingPage() {
   };
 
   useEffect(() => {
+    // Initialize the chat session
     initializeChatSession();
 
+    // Set up the socket connection
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
     });
@@ -70,13 +87,14 @@ export default function MessagingPage() {
       console.log("Connected to server with socket id:", socket.id);
       setConnected(true);
 
-      if (currentUserId && receiverId) {
-        socket.emit("join", currentUserId);
-        console.log("Joined chat with userId:", currentUserId);
+      if (data?.chat_user_id && data?.user_id) {
+        socket.emit("join", data?.chat_user_id);
+        console.log("Joined chat with userId:", data?.chat_user_id);
 
+        // Fetch messages after the chat session is initialized
         socket.emit("fetch messages", {
-          userId: currentUserId,
-          otherUserId: receiverId,
+          userId: data?.chat_user_id,
+          otherUserId: data?.user_id,
         });
       }
     });
@@ -99,7 +117,9 @@ export default function MessagingPage() {
     socket.on("message seen", (updatedMessage: Message) => {
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
-          msg.id === updatedMessage.id ? { ...msg, status: "seen" } : msg
+          msg.chat_id === updatedMessage.chat_id
+            ? { ...msg, status: "seen" }
+            : msg
         )
       );
     });
@@ -118,7 +138,7 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [currentUserId, receiverId]);
+  }, [data?.chat_user_id, data?.user_id]);
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,13 +146,13 @@ export default function MessagingPage() {
       message.trim() &&
       connected &&
       socketRef.current &&
-      currentUserId &&
-      receiverId
+      data?.chat_user_id &&
+      data?.user_id
     ) {
       const newMessage: Message = {
-        id: Date.now().toString(),
-        senderId: currentUserId,
-        receiverId: receiverId,
+        chat_id: data?.chat_id,
+        senderId: data?.chat_user_id,
+        receiverId: data?.user_id,
         message: message.trim(),
         type: "text",
         status: "sent",
@@ -141,29 +161,33 @@ export default function MessagingPage() {
 
       console.log("Sending message:", newMessage);
       socketRef.current.emit("send message", newMessage);
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-      setMessage("");
+
+      // Xabarni local state'ga qo‘shmaymiz, server javobini kutamiz
+      setMessage(""); // Inputni tozalash
     }
   };
 
-  const markMessageAsSeen = (messageId: string) => {
-    if (socketRef.current && receiverId) {
-      socketRef.current.emit("message seen", {
-        messageId,
-        receiverId,
-      });
-    }
-  };
+  // const markMessageAsSeen = (messageId: string) => {
+  //   if (socketRef.current && data?.user_id) {
+  //     socketRef.current.emit("message seen", {
+  //       messageId,
+  //       receiverId: data.user_id,
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
-    const unreadMessages = messages.filter(
-      (msg) => msg.status === "sent" && msg.senderId === currentUserId
-    );
+    if (!socketRef.current || !data?.user_id) return;
 
-    unreadMessages.forEach((msg) => {
-      markMessageAsSeen(msg.id);
+    messages.forEach((msg) => {
+      if (msg.status === "sent" && msg.senderId === data?.chat_user_id) {
+        socketRef.current?.emit("message seen", {
+          messageId: msg.chat_id,
+          receiverId: data.user_id,
+        });
+      }
     });
-  }, [messages, receiverId, markMessageAsSeen]);
+  }, [messages]);
 
   useEffect(() => {
     console.log("Messages updated:", messages);
@@ -196,14 +220,16 @@ export default function MessagingPage() {
         ) : (
           messages.map((msg, index) => (
             <div
-              key={msg.id || index}
+              key={msg.chat_id || index}
               className={`flex ${
-                msg.senderId === currentUserId ? "justify-end" : "justify-start"
+                msg.senderId === data?.chat_user_id
+                  ? "justify-end"
+                  : "justify-start"
               }`}
             >
               <div
                 className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                  msg.senderId === currentUserId
+                  msg.senderId === data?.chat_user_id
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted"
                 }`}
@@ -216,7 +242,7 @@ export default function MessagingPage() {
                       minute: "2-digit",
                     })}
                   </span>
-                  {msg.senderId === currentUserId && (
+                  {msg.senderId === data?.chat_user_id && (
                     <span className="text-xs opacity-70">
                       {msg.status === "seen" ? "✓✓" : "✓"}
                     </span>

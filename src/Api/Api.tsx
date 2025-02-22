@@ -51,7 +51,7 @@ api.interceptors.response.use(
 if (typeof window !== "undefined") {
   api.interceptors.response.use(
     (response) => {
-      const { userId, token } = response.data;
+      const { userId } = response.data;
       if (userId) {
         localStorage.setItem("userId", userId);
       }

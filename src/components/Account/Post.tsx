@@ -20,6 +20,11 @@ export default function PostsUser() {
     { staleTime: 0 }
   );
 
+  // useEffect(() => {
+  //   refetch();
+  // }, [userData]);
+  console.log("userData", userData);
+
   const getAllListings = () => {
     if (!userData?.yours?.result) return [];
 
