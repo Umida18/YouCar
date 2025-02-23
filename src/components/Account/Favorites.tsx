@@ -3,6 +3,7 @@ import api from "../../Api/Api";
 import { useQuery } from "@tanstack/react-query";
 import ItemCard from "../Cards/CarCard";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 
 const Favorites = () => {
   const email = localStorage.getItem("email");
@@ -16,7 +17,14 @@ const Favorites = () => {
 
   return (
     <div>
-      <p className="text-[30px] font-bold mb-8">Избранное</p>
+      <div className="flex justify-start items-center gap-3">
+        <button onClick={() => navigate("/mobileSider")}>
+          <MdOutlineArrowBackIos className="text-[24px] mb-3" />
+        </button>
+        <p className="xl:text-[30px] text-[24px] font-bold mb-8 xl:mt-0 mt-4">
+          Избранное
+        </p>
+      </div>
       <Row gutter={[36, 36]}>
         {fav &&
           [

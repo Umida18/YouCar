@@ -170,7 +170,13 @@ const NewPost = () => {
       <div className="w-full flex justify-end items-center py-3 px-2">
         <button
           onClick={() => navigate("/account/favorites")}
-          className="text-[#2684E5]"
+          className="text-[#2684E5] xl:block hidden"
+        >
+          Закрыть
+        </button>
+        <button
+          onClick={() => navigate("/mobileSider")}
+          className="text-[#2684E5] xl:hidden block"
         >
           Закрыть
         </button>

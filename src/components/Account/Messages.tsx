@@ -195,7 +195,7 @@ export default function Messages() {
   return (
     <div className="flex flex-col h-screen bg-background">
       <div className="border-b p-4">
-        <h1 className="text-2xl font-semibold">Сообщения</h1>
+        <p className="xl:text-2xl text-lg font-semibold">Сообщения</p>
       </div>
 
       <ScrollArea className="flex-1">

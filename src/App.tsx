@@ -29,6 +29,8 @@ import PostsUser from "./components/Account/Post";
 import EditPost from "./components/Account/EditPost";
 import ErrorBoundary from "./components/ErrorBoundary";
 import MessagingPage from "./components/Account/Chat";
+import ProfilePage from "./components/Account/sidebarMobile";
+// import ProfilePage from "./components/Account/sidebarMobile";
 
 function App() {
   return (
@@ -67,6 +69,17 @@ function App() {
                     <Route path="tariff" element={<Tariff />} />
                     <Route path="settings" element={<Settings />} />
                   </Route>
+                  <Route
+                    path="/messagingPage/:id"
+                    element={<MessagingPage />}
+                  />
+                  <Route path="/favorites" element={<Favorites />} />
+                  <Route path="/postsUser" element={<PostsUser />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/myPosts" element={<PostCom />} />
+                  <Route path="/tariff" element={<Tariff />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/mobileSider" element={<ProfilePage />} />
                   <Route
                     path="/productDetailsPage/:id"
                     element={<ProductPage />}

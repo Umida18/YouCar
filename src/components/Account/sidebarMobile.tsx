@@ -106,7 +106,7 @@ export default function ProfilePage() {
         <div className="grid grid-cols-2 gap-4">
           <Button
             // variant="outline"
-            onClick={() => navigate("/account/favorites")}
+            onClick={() => navigate("/favorites")}
             className="h-24 flex flex-col items-start gap-2 bg-white text-[#293843] hover:bg-white boxShadowC"
           >
             <Star className="min-h-5 min-w-5  text-blue-600" />
@@ -114,7 +114,7 @@ export default function ProfilePage() {
           </Button>
 
           <Button
-            onClick={() => navigate("/account/messages")}
+            onClick={() => navigate("/messages")}
             // variant="outline"
             className="h-24 flex flex-col items-start gap-2 bg-white text-[#293843] hover:bg-white boxShadowC"
           >
@@ -143,7 +143,7 @@ export default function ProfilePage() {
               <div className="mt-2 space-y-2 transition-all duration-300 ease-in-out">
                 <Button
                   className="w-full min-w-[200px] bg-[#fff] text-[#293843] hover:bg-[#f0f0f0] boxShadowC flex items-center justify-start gap-2 h-16"
-                  onClick={() => navigate("/account/postsUser")}
+                  onClick={() => navigate("/postsUser")}
                 >
                   <FileText className="min-h-5 min-w-5 text-[#1c80e7]" />
                   Мои объявления
@@ -168,7 +168,7 @@ export default function ProfilePage() {
         </Button> */}
 
           <Button
-            onClick={() => navigate("/account/settings")}
+            onClick={() => navigate("/settings")}
             // variant="outline"
             className="h-24 flex flex-col items-start gap-2 bg-white text-[#293843] hover:bg-white boxShadowC"
           >

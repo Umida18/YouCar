@@ -7,7 +7,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IUser } from "../../Type/Type";
 import api from "../../Api/Api";
-import ProfilePage from "./sidebarMobile";
 import { TbLayoutSidebar } from "react-icons/tb";
 import { TbLayoutSidebarRight } from "react-icons/tb";
 
@@ -232,9 +231,9 @@ const Sidebar = ({ activeSection, setActiveSection }: SidebarProps) => {
           </div>
         </div>
       </div>
-      <div className="xl:hidden block w-full">
+      {/* <div className="xl:hidden block w-full">
         <ProfilePage />
-      </div>
+      </div> */}
     </>
   );
 };

@@ -4,10 +4,13 @@ import { useEffect } from "react";
 import "../../index.css";
 import { useQuery } from "@tanstack/react-query";
 import { IUser } from "../../Type/Type";
+import { MdOutlineArrowBackIos } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
+  const navigate = useNavigate();
 
   const { data: user } = useQuery<IUser>(["user"], async () => {
     const res = await api.get("/user-dashboard");
@@ -74,7 +77,14 @@ const Settings = () => {
 
   return (
     <div>
-      <p className="text-[30px] font-bold">Настройки</p>
+      <div className="flex justify-start items-center gap-3">
+        <button onClick={() => navigate("/mobileSider")}>
+          <MdOutlineArrowBackIos className="text-[24px]" />
+        </button>
+        <p className="xl:text-[30px] text-[24px] font-bold xl:mb-8 mb-4 xl:mt-0 mt-4">
+          Настройки
+        </p>
+      </div>
       <Divider />
       <div>
         <p className="text-[15px] font-bold mb-5">Аккаунт</p>

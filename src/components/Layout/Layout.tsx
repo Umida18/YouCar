@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import Sidebar from "../Account/Sidebar";
 import { Col, Row } from "antd";
+import ProfilePage from "../Account/sidebarMobile";
 // import MessagingPage from "../Account/Chat";
 
 type LayoutProps = {
@@ -12,9 +13,9 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
-      <div className="w-full">
+      <div className="w-full xl:block hidden">
         <Row gutter={[20, 20]} style={{ minWidth: "100%" }}>
-          <Col xl={6} className="xlw-auto w-full">
+          <Col xl={6} className="xl:w-auto w-full">
             <div className="">
               <Sidebar
                 activeSection={activeSection}
@@ -23,18 +24,14 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
           </Col>
           <Col xl={18} md={24} sm={24}>
-            <div className="boxShadowC rounded-xl py-7 xl:!px-7 px-4 h-full !min-w-full">
+            <div className="boxShadowC  rounded-xl py-7 xl:!px-7 px-4 h-full !min-w-full">
               {children}
-              {/* {activeSection === "favorites" && <Favorites />}
-              {activeSection === "messages" && <Messages />}
-              {activeSection === "post" && <Post />}
-              {activeSection === "settings" && <Settings />}
-              {activeSection === "tariff" && <Tariff />}
-              {activeSection === "postsUser" && <PostsUser />} */}
-              {/* {activeSection === "messagingPage/:id" && <MessagingPage />} */}
             </div>
           </Col>
         </Row>
+      </div>
+      <div className="xl:hidden block w-full">
+        <ProfilePage />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Tabs, Card, Button, Dropdown } from "antd";
 import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import api from "@/Api/Api";
-import { MdOutlineSms } from "react-icons/md";
+import { MdOutlineArrowBackIos, MdOutlineSms } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
@@ -41,7 +41,14 @@ export default function PostsUser() {
 
   return (
     <div className="max-w-7xl mx-auto xl:p-4 px-0">
-      <h1 className="text-3xl font-bold mb-6">Мои объявления</h1>
+      <div className="flex justify-start items-center gap-3">
+        <button onClick={() => navigate("/mobileSider")}>
+          <MdOutlineArrowBackIos className="text-[24px] mb-3" />
+        </button>
+        <p className="xl:text-[30px] text-[24px] font-bold mb-8 xl:mt-0 mt-4">
+          Мои объявления
+        </p>
+      </div>
 
       <Tabs
         defaultActiveKey="1"
