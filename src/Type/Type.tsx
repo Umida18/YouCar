@@ -233,3 +233,12 @@ export interface IUser {
   updatedAt: string;
   userrate: string;
 }
+
+export interface AllChatsUser {
+  chat_id: string;
+  chat_user_id: number;
+  chat_user_name: string;
+  create_at: string;
+  mute_type: boolean;
+  unread_messages_count:string
+}

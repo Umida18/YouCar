@@ -3,7 +3,7 @@ import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, MoreVertical, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { io, type Socket } from "socket.io-client";
 import { useParams, useNavigate } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
@@ -18,6 +18,7 @@ export default function MessagingPage() {
   const [connected, setConnected] = useState(false);
   const [data, setdata] = useState<IData | null>(null);
   const [userName, setUserName] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -68,6 +69,7 @@ export default function MessagingPage() {
   };
 
   useEffect(() => {
+    setLoading(true);
     initializeChatSession();
 
     socketRef.current = io("wss://api.youcarrf.ru", {
@@ -84,7 +86,6 @@ export default function MessagingPage() {
         socket.emit("join", data?.chat_user_id);
         console.log("Joined chat with userId:", data?.chat_user_id);
 
-        // Fetch messages after the chat session is initialized
         socket.emit("fetch messages", {
           userId: data?.chat_user_id,
           otherUserId: data?.user_id,
@@ -120,7 +121,7 @@ export default function MessagingPage() {
     socket.on("connect_error", (error: Error) => {
       console.error("Connection error:", error);
     });
-
+    setLoading(false);
     return () => {
       if (socket) {
         socket.off("connect");
@@ -197,6 +198,14 @@ export default function MessagingPage() {
     fetchUser();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spin />{" "}
+      </div>
+    );
+  }
+
   return (
     <div className="  w-full">
       <div className="flex flex-col h-[600px] w-full xl:mt-0 mt-12 bg-background">
@@ -228,7 +237,9 @@ export default function MessagingPage() {
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
         >
           {messages.length === 0 ? (
-            <p className="text-center text-muted-foreground">No messages yet</p>
+            <p className="text-center text-muted-foreground">
+              Сообщений пока нет
+            </p>
           ) : (
             messages.map((msg, index) => (
               <div

@@ -78,7 +78,10 @@ const Settings = () => {
   return (
     <div>
       <div className="flex justify-start items-center gap-3">
-        <button onClick={() => navigate("/mobileSider")}>
+        <button
+          className="xl:hidden block"
+          onClick={() => navigate("/mobileSider")}
+        >
           <MdOutlineArrowBackIos className="text-[24px]" />
         </button>
         <p className="xl:text-[30px] text-[24px] font-bold xl:mb-8 mb-4 xl:mt-0 mt-4">

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Tabs, Card, Button, Dropdown } from "antd";
+import { Tabs, Card, Button, Dropdown, Spin } from "antd";
 import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import api from "@/Api/Api";
 import { MdOutlineArrowBackIos, MdOutlineSms } from "react-icons/md";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function PostsUser() {
   const navigate = useNavigate();
 
-  const { data: userData } = useQuery(
+  const { data: userData, isLoading } = useQuery(
     ["userData"],
     async () => {
       const res = await api.get("/user-dashboard");
@@ -39,8 +39,16 @@ export default function PostsUser() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spin />{" "}
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-7xl mx-auto xl:p-4 px-0">
+    <div className="max-w-7xl xl:mx-auto xl:p-4 px-0">
       <div className="flex justify-start items-center gap-3">
         <button onClick={() => navigate("/mobileSider")}>
           <MdOutlineArrowBackIos className="text-[24px] mb-3" />
