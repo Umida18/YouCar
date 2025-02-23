@@ -1,42 +1,23 @@
+import type React from "react";
+
 import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, MoreVertical, Paperclip, Send } from "lucide-react";
+import { ChevronLeft, MoreVertical, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "antd";
 import { io, type Socket } from "socket.io-client";
 import { useParams, useNavigate } from "react-router-dom";
-
-interface Message {
-  chat_id: string;
-  message: string;
-  senderId: number;
-  receiverId: number;
-  status: "sent" | "seen";
-  timestamp: string;
-  type?: string;
-}
-
-interface SellerData {
-  id: string;
-  name: string;
-  avatar: string;
-}
-
-interface IData {
-  chat_id: string;
-  chat_user_id: number;
-  create_at: string;
-  mute_type: false;
-  user_id: number;
-}
+import { SendHorizontal } from "lucide-react";
+import axios from "axios";
+import { IData, IUser, Message, SendMessage } from "@/Type/Type";
 
 export default function MessagingPage() {
   const socketRef = useRef<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const [seller, __] = useState<SellerData | null>(null);
   const currentUserId = localStorage.getItem("id");
   const [connected, setConnected] = useState(false);
   const [data, setdata] = useState<IData | null>(null);
+  const [userName, setUserName] = useState<IUser | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -44,7 +25,21 @@ export default function MessagingPage() {
   console.log("messages", messages);
   console.log("message", message);
 
-  // Function to initialize the chat session
+  const messageContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // useEffect(() => {}, [currentUserId]);
+
   const initializeChatSession = async () => {
     if (currentUserId && id) {
       try {
@@ -73,10 +68,8 @@ export default function MessagingPage() {
   };
 
   useEffect(() => {
-    // Initialize the chat session
     initializeChatSession();
 
-    // Set up the socket connection
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
     });
@@ -104,7 +97,7 @@ export default function MessagingPage() {
       setMessages(
         oldMessages.sort(
           (a, b) =>
-            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+            new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
         )
       );
     });
@@ -138,7 +131,7 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [data?.chat_user_id, data?.user_id]);
+  }, [connected, data?.chat_user_id, data?.user_id]);
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,10 +142,10 @@ export default function MessagingPage() {
       data?.chat_user_id &&
       data?.user_id
     ) {
-      const newMessage: Message = {
+      const newMessage: SendMessage = {
         chat_id: data?.chat_id,
-        senderId: data?.chat_user_id,
-        receiverId: data?.user_id,
+        senderId: Number(currentUserId),
+        receiverId: Number(id),
         message: message.trim(),
         type: "text",
         status: "sent",
@@ -161,9 +154,8 @@ export default function MessagingPage() {
 
       console.log("Sending message:", newMessage);
       socketRef.current.emit("send message", newMessage);
-
-      // Xabarni local state'ga qo‘shmaymiz, server javobini kutamiz
-      setMessage(""); // Inputni tozalash
+      setMessage("");
+      setTimeout(scrollToBottom, 100);
     }
   };
 
@@ -175,102 +167,141 @@ export default function MessagingPage() {
   //     });
   //   }
   // };
+  console.log("data.user_id", data?.user_id);
 
   useEffect(() => {
-    if (!socketRef.current || !data?.user_id) return;
+    if (!socketRef.current || !currentUserId) return;
 
     messages.forEach((msg) => {
-      if (msg.status === "sent" && msg.senderId === data?.chat_user_id) {
+      if (msg.status !== "seen" && msg.receiver_id === Number(currentUserId)) {
         socketRef.current?.emit("message seen", {
           messageId: msg.chat_id,
-          receiverId: data.user_id,
+          receiverId: msg.sender_id,
         });
       }
     });
-  }, [messages]);
+  }, [messages, currentUserId]);
 
   useEffect(() => {
     console.log("Messages updated:", messages);
   }, [messages]);
+  console.log("data?.user_id", data?.user_id);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`https://api.youcarrf.ru/user-find/${id}`);
+      console.log("res", res);
+
+      setUserName(res.data);
+    };
+    fetchUser();
+  }, []);
 
   return (
-    <div className="flex flex-col h-[600px] bg-background">
-      <div className="flex items-center gap-3 p-4 border-b">
-        <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-          <ChevronLeft className="h-5 w-5" />
-        </Button>
+    <div className="  w-full">
+      <div className="flex flex-col h-[600px] w-full xl:mt-0 mt-12 bg-background">
+        <div className="flex items-center gap-3 py-4 border-b">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
 
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
-            {seller?.avatar || seller?.name?.charAt(0)}
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-12 w-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground`}
+            >
+              {userName?.name.charAt(0)}
+            </div>
+            <div>
+              <p className="font-bold text-[#474747] text-[20px]">
+                {userName?.name || "Loading..."}
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-medium">{seller?.name || "Loading..."}</h2>
-          </div>
+
+          <Button variant="ghost" size="icon" className="ml-auto">
+            <MoreVertical className="h-5 w-5" />
+          </Button>
         </div>
 
-        <Button variant="ghost" size="icon" className="ml-auto">
-          <MoreVertical className="h-5 w-5" />
-        </Button>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length === 0 ? (
-          <p className="text-center text-muted-foreground">No messages yet</p>
-        ) : (
-          messages.map((msg, index) => (
-            <div
-              key={msg.chat_id || index}
-              className={`flex ${
-                msg.senderId === data?.chat_user_id
-                  ? "justify-end"
-                  : "justify-start"
-              }`}
-            >
+        <div
+          ref={messageContainerRef}
+          className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+        >
+          {messages.length === 0 ? (
+            <p className="text-center text-muted-foreground">No messages yet</p>
+          ) : (
+            messages.map((msg, index) => (
               <div
-                className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                  msg.senderId === data?.chat_user_id
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
-                }`}
+                key={msg.chat_id || index}
+                className={`flex ${
+                  msg.sender_id === Number(currentUserId)
+                    ? "justify-end"
+                    : "justify-start"
+                } w-full`}
               >
-                <p>{msg.message}</p>
-                <div className="flex items-center justify-end gap-1 mt-1">
-                  <span className="text-xs opacity-70">
-                    {new Date(msg.timestamp).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                  {msg.senderId === data?.chat_user_id && (
-                    <span className="text-xs opacity-70">
-                      {msg.status === "seen" ? "✓✓" : "✓"}
+                <div className="max-w-[55%]">
+                  <div
+                    className={`${
+                      msg.sender_id === Number(id)
+                        ? "rounded-t-2xl rounded-r-2xl"
+                        : "rounded-t-2xl rounded-l-2xl"
+                    } py-2 px-4 ${
+                      msg.sender_id === Number(currentUserId)
+                        ? "bg-[#166AFF] text-primary-foreground"
+                        : "bg-[#F2F3F6]"
+                    }`}
+                  >
+                    <p className="text-[16px] break-words">{msg.message}</p>
+                  </div>
+                  <div className="flex items-center mt-1 gap-1">
+                    <span className="text-xs text-gray-500">
+                      {new Date(msg.updatedAt).getTime()
+                        ? new Date(msg.updatedAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Invalid Date"}
                     </span>
-                  )}
+                    {/* {msg.sender_id === Number(currentUserId) && (
+                      <span className="text-xs text-gray-500">
+                        {msg.status === "seen" ? "✓✓" : "✓"}
+                      </span>
+                    )} */}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
 
-      <form
-        onSubmit={sendMessage}
-        className="p-4 border-t flex items-center gap-2"
-      >
-        <Button type="button" variant="ghost" size="icon">
-          <Paperclip className="h-5 w-5" />
-        </Button>
-        <Input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Введите сообщение"
-          className="rounded-full"
-        />
-        <Button type="submit" size="icon" disabled={!message.trim()}>
-          <Send className="h-5 w-5" />
-        </Button>
-      </form>
+        <form
+          onSubmit={sendMessage}
+          className="py-4 border-t flex items-center gap-2"
+        >
+          {/* <Button type="button" variant="ghost" size="icon">
+            <Paperclip className="h-5 w-5" />
+          </Button> */}
+          <Input
+            suffix={
+              <Button type="button" variant="ghost" size="icon">
+                <Paperclip className="min-h-5 min-w-5 text-[#C1C0C8]" />
+              </Button>
+            }
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Введите сообщение"
+            className=" h-[50px] bg-[#F2F3F6] border-0"
+          />
+          <button
+            className="h-[50px] w-[7%] flex items-center justify-center rounded-md"
+            style={{ backgroundColor: "#F2F3F6" }}
+            type="submit"
+            disabled={!message.trim()}
+          >
+            <SendHorizontal className="min-h-8 min-w-8 size-5 !text-[#2684E5]" />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

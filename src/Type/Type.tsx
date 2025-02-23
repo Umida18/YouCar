@@ -186,3 +186,50 @@ export interface CustomFile {
   percent: number;
   originFileObj: File;
 }
+
+export interface Message {
+  chat_id: string;
+  createdAt: string;
+  id: number;
+  message: string;
+  receiver_id: number;
+  sender_id: number;
+  status: string;
+  type: string;
+  updatedAt: string;
+}
+
+export interface SellerData {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
+export interface IData {
+  chat_id: string;
+  chat_user_id: number;
+  create_at: string;
+  mute_type: false;
+  user_id: number;
+}
+
+export interface SendMessage {
+  chat_id: string;
+  message: string;
+  receiverId: number;
+  senderId: number;
+  status: string;
+  timestamp: string;
+  type: string;
+}
+
+export interface IUser {
+  createdAt: string;
+  email: string;
+  id: number;
+  name: string;
+  password: string;
+  role: string;
+  updatedAt: string;
+  userrate: string;
+}

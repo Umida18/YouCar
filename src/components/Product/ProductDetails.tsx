@@ -98,9 +98,9 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
     }
   }, [item?.liked_user]);
 
-  const handleMessage = () => {
-    navigate(`/account/messagingPage/${userData?.id}`);
-  };
+  // const handleMessage = () => {
+  //   navigate(`/account/messagingPage/${userData?.id}`);
+  // };
 
   return (
     <div className="flex flex-col">
@@ -186,9 +186,17 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
               </div>
             </div>
             <button
-              onClick={handleMessage}
+              onClick={() => navigate(`/account/messagingPage/${userData?.id}`)}
               style={{ boxShadow: "none" }}
-              className="flex items-center justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] xl:px-4 px-2"
+              className="xl:flex items-center hidden justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] xl:px-4 px-2"
+            >
+              <MdOutlineSms className="text-[#2684E5] text-xl mt-1 ml-2" />
+              <p className="text-[16px]">Написать</p>
+            </button>
+            <button
+              onClick={() => navigate(`/messagingPage/${userData?.id}`)}
+              style={{ boxShadow: "none" }}
+              className="flex xl:hidden  items-center justify-between gap-2 border-2 border-l-gray-200 border-t-0 border-b-0 border-r-0 h-[60px] xl:px-4 px-2"
             >
               <MdOutlineSms className="text-[#2684E5] text-xl mt-1 ml-2" />
               <p className="text-[16px]">Написать</p>

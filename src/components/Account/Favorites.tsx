@@ -16,7 +16,7 @@ const Favorites = () => {
   });
 
   return (
-    <div>
+    <div className=" overflow-hidden">
       <div className="flex justify-start items-center gap-3">
         <button onClick={() => navigate("/mobileSider")}>
           <MdOutlineArrowBackIos className="text-[24px] mb-3" />
