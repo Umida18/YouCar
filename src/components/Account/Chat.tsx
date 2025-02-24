@@ -208,7 +208,7 @@ export default function MessagingPage() {
 
   return (
     <div className="  w-full">
-      <div className="flex flex-col h-[600px] w-full xl:mt-0 mt-12 bg-background">
+      <div className="flex flex-col xl:h-[600px] h-[500px] w-full xl:mt-0 mt-12 bg-background">
         <div className="flex items-center gap-3 py-4 border-b">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
             <ChevronLeft className="h-5 w-5" />
