@@ -135,7 +135,7 @@ export default function Messages() {
             chats.map((chat) => (
               <div
                 key={chat.chat_id}
-                className="flex items-center gap-4 p-4 my-2 rounded-md !border-0 bg-[#F6F6F6] cursor-pointer transition-colors"
+                className="flex items-center xl:gap-4 gap-1 xl:p-4 py-4 px-2 my-2 rounded-md !border-0 bg-[#F6F6F6] cursor-pointer transition-colors"
                 onClick={() => {
                   const basePath =
                     window.innerWidth > 1024
@@ -150,9 +150,7 @@ export default function Messages() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium truncate">
-                      {chat.chat_user_name}
-                    </h3>
+                    <h3 className="font-medium ">{chat.chat_user_name}</h3>
                     <span className="text-xs text-muted-foreground">
                       {new Date(chat.create_at).toLocaleDateString()}
                     </span>
