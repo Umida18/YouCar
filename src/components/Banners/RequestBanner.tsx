@@ -27,11 +27,11 @@ const RequestBanner = () => {
         <Row gutter={[16, 16]}>
           <Col sm={24} lg={24} xl={12} className="">
             <div className="px-3">
-              <div className="flex flex-col  justify-center relative text-white p-0 gap-1">
-                <h3 className="xl:text-[28px] text-[22px] font-bold mb-2">
+              <div className="flex flex-col  justify-center relative text-white px-3 gap-1">
+                <h3 className="text-[28px] leading-tight font-bold mb-2">
                   Не можете определиться с выбором?
                 </h3>
-                <p className=" mb-4 flex-grow xl:text-[16px] text-[14px] max-w-sm">
+                <p className=" mb-4 flex-grow text-[16px] max-w-sm">
                   Оставьте заявку, и наши менеджеры проконсультируют вас!
                 </p>
                 <Button
@@ -60,11 +60,11 @@ const RequestBanner = () => {
               // backgroundSize: "contain",
             }}
           >
-            <div className=" overflow-hidden">
+            <div className=" overflow-hidden ">
               <img
                 src="/ban.png"
                 alt=""
-                className=" relative left-24 overflow-hidden xl:left-0 min-h-[173px] min-w-[503px]"
+                className=" relative left-10 overflow-hidden xl:left-0 min-h-[173px] min-w-[503px]"
               />
             </div>
           </Col>
