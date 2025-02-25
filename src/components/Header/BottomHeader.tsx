@@ -73,7 +73,14 @@ const BottomHeader = () => {
     const f = async () => {
       const res = await api.get(`https://api.youcarrf.ru/search/${search} `);
       console.log("search", res.data);
-      const all = [...res.data.cars, res.data.moto, res.data.commerce];
+      const all = [
+        ...res.data.cars.map((item: ICar) => ({ ...item, type: "car" })),
+        ...res.data.moto.map((item: ICar) => ({ ...item, type: "moto" })),
+        ...res.data.commerce.map((item: ICar) => ({
+          ...item,
+          type: "commerce",
+        })),
+      ];
       console.log("all", all);
 
       setSearchValue(all);

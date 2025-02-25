@@ -45,8 +45,8 @@ export default function DeleteAvtoCard({
             />
           </div>
           <div className="space-y-2 py-3">
-            <p className="text-[#293843] font-medium">{title}</p>
-            <p className="text-[#293843] font-bold">{price}</p>
+            <p className="text-[#293843] font-medium text-lg">{title}</p>
+            <p className="text-[#293843] font-bold text-xl">{price}</p>
             <p className="text-[#989898]">{location}</p>
           </div>
         </div>

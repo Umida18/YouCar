@@ -1,15 +1,28 @@
 import { ICar } from "@/Type/Type";
 import { Divider } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const SearchCard = ({ searchValue }: { searchValue: ICar[] }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className=" absolute right-[26%] h-[65vh] overflow-y-auto boxShadowC bg-white z-50 xl:w-[400px]">
+    <div className=" absolute right-[26%] rounded-md py-2 h-[65vh] overflow-y-auto boxShadowC bg-white z-50 xl:w-[400px]">
       {searchValue.map((i, index) => (
         <>
-          <div key={index} className="p-4 flex gap-4">
+          <div
+            onClick={() =>
+              navigate(
+                `/productDetailsPage/${i?.id}?mark=${encodeURIComponent(
+                  i?.mark_id || ""
+                )}&model=${encodeURIComponent(i?.model || "")}&type=${i.type}`
+              )
+            }
+            key={index}
+            className="p-4 flex gap-4"
+          >
             <div>
               <img
-                className="w-[135px] h-[100px] object-cover rounded-xl"
+                className="w-[135px] h-[100px] object-cover rounded-md"
                 src={i?.image?.[0]}
                 alt=""
               />
@@ -22,7 +35,7 @@ const SearchCard = ({ searchValue }: { searchValue: ICar[] }) => {
               </p>
             </div>
           </div>
-          <Divider />
+          <Divider style={{ marginBlock: 3 }} />
         </>
       ))}
     </div>

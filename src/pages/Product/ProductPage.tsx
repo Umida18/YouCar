@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 import PhotoGallery from "../../components/Product/PhotoGallery";
 import ProductDetails from "../../components/Product/ProductDetails";
 import ProductDescription from "../../components/Product/ProductDescription";
@@ -22,7 +22,7 @@ const ProductPage = () => {
 
   useScrollToTop();
 
-  const { data: car } = useQuery(["carsId", id], async () => {
+  const { data: car, isLoading } = useQuery(["carsId", id], async () => {
     let endpoint = "";
     if (typeCars === "car") {
       endpoint = "/cars";
@@ -57,6 +57,14 @@ const ProductPage = () => {
       path: "/productDetailsPage/:id",
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spin />
+      </div>
+    );
+  }
 
   return (
     <div className="py-2">
