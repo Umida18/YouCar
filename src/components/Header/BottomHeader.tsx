@@ -1,6 +1,5 @@
 import { Button, Avatar } from "antd";
 import { CiSearch } from "react-icons/ci";
-import { LuBell } from "react-icons/lu";
 import "./Header.scss";
 import { useEffect, useState } from "react";
 import { FiAlignRight } from "react-icons/fi";
@@ -143,7 +142,7 @@ const BottomHeader = () => {
               placeholder="Поиск по названию"
             />
           </div>
-          <div className="relative">
+          {/* <div className="relative">
             <button
               onClick={() => setIsOpenBell(!isOpenBell)}
               className={`${
@@ -155,13 +154,14 @@ const BottomHeader = () => {
                 className="hover:text-[#2684E5] transition-colors"
               />
             </button>
-            <Notification
-              isOpenBell={isOpenBell}
-              setActiveTab={setActiveTab}
-              isRegistered={isRegistered}
-              activeTab={activeTab}
-            />
-          </div>
+          </div> */}
+          <Notification
+            isOpenBell={isOpenBell}
+            setActiveTab={setActiveTab}
+            isRegistered={isRegistered}
+            activeTab={activeTab}
+            setIsOpenBell={setIsOpenBell}
+          />
           {!isRegistered ? (
             <>
               <Button

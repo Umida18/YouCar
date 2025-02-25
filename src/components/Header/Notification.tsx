@@ -5,12 +5,14 @@ import { Divider } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { LuBell } from "react-icons/lu";
 
 const Notification = ({
   isRegistered,
   setActiveTab,
   isOpenBell,
   activeTab,
+  setIsOpenBell,
 }: // userId,
 any) => {
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -75,97 +77,111 @@ any) => {
 
   return (
     <div>
-      {isOpenBell && (
-        <div className="absolute -right-40 top-10 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-          <div className="flex border-b">
-            <button
-              onClick={() => setActiveTab("messages")}
-              className={`flex-1 py-3 px-4 text-sm font-medium ${
-                activeTab === "messages"
-                  ? "border-b-2 border-[#2684E5] text-[#2684E5]"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Сообщения
-            </button>
-            <button
-              onClick={() => setActiveTab("support")}
-              className={`flex-1 py-3 px-4 text-sm font-medium ${
-                activeTab === "support"
-                  ? "border-b-2 border-[#2684E5] text-[#2684E5]"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Тех.Поддержка
-            </button>
-          </div>
+      <div className="relative">
+        <button
+          onClick={() => setIsOpenBell(!isOpenBell)}
+          className={`${
+            isOpenBell ? "bg-[#EEEEEE]  !rounded-full" : ""
+          }  w-[35px] h-[35px] flex justify-center items-center`}
+        >
+          <LuBell
+            size={22}
+            className="hover:text-[#2684E5] transition-colors"
+          />
+        </button>
 
-          {!isRegistered ? (
-            <div className="p-4">
-              <p className="text-sm text-gray-500 text-center">
-                Уведомления будут доступны после{" "}
-                <Link to={"/register"} className="text-[#2684E5]">
-                  регистрации
-                </Link>
-              </p>
+        {isOpenBell && (
+          <div className="absolute -right-40 top-10 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+            <div className="flex border-b">
+              <button
+                onClick={() => setActiveTab("messages")}
+                className={`flex-1 py-3 px-4 text-sm font-medium ${
+                  activeTab === "messages"
+                    ? "border-b-2 border-[#2684E5] text-[#2684E5]"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                Сообщения
+              </button>
+              <button
+                onClick={() => setActiveTab("support")}
+                className={`flex-1 py-3 px-4 text-sm font-medium ${
+                  activeTab === "support"
+                    ? "border-b-2 border-[#2684E5] text-[#2684E5]"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                Тех.Поддержка
+              </button>
             </div>
-          ) : notifications.length === 0 ? (
-            <div className="p-4">
-              <p className="text-sm text-gray-500 text-center">
-                У вас нет уведомлений
-              </p>
-            </div>
-          ) : (
-            <div className="max-h-[400px] overflow-y-auto py-3">
-              {notifications
-                // .filter((note: any) =>
-                //   activeTab === "messages"
-                //     ? note.type !== "support"
-                //     : note.type === "support"
-                // )
-                .map((notification: any, index: any) => (
-                  <div key={notification.id || index}>
-                    <div
-                      className="p-2 flex gap-3 hover:bg-gray-50 cursor-pointer"
-                      onClick={() =>
-                        handleMessageClick(
-                          notification.chat_id,
-                          notification.chat_user_id
-                        )
-                      }
-                    >
-                      <div className="flex items-center justify-center">
-                        <MdOutlineMailOutline className="!text-[24px]" />
-                      </div>
-                      <div className="flex text-sm flex-col w-full justify-start items-start">
-                        <div className="flex items-center justify-between w-full">
-                          <p>{notification.chat_user_name}</p>
-                          {/* <p className="text-[#989898]">
+
+            {!isRegistered ? (
+              <div className="p-4">
+                <p className="text-sm text-gray-500 text-center">
+                  Уведомления будут доступны после{" "}
+                  <Link to={"/register"} className="text-[#2684E5]">
+                    регистрации
+                  </Link>
+                </p>
+              </div>
+            ) : notifications.length === 0 ? (
+              <div className="p-4">
+                <p className="text-sm text-gray-500 text-center">
+                  У вас нет уведомлений
+                </p>
+              </div>
+            ) : (
+              <div className="max-h-[400px] overflow-y-auto p-3">
+                {notifications
+                  // .filter((note: any) =>
+                  //   activeTab === "messages"
+                  //     ? note.type !== "support"
+                  //     : note.type === "support"
+                  // )
+                  .map((notification: any, index: any) => (
+                    <div key={notification.id || index}>
+                      <div
+                        className="p-2 flex gap-3 hover:bg-gray-50 cursor-pointer"
+                        onClick={() =>
+                          handleMessageClick(
+                            notification.chat_id,
+                            notification.chat_user_id
+                          )
+                        }
+                      >
+                        <div className="flex items-center justify-center">
+                          <MdOutlineMailOutline className="!text-[24px]" />
+                        </div>
+                        <div className="flex text-sm flex-col w-full justify-start items-start">
+                          <div className="flex items-center justify-between w-full">
+                            <p>{notification.chat_user_name}</p>
+                            {/* <p className="text-[#989898]">
                             {notification.created_at
                               ? formatTimeAgo(notification.created_at)
                               : "2 часа назад"}
                           </p> */}
-                        </div>
-                        <div>
-                          <p className="text-[#989898] font-medium mt-1">
-                            {
-                              notification.unread_messages_texts[
-                                notification.unread_messages_texts.length - 1
-                              ]
-                            }
-                          </p>
+                          </div>
+                          <div>
+                            <p className="text-[#989898] font-medium mt-1">
+                              {
+                                notification.unread_messages_texts[
+                                  notification.unread_messages_texts.length - 1
+                                ]
+                              }
+                            </p>
+                          </div>
                         </div>
                       </div>
+                      {index < notifications.length - 1 && (
+                        <Divider style={{ marginBlock: 10 }} />
+                      )}
                     </div>
-                    {index < notifications.length - 1 && (
-                      <Divider style={{ marginBlock: 10 }} />
-                    )}
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
-      )}
+                  ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

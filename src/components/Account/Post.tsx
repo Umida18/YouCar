@@ -83,10 +83,33 @@ export default function PostsUser() {
     } else if (type === "moto") {
       endpoint = "/add-commerce";
     }
-
-    await api.post(endpoint, { id: id });
-    queryClient.invalidateQueries(["userData"]);
+    try {
+      await api.post(endpoint, { id: id });
+      queryClient.invalidateQueries(["userData"]);
+      queryClient.invalidateQueries(["archieve"]);
+    } catch (error) {
+      console.log(error);
+    }
     // console.log("archieve", res.data);
+  };
+
+  const handleDelete = async (id: number, type: string) => {
+    let endpoint = "";
+
+    if (type === "car") {
+      endpoint = "/car";
+    } else if (type === "commerce") {
+      endpoint = "/moto";
+    } else if (type === "moto") {
+      endpoint = "/commerce";
+    }
+    try {
+      const res = await api.delete(endpoint, { data: { id } });
+      console.log("delete", res);
+      queryClient.invalidateQueries(["archieve"]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -279,15 +302,26 @@ export default function PostsUser() {
                               items: [
                                 {
                                   key: "1",
-                                  label: "Редактировать",
-                                  onClick: () =>
-                                    navigate(
-                                      `/editPost/${item.id}?type=${item.type}`
-                                    ),
+                                  label: "Опубликовать",
+                                  // onClick: () =>
+                                  //   navigate(
+                                  //     `/editPost/${item.id}?type=${item.type}`
+                                  //   ),
                                 },
                                 {
                                   key: "2",
-                                  label: "Снять с публикации",
+                                  label: "Редактировать",
+                                  // onClick: () =>
+                                  //   navigate(
+                                  //     `/editPost/${item.id}?type=${item.type}`
+                                  //   ),
+                                },
+                                {
+                                  key: "3",
+                                  label: "Удалить",
+
+                                  onClick: () =>
+                                    handleDelete(item.id, item.type),
                                 },
                               ],
                             }}

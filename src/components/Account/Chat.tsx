@@ -22,9 +22,9 @@ export default function MessagingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log("data", data);
-  console.log("messages", messages);
-  console.log("message", message);
+  // console.log("data", data);
+  // console.log("messages", messages);
+  // console.log("message", message);
 
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -130,7 +130,7 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [connected, data?.chat_user_id, data?.user_id]);
+  }, [connected, data?.chat_user_id, data?.user_id, id]);
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,12 +194,12 @@ export default function MessagingPage() {
       setUserName(res.data);
     };
     fetchUser();
-  }, []);
+  }, [id]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spin />{" "}
+        <Spin />
       </div>
     );
   }
