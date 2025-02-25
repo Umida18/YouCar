@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Divider } from "antd";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,9 +10,9 @@ const Notification = ({
   setActiveTab,
   isOpenBell,
   activeTab,
-  userId,
-}: any) => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+}: // userId,
+any) => {
+  const [notifications, _] = useState<any[]>([]);
   const currentUserId = localStorage.getItem("id");
   console.log("notifications", notifications);
 
