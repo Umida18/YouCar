@@ -18,7 +18,7 @@ const Layout = ({ children }: LayoutProps) => {
     if (!token) {
       navigate("/");
     }
-  }, []);
+  }, [token]);
 
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
