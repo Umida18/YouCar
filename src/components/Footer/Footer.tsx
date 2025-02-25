@@ -2,7 +2,6 @@ import api from "@/Api/Api";
 import { IMarks } from "@/Type/Type";
 import { useQuery } from "@tanstack/react-query";
 import { Row, Col, Typography, Space } from "antd";
-import { SlSocialVkontakte } from "react-icons/sl";
 
 const { Title } = Typography;
 

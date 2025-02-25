@@ -81,6 +81,7 @@ export default function Messages() {
         if (response.status === 200 && response.data.status === "Success") {
           setChats(response.data.data);
           setError(null);
+          console.log("chats", response.data);
         } else {
           throw new Error(response.data.message || "Failed to fetch chats");
         }

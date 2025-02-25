@@ -183,8 +183,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
         </Carousel>
         <div className="flex gap-7 p-4" onClick={handleCardClick}>
           <div className="flex-1">
-            {/* <h1>{item?.id}</h1>
-          <h1>{item?.type}</h1> */}
+            {/* <h1>{item?.id}</h1> */}
+            {/* <h1>{item?.type}</h1> */}
             <div className="flex justify-between flex-col items-start space-y-1 mb-1">
               <h2 className="text-xl font-semibold text-[#293843] ">{`${markId}, ${item?.model}`}</h2>
               <span className="text-xl font-bold text-[#293843]">

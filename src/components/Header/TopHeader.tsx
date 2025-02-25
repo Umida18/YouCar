@@ -1,4 +1,3 @@
-import { SlSocialVkontakte } from "react-icons/sl";
 import { FaInstagram } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
