@@ -8,10 +8,11 @@ import ResponsiveHeader from "./ResponsiveHeader";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../Api/Api";
-import { IUser } from "../../Type/Type";
+import { ICar, IUser } from "../../Type/Type";
 import { IoIosArrowForward } from "react-icons/io";
 import { CountryDropdown } from "./CountryDropdown";
 import Notification from "./Notification";
+import SearchCard from "./SearchCard";
 
 const BottomHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -20,6 +21,8 @@ const BottomHeader = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isOpenBell, setIsOpenBell] = useState(false);
   const [activeTab, setActiveTab] = useState("messages");
+  const [search, setSearch] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<ICar[]>([]);
 
   const token = localStorage.getItem("token");
 
@@ -65,6 +68,18 @@ const BottomHeader = () => {
   const handleMouseLeave = () => {
     setActiveDropdown(null);
   };
+
+  useEffect(() => {
+    const f = async () => {
+      const res = await api.get(`https://api.youcarrf.ru/search/${search} `);
+      console.log("search", res.data);
+      const all = [...res.data.cars, res.data.moto, res.data.commerce];
+      console.log("all", all);
+
+      setSearchValue(all);
+    };
+    f();
+  }, [search]);
 
   return (
     <div className="h-full">
@@ -137,6 +152,8 @@ const BottomHeader = () => {
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
             <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               style={{ border: 0, backgroundColor: "transparent" }}
               className=" flex w-[340px] h-[52px] pl-11"
               placeholder="Поиск по названию"
@@ -221,16 +238,23 @@ const BottomHeader = () => {
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
           </a>
-          <div className="relative bg-[#F6F6F6] w-full">
-            <CiSearch
-              style={{ color: "#989898", fontSize: "22px" }}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
-            />
-            <Input
-              style={{ border: 0, backgroundColor: "transparent" }}
-              className=" flex min-w-full h-[45px] pl-9"
-              placeholder="Поиск по названию"
-            />
+          <div className=" z-50">
+            <div className="relative bg-[#F6F6F6] w-full">
+              <CiSearch
+                style={{ color: "#989898", fontSize: "22px" }}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+              />
+              <Input
+                style={{ border: 0, backgroundColor: "transparent" }}
+                className=" flex min-w-full h-[45px] pl-9"
+                placeholder="Поиск по названию"
+              />
+            </div>
+            {/* {search.length > 0 && (
+              <div className="absolute top-full left-0 w-full z-50">
+                <SearchCard searchValue={searchValue} />
+              </div>
+            )} */}
           </div>
           <Button
             className="border-0 shadow-none p-0"
@@ -241,6 +265,8 @@ const BottomHeader = () => {
         </div>
       </div>
       <ResponsiveHeader isOpen={isOpen} setIsOpen={setIsOpen} />
+
+      {search.length > 0 && <SearchCard searchValue={searchValue} />}
     </div>
   );
 };
