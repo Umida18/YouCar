@@ -25,7 +25,7 @@ export default function PostsUser() {
   // useEffect(() => {
   //   refetch();
   // }, [userData]);
-  console.log("userData", userData);
+  // console.log("userData", userData);
 
   const { data: archieve, isLoading: loadingArch } = useQuery(
     ["archieve"],
@@ -34,7 +34,7 @@ export default function PostsUser() {
       return res.data;
     }
   );
-  console.log("archieve", archieve);
+  // console.log("archieve", archieve);
 
   const getAllListings = () => {
     if (!userData?.yours?.result) return [];
@@ -84,9 +84,9 @@ export default function PostsUser() {
       endpoint = "/add-commerce";
     }
 
-    const res = await api.post(endpoint, { id: id });
+    await api.post(endpoint, { id: id });
     queryClient.invalidateQueries(["userData"]);
-    console.log("archieve", res.data);
+    // console.log("archieve", res.data);
   };
 
   return (

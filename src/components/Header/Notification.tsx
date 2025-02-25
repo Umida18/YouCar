@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { Divider } from "antd";
 // import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 const Notification = ({
   isRegistered,
@@ -12,9 +13,10 @@ const Notification = ({
   activeTab,
 }: // userId,
 any) => {
-  const [notifications, _] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const currentUserId = localStorage.getItem("id");
   console.log("notifications", notifications);
+  const navigate = useNavigate();
 
   //   useEffect(() => {
   //     if (!isRegistered || !userId) return;
@@ -32,28 +34,32 @@ any) => {
   //     };
   //   }, [isRegistered, userId]);
 
-  //   const formatTimeAgo = (timestamp: any) => {
-  //     const now = new Date();
-  //     const messageTime = new Date(timestamp);
-  //     const diffInMinutes = Math.floor((now - messageTime) / (1000 * 60));
+  // const formatTimeAgo = (timestamp: any) => {
+  //   const now = new Date();
+  //   const messageTime = new Date(timestamp);
+  //   const diffInMinutes = Math.floor((now - messageTime) / (1000 * 60));
 
-  //     if (diffInMinutes < 60) {
-  //       return `${diffInMinutes} минут назад`;
-  //     } else if (diffInMinutes < 24 * 60) {
-  //       const hours = Math.floor(diffInMinutes / 60);
-  //       return `${hours} ${
-  //         hours === 1 ? "час" : hours < 5 ? "часа" : "часов"
-  //       } назад`;
-  //     } else {
-  //       const days = Math.floor(diffInMinutes / (60 * 24));
-  //       return `${days} ${days === 1 ? "день" : days < 5 ? "дня" : "дней"} назад`;
-  //     }
-  //   };
+  //   if (diffInMinutes < 60) {
+  //     return `${diffInMinutes} минут назад`;
+  //   } else if (diffInMinutes < 24 * 60) {
+  //     const hours = Math.floor(diffInMinutes / 60);
+  //     return `${hours} ${
+  //       hours === 1 ? "час" : hours < 5 ? "часа" : "часов"
+  //     } назад`;
+  //   } else {
+  //     const days = Math.floor(diffInMinutes / (60 * 24));
+  //     return `${days} ${days === 1 ? "день" : days < 5 ? "дня" : "дней"} назад`;
+  //   }
+  // };
 
-  //   const handleMessageClick = (messageId: any) => {
-  //     const socket = io("wss://api.youcarrf.ru");
-  //     socket.emit("message seen", { messageId, receiverId: userId });
-  //   };
+  const handleMessageClick = (chat_id: any, chat_user_id: number) => {
+    const socket = io("wss://api.youcarrf.ru");
+    socket.emit("message seen", {
+      messageId: chat_id,
+      receiverId: chat_user_id,
+    });
+    navigate(`/account/messagingPage/${chat_user_id}`);
+  };
 
   useEffect(() => {
     const f = async () => {
@@ -61,6 +67,8 @@ any) => {
         userId: currentUserId,
       });
       console.log("res", res);
+
+      setNotifications(res.data.notifications);
     };
     f();
   }, []);
@@ -108,25 +116,30 @@ any) => {
               </p>
             </div>
           ) : (
-            <div className="max-h-[400px] overflow-y-auto">
+            <div className="max-h-[400px] overflow-y-auto py-3">
               {notifications
-                .filter((note: any) =>
-                  activeTab === "messages"
-                    ? note.type !== "support"
-                    : note.type === "support"
-                )
+                // .filter((note: any) =>
+                //   activeTab === "messages"
+                //     ? note.type !== "support"
+                //     : note.type === "support"
+                // )
                 .map((notification: any, index: any) => (
                   <div key={notification.id || index}>
                     <div
                       className="p-2 flex gap-3 hover:bg-gray-50 cursor-pointer"
-                      //   onClick={() => handleMessageClick(notification.id)}
+                      onClick={() =>
+                        handleMessageClick(
+                          notification.chat_id,
+                          notification.chat_user_id
+                        )
+                      }
                     >
                       <div className="flex items-center justify-center">
                         <MdOutlineMailOutline className="!text-[24px]" />
                       </div>
                       <div className="flex text-sm flex-col w-full justify-start items-start">
                         <div className="flex items-center justify-between w-full">
-                          <p>{notification.sender_name || "Иван"}</p>
+                          <p>{notification.chat_user_name}</p>
                           {/* <p className="text-[#989898]">
                             {notification.created_at
                               ? formatTimeAgo(notification.created_at)
@@ -135,8 +148,11 @@ any) => {
                         </div>
                         <div>
                           <p className="text-[#989898] font-medium mt-1">
-                            {notification.message ||
-                              "Добрый день, цена окончательная?"}
+                            {
+                              notification.unread_messages_texts[
+                                notification.unread_messages_texts.length - 1
+                              ]
+                            }
                           </p>
                         </div>
                       </div>
