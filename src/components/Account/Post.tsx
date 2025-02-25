@@ -92,7 +92,10 @@ export default function PostsUser() {
   return (
     <div className="max-w-7xl xl:mx-auto xl:p-4 px-0">
       <div className="flex justify-start items-center gap-3">
-        <button onClick={() => navigate("/mobileSider")}>
+        <button
+          className="xl:hidden block"
+          onClick={() => navigate("/mobileSider")}
+        >
           <MdOutlineArrowBackIos className="text-[24px] mb-3" />
         </button>
         <p className="xl:text-[30px] text-[24px] font-bold mb-8 xl:mt-0 mt-4">

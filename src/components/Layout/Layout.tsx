@@ -1,7 +1,8 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Sidebar from "../Account/Sidebar";
 import { Col, Row } from "antd";
 import ProfilePage from "../Account/sidebarMobile";
+import { useNavigate } from "react-router-dom";
 // import MessagingPage from "../Account/Chat";
 
 type LayoutProps = {
@@ -10,6 +11,14 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const [activeSection, setActiveSection] = useState("favorites");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
