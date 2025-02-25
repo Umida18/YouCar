@@ -26,10 +26,12 @@ import {
   statement,
 } from "@/Data/Data";
 import { useNavigate } from "react-router-dom";
+import useScrollToTop from "@/utils/scroll";
 
 const { Option } = Select;
 
 const NewPost = () => {
+  useScrollToTop();
   const [selectedType, setSelectedType] = useState("cars");
   const [marks, setMarks] = useState<IMark[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<boolean>(false);

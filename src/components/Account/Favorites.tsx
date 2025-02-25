@@ -47,7 +47,11 @@ const Favorites = () => {
             !fav?.moto?.length &&
             !fav?.commerce?.length && (
               <div className="flex flex-col justify-center items-center text-center gap-2">
-                <img src="/fav.png" alt="" />
+                <img
+                  className="xl:h-auto xl:w-auto w-[300px]"
+                  src="/fav.png"
+                  alt=""
+                />
                 <p className="text-[20px] text-[#989898] font-semibold mt-4">
                   Нет сохраненных объявлений
                 </p>

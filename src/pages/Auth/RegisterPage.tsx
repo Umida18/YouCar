@@ -2,8 +2,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../Api/Api";
 import { Button, Checkbox, Form, notification } from "antd";
 import { useNavigate } from "react-router-dom";
+import useScrollToTop from "@/utils/scroll";
 
 const RegisterPage = () => {
+  useScrollToTop();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const queryClient = useQueryClient();

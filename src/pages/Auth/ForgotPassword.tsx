@@ -1,9 +1,11 @@
 import api from "@/Api/Api";
+import useScrollToTop from "@/utils/scroll";
 import { Button, Form, Input, notification } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+  useScrollToTop();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [successfullySent, setSuccessfullySent] = useState<boolean>(false);

@@ -33,10 +33,7 @@ const TopHeader = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <SlSocialVkontakte
-                style={{ color: "#989898", fontSize: 21 }}
-                className="hover:!text-[#2684E5]"
-              />
+              <img className="w-[21px] h-[21px]" src="/vk.svg" alt="" />
             </a>
             <a href="">
               <FaWhatsapp

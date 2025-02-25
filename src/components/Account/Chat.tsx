@@ -39,8 +39,6 @@ export default function MessagingPage() {
     scrollToBottom();
   }, [messages]);
 
-  // useEffect(() => {}, [currentUserId]);
-
   const initializeChatSession = async () => {
     if (currentUserId && id) {
       try {

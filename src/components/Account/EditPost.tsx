@@ -28,10 +28,12 @@ import {
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { urlToCustomFile } from "@/utils/urlToFile";
+import useScrollToTop from "@/utils/scroll";
 
 const { Option } = Select;
 
 const EditPost = () => {
+  useScrollToTop();
   const [selectedType, setSelectedType] = useState<string | null>("cars");
   const [marks, setMarks] = useState<IMark[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<boolean>(false);
