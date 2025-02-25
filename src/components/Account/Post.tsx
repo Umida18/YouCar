@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tabs, Card, Button, Dropdown, Spin } from "antd";
 import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
@@ -7,6 +9,8 @@ import { FiEye } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import DeleteAvtoCard from "./DeleteAvtoCard";
 
 export default function PostsUser() {
   const navigate = useNavigate();
@@ -65,6 +69,11 @@ export default function PostsUser() {
   };
   console.log(getAllArchieve());
 
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    itemToDelete: null as any,
+  });
+
   if (isLoading || loadingArch) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -93,7 +102,17 @@ export default function PostsUser() {
     // console.log("archieve", res.data);
   };
 
-  const handleDelete = async (id: number, type: string) => {
+  const handleDeleteClick = (item: any) => {
+    setDeleteModal({
+      isOpen: true,
+      itemToDelete: item,
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.itemToDelete) return;
+
+    const { id, type } = deleteModal.itemToDelete;
     let endpoint = "";
 
     if (type === "car") {
@@ -103,9 +122,9 @@ export default function PostsUser() {
     } else if (type === "moto") {
       endpoint = "/commerce";
     }
+
     try {
-      const res = await api.delete(endpoint, { data: { id } });
-      console.log("delete", res);
+      await api.delete(endpoint, { data: { id } });
       queryClient.invalidateQueries(["archieve"]);
     } catch (error) {
       console.log(error);
@@ -320,8 +339,7 @@ export default function PostsUser() {
                                   key: "3",
                                   label: "Удалить",
 
-                                  onClick: () =>
-                                    handleDelete(item.id, item.type),
+                                  onClick: () => handleDeleteClick(item),
                                 },
                               ],
                             }}
@@ -348,6 +366,27 @@ export default function PostsUser() {
             ),
           },
         ]}
+      />
+      <DeleteAvtoCard
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false, itemToDelete: null })}
+        onDelete={handleDeleteConfirm}
+        image={
+          deleteModal.itemToDelete?.image?.[0] ||
+          deleteModal.itemToDelete?.image
+        }
+        title={`${
+          deleteModal.itemToDelete?.model || deleteModal.itemToDelete?.title
+        }, ${deleteModal.itemToDelete?.year}`}
+        price={
+          deleteModal.itemToDelete?.cost
+            ? `$${deleteModal.itemToDelete.cost.toLocaleString()}`
+            : ""
+        }
+        location={
+          deleteModal.itemToDelete?.country ||
+          deleteModal.itemToDelete?.location
+        }
       />
     </div>
   );
