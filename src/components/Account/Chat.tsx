@@ -503,8 +503,8 @@ export default function MessagingPage() {
 
   return (
     <div className="  w-full">
-      <div className="flex flex-col xl:h-[600px] h-[500px] w-full xl:mt-0 mt-4 bg-background">
-        <div className="flex items-center justify-between  gap-3 py-4 border-b">
+      <div className="flex flex-col  xl:h-[600px] h-[500px] w-full  xl:!bg-white !bg-[#fffcfc]    xl:mt-0 mt-4 bg-background">
+        <div className="flex items-center  justify-between  gap-3 py-4 rounded-b-2xl xl:shadow-sm shadow-md px-3 z-50 bg-white ">
           <div className="flex items-center gap-3">
             <button onClick={() => navigate(-1)}>
               <ChevronLeft className="min-h-5 min-w-5" />
@@ -568,14 +568,14 @@ export default function MessagingPage() {
             <Button
               className="bg-white"
               type="text"
-              icon={<MoreOutlined className=" text-xl" />}
+              icon={<MoreOutlined className=" !text-[20px]" />}
             />
           </Dropdown>
         </div>
 
         <div
           ref={messageContainerRef}
-          className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+          className="flex-1 overflow-y-auto  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
         >
           {messagesLoading ? (
             <div className="h-full flex items-center justify-center">
@@ -669,7 +669,7 @@ export default function MessagingPage() {
 
         <form
           onSubmit={sendMessage}
-          className="py-4 border-t flex items-center xl:gap-2 gap-1"
+          className="py-4  flex items-center xl:gap-2 gap-1"
         >
           {/* <Button type="button" variant="ghost" size="icon">
             <Paperclip className="h-5 w-5" />
