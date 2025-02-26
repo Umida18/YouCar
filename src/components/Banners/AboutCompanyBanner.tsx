@@ -22,7 +22,7 @@ const AboutCompanyBanner = () => {
           <Col xl={12} className="xl:h-[320px]">
             <div>
               <div className="flex flex-col  justify-center relative">
-                <h3 className="xl:text-[35px] text-[27px] font-bold mb-2">
+                <h3 className="xl:text-[35px] text-[28px] font-bold mb-2">
                   О нашей компании
                 </h3>
                 <p className="text-gray-600 mb-4 flex-grow text-[16px] max-w-md">
