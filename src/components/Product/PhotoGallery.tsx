@@ -75,7 +75,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap xl:gap-3 gap-1">
         {/* Oldingi rasmlar mavjud bo'lsa ko'rsatish */}
         {hasPrevImages && (
           <button
@@ -102,14 +102,14 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
             <button
               key={actualIndex}
               onClick={() => carouselRef.current?.goTo(actualIndex)}
-              className={`relative aspect-[4/3] rounded-lg w-[150px] h-[150px] ${
+              className={`relative aspect-[4/3] rounded-lg xl:w-[150px] xl:h-[150px] !w-[78px] !h-[77px] ${
                 currentSlide === actualIndex ? "ring-2 ring-blue-500" : ""
               }`}
             >
               <img
                 src={image || "/placeholder.svg"}
                 alt={`Thumbnail ${actualIndex + 1}`}
-                className="w-[150px] h-[150px] object-cover rounded-lg "
+                className="xl:w-[150px] xl:h-[150px] !w-[78px] !h-[77px] object-cover rounded-lg "
               />
             </button>
           );

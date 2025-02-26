@@ -7,7 +7,7 @@ const SearchCard = ({ searchValue }: { searchValue: ICar[] }) => {
   const navigate = useNavigate();
 
   return (
-    <div className=" absolute xl:right-[26%] rounded-md py-2 h-[65vh]  boxShadowC bg-white z-50 xl:w-[400px] ">
+    <div className=" absolute xl:right-[26%] rounded-md py-2 h-[65vh]  boxShadowC bg-white z-50 xl:w-[400px] w-full">
       <ScrollArea className="h-[60vh] ">
         {searchValue.map((i, index) => (
           <>
