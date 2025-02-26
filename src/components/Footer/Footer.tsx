@@ -38,6 +38,7 @@ export default function FooterComponent() {
     { link: "/contact", label: "Контакты" },
     { link: "/account/favorites", label: "Избранные" },
   ];
+  console.log("chunk", chunks);
 
   return (
     <div>
@@ -117,7 +118,7 @@ export default function FooterComponent() {
                     <Space direction="vertical" className="w-full">
                       {chunk.map((mark) => (
                         <a
-                          href={`/brand?markId=${mark.id}`}
+                          href={`/brand?markId=${mark.id}&mark=${mark.mark_name}`}
                           key={mark.id}
                           className="text-[#5A5A5A] font-semibold capitalize"
                         >
