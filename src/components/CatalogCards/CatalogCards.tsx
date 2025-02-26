@@ -30,6 +30,7 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
       },
     }
   );
+  console.log("filteredCars", filteredCars);
 
   const carsRender = useMemo(() => {
     if (filteredCars) {
@@ -60,7 +61,9 @@ const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
 
   const carsLimited = limit ? filtered?.slice(0, limit) : filtered;
 
-  const buttonAll = Math.ceil(carsRender.length / 10);
+  const buttonAll = Math.ceil(
+    filteredCars ? filteredCars.count / 10 : carsRender.length / 10
+  );
   const buttonsPage = Array.from(
     { length: buttonAll },
     (_, index) => index + 1
