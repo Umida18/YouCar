@@ -100,7 +100,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               <div className="xl:flex  hidden flex-wrap xl:gap-4 gap-2 ">
                 <button
                   onClick={() => handleSendMessage("Здравствуйте", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]"
+                  className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg h-[55px] xl:px-10 xl:w-[190px] w-[43%]"
                 >
                   Здравствуйте
                 </button>
@@ -108,33 +108,33 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                   onClick={() =>
                     handleSendMessage("Какой срок доставки?", item.id)
                   }
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                  className="bg-[#293843] truncate text-white border-0 xl:py-2 h-[55px] rounded-lg px-10 xl:w-[225px] w-[54%]"
                 >
                   Какой срок доставки?
                 </button>
                 <button
                   onClick={() => handleSendMessage(" ПТС ОРИГИНАЛ?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                  className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg px-10 h-[55px] xl:w-[200px] w-[54%]"
                 >
                   ПТС ОРИГИНАЛ?
                 </button>
                 <button
                   onClick={() => handleSendMessage("Пробег оригинал?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]"
+                  className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg h-[55px] px-10 xl:w-[200px] w-[43%]"
                 >
                   Пробег оригинал?
                 </button>
                 <button
                   onClick={() => handleSendMessage("Какой бензин?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]"
+                  className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg px-10 h-[55px] xl:w-[190px] w-full xl:h-auto "
                 >
                   Какой бензин?
                 </button>
               </div>
-              <div className="flex xl:hidden flex-wrap xl:gap-4 gap-2 ">
+              <div className="flex xl:hidden flex-wrap xl:gap-4 gap-1 ">
                 <button
                   onClick={() => handleSendMessag("Здравствуйте", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]"
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[40%]"
                 >
                   Здравствуйте
                 </button>
@@ -142,25 +142,25 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                   onClick={() =>
                     handleSendMessag("Какой срок доставки?", item.id)
                   }
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:w-[190px] w-[58%] h-[55px]"
                 >
                   Какой срок доставки?
                 </button>
                 <button
                   onClick={() => handleSendMessag(" ПТС ОРИГИНАЛ?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:w-[190px] w-[48%] h-[55px]"
                 >
-                  ПТС ОРИГИНАЛ?
+                  ПТС оригинал?
                 </button>
                 <button
                   onClick={() => handleSendMessag("Пробег оригинал?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]"
+                  className="bg-[#293843] text-white border-0  py-2 rounded-lg  xl:w-[190px] w-[50%] h-[55px]"
                 >
                   Пробег оригинал?
                 </button>
                 <button
                   onClick={() => handleSendMessag("Какой бензин?", item.id)}
-                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]"
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg  xl:w-[190px] w-full xl:h-auto h-[55px]"
                 >
                   Какой бензин?
                 </button>
