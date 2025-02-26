@@ -80,12 +80,12 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
         {hasPrevImages && (
           <button
             onClick={showPrevThumbnails}
-            className="relative aspect-[4/3] overflow-hidden rounded-lg w-[150px] h-[150px]"
+            className="relative aspect-[4/3] overflow-hidden rounded-lg xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]"
           >
             <img
               src={item.image[thumbnailStartIndex - 1] || "/placeholder.svg"}
               alt={`Previous thumbnail`}
-              className="w-full h-full object-cover"
+              className="xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px] object-cover"
             />
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
               <div className="text-white font-medium">
@@ -102,14 +102,14 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
             <button
               key={actualIndex}
               onClick={() => carouselRef.current?.goTo(actualIndex)}
-              className={`relative aspect-[4/3] rounded-lg xl:w-[150px] xl:h-[150px] !w-[78px] !h-[77px] ${
+              className={`relative aspect-[4/3] rounded-lg xl:min-w-[150px] xl:min-h-[150px] max-w-[78px] max-h-[77px] ${
                 currentSlide === actualIndex ? "ring-2 ring-blue-500" : ""
               }`}
             >
               <img
                 src={image || "/placeholder.svg"}
                 alt={`Thumbnail ${actualIndex + 1}`}
-                className="xl:w-[150px] xl:h-[150px] !w-[78px] !h-[77px] object-cover rounded-lg "
+                className="xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]  object-cover rounded-lg "
               />
             </button>
           );
@@ -119,12 +119,12 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
         {hasNextImages && (
           <button
             onClick={showNextThumbnails}
-            className="relative aspect-[4/3] overflow-hidden rounded-lg w-[150px] h-[150px]"
+            className="relative aspect-[4/3] overflow-hidden rounded-lg xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]"
           >
             <img
               src={item.image[endIndex] || "/placeholder.svg"}
               alt={`Next thumbnail`}
-              className=" object-cover w-[150px] h-[150px]"
+              className=" object-cover xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]"
             />
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
               <div className="text-white font-medium">
