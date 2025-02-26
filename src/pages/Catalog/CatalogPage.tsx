@@ -67,6 +67,7 @@ const CatalogPage = () => {
 
     if (values.mark) query.mark = values.mark;
     if (values.model) query.model = values.model;
+    if (values.currentPage) query.currentPage = values.currentPage;
     if (values.selectedTab) query.selectedTab = values.selectedTab;
     if (values.rate && values.rate.length) query.rate = values.rate;
     if (values.country) query.country = values.country;
@@ -93,6 +94,7 @@ const CatalogPage = () => {
       mark: queryParams.mark || undefined,
       model: queryParams.model || undefined,
       selectedTab: queryParams.selectedTab,
+      currentPage: queryParams.currentPage,
       rate: queryParams.rate ? queryParams.rate.split(",") : undefined,
       country: queryParams.country || undefined,
       minPrice: queryParams.minPrice ? Number(queryParams.minPrice) : undefined,

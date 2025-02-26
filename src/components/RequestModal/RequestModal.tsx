@@ -18,7 +18,7 @@ const RequestModal = ({
       </p>
       <Form form={form} layout="vertical" onFinish={onFinish} className="mt-4">
         <Form.Item
-          name="firstName"
+          name="name"
           rules={[{ required: true, message: "Пожалуйста введите ваше имя" }]}
         >
           <input
@@ -28,7 +28,7 @@ const RequestModal = ({
         </Form.Item>
 
         <Form.Item
-          name="lastName"
+          name="surname"
           rules={[
             { required: true, message: "Пожалуйста введите вашу фамилию" },
           ]}

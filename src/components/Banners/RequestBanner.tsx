@@ -1,6 +1,7 @@
-import { Button, Card, Col, Form, Row } from "antd";
+import { Button, Card, Col, Form, Row, notification } from "antd";
 import RequestModal from "../RequestModal/RequestModal";
 import { useState } from "react";
+import api from "@/Api/Api";
 
 const RequestBanner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,10 +16,21 @@ const RequestBanner = () => {
     form.resetFields();
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log("Form values:", values);
-    setIsModalOpen(false);
-    form.resetFields();
+    try {
+      const res = await api.post("/create-offer", { ...values });
+      notification.success({
+        message: "Успех",
+        description: "Ваша заявка было успешно отправлена.",
+        placement: "topRight",
+      });
+      console.log("res", res.data);
+      setIsModalOpen(false);
+      form.resetFields();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
