@@ -55,7 +55,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
               <img
                 src={i || "/placeholder.svg"}
                 alt={`Car view ${item.model}`}
-                className="w-full h-full object-cover object-center rounded-lg xl:h-[530px]"
+                className="xl:w-full min-w-[285px] w-full h-full object-cover object-center rounded-lg xl:h-[530px]"
               />
             </div>
           ))}
