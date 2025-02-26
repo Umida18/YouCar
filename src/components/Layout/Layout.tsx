@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import Sidebar from "../Account/Sidebar";
 import { Col, Row } from "antd";
 import ProfilePage from "../Account/sidebarMobile";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import MessagingPage from "../Account/Chat";
 
 type LayoutProps = {
@@ -13,12 +13,15 @@ const Layout = ({ children }: LayoutProps) => {
   const [activeSection, setActiveSection] = useState("favorites");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!token) {
       navigate("/");
     }
   }, [token]);
+
+  const isMessagingPage = location.pathname.startsWith("/messagingPage");
 
   return (
     <div className=" flex py-5 min-h-[60vh] items-center w-full">
@@ -33,7 +36,11 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
           </Col>
           <Col xl={18} md={24} sm={24}>
-            <div className="boxShadowC  rounded-xl py-7 xl:!px-7 px-4 h-full !min-w-full">
+            <div
+              className={`boxShadowC rounded-xl h-full !min-w-full ${
+                isMessagingPage ? "!p-0 !m-0" : "py-7 xl:!px-7 px-4"
+              }`}
+            >
               {children}
             </div>
           </Col>

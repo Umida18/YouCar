@@ -1,11 +1,30 @@
 import { Col, Row } from "antd";
 import { ICar } from "../../Type/Type";
+import { useNavigate } from "react-router-dom";
 
 interface PropsCar {
   item: ICar;
 }
 
 const ProductDescription: React.FC<PropsCar> = ({ item }) => {
+  const navigate = useNavigate();
+
+  const handleSendMessage = (text: string, id: number) => {
+    if (id) {
+      navigate(`/account/messagingPage/${id}`, {
+        state: { autoMessage: text },
+      });
+    }
+  };
+
+  const handleSendMessag = (text: string, id: number) => {
+    if (id) {
+      navigate(`/messagingPage/${id}`, {
+        state: { autoMessage: text },
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col py-10 gap-8">
       <div className="boxShadowC px-4 py-5 rounded-xl">
@@ -78,20 +97,71 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               <p className="text-[24px] font-bold mb-8">
                 Задайте вопрос продавцу
               </p>
-              <div className="flex flex-wrap xl:gap-4 gap-2 ">
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]">
+              <div className="xl:flex flex-wrap xl:gap-4 gap-2 ">
+                <button
+                  onClick={() => handleSendMessage("Здравствуйте", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]"
+                >
                   Здравствуйте
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]">
+                <button
+                  onClick={() =>
+                    handleSendMessage("Какой срок доставки?", item.id)
+                  }
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                >
                   Какой срок доставки?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]">
+                <button
+                  onClick={() => handleSendMessage(" ПТС ОРИГИНАЛ?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                >
                   ПТС ОРИГИНАЛ?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]">
+                <button
+                  onClick={() => handleSendMessage("Пробег оригинал?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]"
+                >
                   Пробег оригинал?
                 </button>
-                <button className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]">
+                <button
+                  onClick={() => handleSendMessage("Какой бензин?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]"
+                >
+                  Какой бензин?
+                </button>
+              </div>
+              <div className="flex xl:hidden flex-wrap xl:gap-4 gap-2 ">
+                <button
+                  onClick={() => handleSendMessag("Здравствуйте", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]"
+                >
+                  Здравствуйте
+                </button>
+                <button
+                  onClick={() =>
+                    handleSendMessag("Какой срок доставки?", item.id)
+                  }
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                >
+                  Какой срок доставки?
+                </button>
+                <button
+                  onClick={() => handleSendMessag(" ПТС ОРИГИНАЛ?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[54%]"
+                >
+                  ПТС ОРИГИНАЛ?
+                </button>
+                <button
+                  onClick={() => handleSendMessag("Пробег оригинал?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-[43%]"
+                >
+                  Пробег оригинал?
+                </button>
+                <button
+                  onClick={() => handleSendMessag("Какой бензин?", item.id)}
+                  className="bg-[#293843] text-white border-0 py-2 rounded-lg px-10 xl:w-[190px] w-full xl:h-auto h-[58px]"
+                >
                   Какой бензин?
                 </button>
               </div>

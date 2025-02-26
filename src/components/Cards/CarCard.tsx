@@ -153,6 +153,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
       }}
     >
       <Card
+        onClick={handleCardClick}
         hoverable
         className="h-full rounded-2xl border-0 shadow-lg [&_.ant-card-body]:p-0 boxShadowC cursor-pointer"
       >
@@ -171,7 +172,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
           {item?.image.map((i) => (
             <div
               className="relative h-[240px] w-full"
-              onClick={(e) => e.stopPropagation()}
+              // onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={i}
@@ -181,7 +182,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
             </div>
           ))}
         </Carousel>
-        <div className="flex gap-7 p-4" onClick={handleCardClick}>
+        <div className="flex gap-7 p-4">
           <div className="flex-1">
             {/* <h1>{item?.id}</h1> */}
             {/* <h1>{item?.type}</h1> */}
