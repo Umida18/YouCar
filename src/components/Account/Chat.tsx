@@ -14,6 +14,8 @@ import { GoBellSlash } from "react-icons/go";
 import { MdBlockFlipped } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 export default function MessagingPage() {
   const socketRef = useRef<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -572,101 +574,103 @@ export default function MessagingPage() {
             />
           </Dropdown>
         </div>
+        <ScrollArea>
+          <div
+            ref={messageContainerRef}
+            className="flex-1   xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
+          >
+            {messagesLoading ? (
+              <div className="h-full flex items-center justify-center">
+                <Spin size="large" />
+              </div>
+            ) : messages.length === 0 ? (
+              <p className="text-center text-muted-foreground">
+                Сообщений пока нет
+              </p>
+            ) : (
+              messages.reduce((acc: JSX.Element[], msg, index) => {
+                const currentDate = new Date(msg.updatedAt);
+                const prevDate =
+                  index > 0 ? new Date(messages[index - 1].updatedAt) : null;
 
-        <div
-          ref={messageContainerRef}
-          className="flex-1 overflow-y-auto  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
-        >
-          {messagesLoading ? (
-            <div className="h-full flex items-center justify-center">
-              <Spin size="large" />
-            </div>
-          ) : messages.length === 0 ? (
-            <p className="text-center text-muted-foreground">
-              Сообщений пока нет
-            </p>
-          ) : (
-            messages.reduce((acc: JSX.Element[], msg, index) => {
-              const currentDate = new Date(msg.updatedAt);
-              const prevDate =
-                index > 0 ? new Date(messages[index - 1].updatedAt) : null;
+                if (
+                  !prevDate ||
+                  currentDate.toDateString() !== prevDate.toDateString()
+                ) {
+                  acc.push(
+                    <div
+                      key={`date-${msg.updatedAt}`}
+                      className="flex items-center justify-center my-4"
+                    >
+                      <div className="h-[1px] flex-1 bg-[#E5E7EB]" />
+                      <span className="px-4 text-sm text-gray-500">
+                        {formatDate(currentDate)}
+                      </span>
+                      <div className="h-[1px] flex-1 bg-[#E5E7EB]" />
+                    </div>
+                  );
+                }
 
-              if (
-                !prevDate ||
-                currentDate.toDateString() !== prevDate.toDateString()
-              ) {
                 acc.push(
                   <div
-                    key={`date-${msg.updatedAt}`}
-                    className="flex items-center justify-center my-4"
+                    key={msg.chat_id || index}
+                    className={`flex ${
+                      msg.sender_id === Number(currentUserId)
+                        ? "justify-end"
+                        : "justify-start"
+                    } w-full`}
                   >
-                    <div className="h-[1px] flex-1 bg-[#E5E7EB]" />
-                    <span className="px-4 text-sm text-gray-500">
-                      {formatDate(currentDate)}
-                    </span>
-                    <div className="h-[1px] flex-1 bg-[#E5E7EB]" />
+                    <div className="max-w-[55%]">
+                      <div
+                        className={`${
+                          msg.sender_id === Number(id)
+                            ? "rounded-t-2xl rounded-r-2xl"
+                            : "rounded-t-2xl rounded-l-2xl"
+                        } py-2 px-4 ${
+                          msg.sender_id === Number(currentUserId)
+                            ? "bg-[#166AFF] text-primary-foreground"
+                            : "bg-[#F2F3F6]"
+                        }`}
+                      >
+                        {msg.type === "file" ? (
+                          <a
+                            href={msg.message}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[16px] break-words underline"
+                          >
+                            Attached File
+                          </a>
+                        ) : msg.type === "audio" ? (
+                          <audio controls className="max-w-full">
+                            <source src={msg.message} type="audio/webm" />
+                            Your browser does not support the audio element.
+                          </audio>
+                        ) : (
+                          <p className="text-[16px] break-words">
+                            {msg.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex items-center mt-1 gap-1">
+                        <span className="text-xs text-gray-500">
+                          {new Date(msg.updatedAt).getTime()
+                            ? new Date(msg.updatedAt).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            : "Invalid Date"}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 );
-              }
 
-              acc.push(
-                <div
-                  key={msg.chat_id || index}
-                  className={`flex ${
-                    msg.sender_id === Number(currentUserId)
-                      ? "justify-end"
-                      : "justify-start"
-                  } w-full`}
-                >
-                  <div className="max-w-[55%]">
-                    <div
-                      className={`${
-                        msg.sender_id === Number(id)
-                          ? "rounded-t-2xl rounded-r-2xl"
-                          : "rounded-t-2xl rounded-l-2xl"
-                      } py-2 px-4 ${
-                        msg.sender_id === Number(currentUserId)
-                          ? "bg-[#166AFF] text-primary-foreground"
-                          : "bg-[#F2F3F6]"
-                      }`}
-                    >
-                      {msg.type === "file" ? (
-                        <a
-                          href={msg.message}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[16px] break-words underline"
-                        >
-                          Attached File
-                        </a>
-                      ) : msg.type === "audio" ? (
-                        <audio controls className="max-w-full">
-                          <source src={msg.message} type="audio/webm" />
-                          Your browser does not support the audio element.
-                        </audio>
-                      ) : (
-                        <p className="text-[16px] break-words">{msg.message}</p>
-                      )}
-                    </div>
-                    <div className="flex items-center mt-1 gap-1">
-                      <span className="text-xs text-gray-500">
-                        {new Date(msg.updatedAt).getTime()
-                          ? new Date(msg.updatedAt).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })
-                          : "Invalid Date"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-
-              return acc;
-            }, [])
-          )}
-        </div>
-
+                return acc;
+              }, [])
+            )}
+          </div>
+        </ScrollArea>
         <form
           onSubmit={sendMessage}
           className="py-4  flex items-center xl:gap-2 gap-1"
