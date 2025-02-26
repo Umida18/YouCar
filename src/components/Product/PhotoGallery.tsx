@@ -102,7 +102,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
             <button
               key={actualIndex}
               onClick={() => carouselRef.current?.goTo(actualIndex)}
-              className={`relative aspect-[4/3] rounded-lg xl:min-w-[150px] xl:min-h-[150px] max-w-[78px] max-h-[77px] ${
+              className={`relative aspect-[4/3] rounded-lg xl:min-w-[150px] xl:min-h-[150px] w-[78px] h-[77px] ${
                 currentSlide === actualIndex ? "ring-2 ring-blue-500" : ""
               }`}
             >
