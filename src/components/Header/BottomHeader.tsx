@@ -253,6 +253,8 @@ const BottomHeader = () => {
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
               />
               <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 style={{ border: 0, backgroundColor: "transparent" }}
                 className=" flex min-w-full h-[45px] pl-9"
                 placeholder="Поиск по названию"
