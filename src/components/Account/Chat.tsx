@@ -5,7 +5,7 @@ import { ChevronLeft, Paperclip } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 import { Button, Dropdown, Input, Modal, Spin } from "antd";
 import { io, type Socket } from "socket.io-client";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
 import axios from "axios";
 import type { IData, IUser, Message, SendMessage } from "@/Type/Type";
@@ -29,6 +29,43 @@ export default function MessagingPage() {
   const [mutedNotifications, setMutedNotifications] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
+
+  const location = useLocation();
+  console.log("Location state:", location.state);
+
+  const autoMessage = location.state?.autoMessage || null;
+
+  useEffect(() => {
+    if (autoMessage && data?.chat_user_id && socketRef.current && connected) {
+      sendAutoMessage(autoMessage);
+    }
+  }, [data, connected]);
+
+  useEffect(() => {
+    if (autoMessage) {
+      console.log("Auto message is ready to be sent:", autoMessage);
+    }
+  }, [autoMessage]);
+
+  const sendAutoMessage = (message: string) => {
+    if (socketRef.current && data?.chat_user_id && data?.user_id) {
+      const newMessage = {
+        chat_id: data?.chat_id,
+        senderId: Number(currentUserId),
+        receiverId: Number(id),
+        message: message,
+        type: "text",
+        status: "sent",
+        timestamp: new Date().toISOString(),
+      };
+
+      console.log("Sending Auto Message:", newMessage);
+      socketRef.current.emit("send message", newMessage);
+      // setAutoMessageSent(true);
+    } else {
+      console.log("Cannot send auto message - socket or data not ready");
+    }
+  };
 
   const formatDate = (date: Date) => {
     const today = new Date();
@@ -92,8 +129,6 @@ export default function MessagingPage() {
           ? "Вы снова сможете получать сообщения от этого пользователя"
           : "Вы больше не будете получать сообщения от этого пользователя",
         onOk: async () => {
-          // This would need a backend endpoint for blocking users
-          // Assuming there might be one similar to the mute endpoint
           try {
             const response = await axios.post(
               "https://api.youcarrf.ru/user/block",
@@ -138,7 +173,6 @@ export default function MessagingPage() {
         "Вы уверены, что хотите удалить этот диалог? Это действие нельзя отменить.",
       onOk: async () => {
         try {
-          // This would need a backend endpoint for deleting conversations
           const response = await axios.delete(
             `https://api.youcarrf.ru/chat/delete/${data.chat_id}`
           );
@@ -148,7 +182,6 @@ export default function MessagingPage() {
               title: "Диалог удален",
               content: "Диалог был успешно удален",
             });
-            // Navigate back after successful deletion
             navigate(-1);
           }
         } catch (error) {

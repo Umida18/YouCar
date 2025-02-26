@@ -97,7 +97,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               <p className="text-[24px] font-bold mb-8">
                 Задайте вопрос продавцу
               </p>
-              <div className="xl:flex flex-wrap xl:gap-4 gap-2 ">
+              <div className="xl:flex  hidden flex-wrap xl:gap-4 gap-2 ">
                 <button
                   onClick={() => handleSendMessage("Здравствуйте", item.id)}
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[43%]"
