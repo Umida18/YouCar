@@ -5,18 +5,24 @@ import { Col, Row } from "antd";
 import ItemCard from "../Cards/CarCard";
 import { mapCarDataToItem } from "../../utils/dataMapper";
 import { useParams } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import PaginationComponent from "../Pagination/Pagination";
 
 interface CardProps {
   limit?: number;
   filteredCars?: FilteredAuto | null;
+  currentPage: number;
+  setCurrentPage: (num: number) => void;
 }
 
-const CatalogCards: React.FC<CardProps> = ({ limit, filteredCars }) => {
+const CatalogCards: React.FC<CardProps> = ({
+  limit,
+  filteredCars,
+  currentPage,
+  setCurrentPage,
+}) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
-  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: cars } = useQuery<ICar[]>(
     ["cars"],

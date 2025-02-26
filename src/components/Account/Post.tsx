@@ -1,5 +1,3 @@
-"use client";
-
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tabs, Card, Button, Dropdown, Spin } from "antd";
 import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
@@ -11,8 +9,10 @@ import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DeleteAvtoCard from "./DeleteAvtoCard";
+import useScrollToTop from "@/utils/scroll";
 
 export default function PostsUser() {
+  useScrollToTop();
   const navigate = useNavigate();
   const userId = localStorage.getItem("id");
   const queryClient = useQueryClient();
@@ -99,7 +99,6 @@ export default function PostsUser() {
     } catch (error) {
       console.log(error);
     }
-    // console.log("archieve", res.data);
   };
 
   const handleDeleteClick = (item: any) => {

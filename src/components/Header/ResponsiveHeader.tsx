@@ -109,7 +109,9 @@ const ResponsiveHeader = ({
             </div>
             <div className="flex justify-center items-start gap-5">
               <LuBell
-                onClick={() => navigate("/mobileNotifications")}
+                onClick={() => {
+                  navigate("/mobileNotifications"), setIsOpen(false);
+                }}
                 style={{ fontSize: "22px" }}
               />
               {/* <select className="bg-transparent text-sm sm:text-base outline-none cursor-pointer">

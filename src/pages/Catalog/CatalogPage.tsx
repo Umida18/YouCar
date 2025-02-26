@@ -19,12 +19,13 @@ const CatalogPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("selectedTab") || "car";
   const [selectedTab, setSelectedTab] = useState<string>(initialTab);
-  const [currentPage, __] = useState(1);
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [form] = Form.useForm();
 
   const { data: filteredCars, refetch } = useQuery(
-    ["filteredCars", searchParams.toString()],
+    ["filteredCars", searchParams.toString(), currentPage],
     async () => {
       let endpoint = "";
 
@@ -111,6 +112,8 @@ const CatalogPage = () => {
 
   const breadcrumbItems = [{ label: "Каталог", path: "/catalog" }];
 
+  useEffect(() => {});
+
   return (
     <>
       <Breadcrumb items={breadcrumbItems} />
@@ -129,7 +132,11 @@ const CatalogPage = () => {
         title={"Каталог"}
         setButtonLabel={setButtonLabel}
       />
-      <CatalogCards filteredCars={filteredCars} />
+      <CatalogCards
+        filteredCars={filteredCars}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
 
       <RequestBanner />
     </>

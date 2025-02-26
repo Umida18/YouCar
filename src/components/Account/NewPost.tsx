@@ -154,7 +154,7 @@ const NewPost = () => {
 
       form.resetFields();
       queryClient.invalidateQueries(["userData"]);
-
+      navigate("/account/postsUser");
       console.log("res:", res);
     } catch (error) {
       console.error("add error:", error);
