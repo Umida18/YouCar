@@ -22,7 +22,9 @@ const AboutCompanyBanner = () => {
           <Col xl={12} className="xl:h-[320px]">
             <div>
               <div className="flex flex-col  justify-center relative">
-                <h3 className="text-[35px] font-bold mb-2">О нашей компании</h3>
+                <h3 className="xl:text-[35px] text-[27px] font-bold mb-2">
+                  О нашей компании
+                </h3>
                 <p className="text-gray-600 mb-4 flex-grow text-[16px] max-w-md">
                   Мы имеем огромный опыт работы с автомобильным рынком Кореи и
                   тщательно отбираем автомобили для наших клиентов, учитывая их

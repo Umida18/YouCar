@@ -87,7 +87,9 @@ export default function Messages() {
         }
       } catch (error) {
         console.error("Error fetching chats:", error);
-        setError("Failed to load chats. Please try again later.");
+        setError(
+          "Не удалось загрузить чаты. Пожалуйста, повторите попытку позже."
+        );
       } finally {
         setLoading(false);
       }

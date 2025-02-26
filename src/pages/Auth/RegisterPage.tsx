@@ -89,9 +89,9 @@ const RegisterPage = () => {
         <p className="xl:text-[35px] lg:text-[35px] text-[24px] font-bold mb-2">
           Регистрация
         </p>
-        <p className="xl:text-[18px] lg:text-[18px] text-[12px] text-[#050B20] mb-8">
+        {/* <p className="xl:text-[18px] lg:text-[18px] text-[12px] text-[#050B20] mb-8">
           Заполните поля ниже для создания аккаунта.
-        </p>
+        </p> */}
         <Form
           className="w-full flex flex-col items-center"
           onFinish={handleSubmit}

@@ -246,6 +246,7 @@ export default function PostsUser() {
                         Вами еще не было создано объявлений. Опубликуйте первое!
                       </p>
                       <Button
+                        onClick={() => navigate("/newPost")}
                         type="primary"
                         icon={<PlusOutlined />}
                         size="large"

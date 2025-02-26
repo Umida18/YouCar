@@ -17,6 +17,14 @@ const ForgotPassword = () => {
         setSuccessfullySent(true);
         form.resetFields();
       }
+      if (res.status === 404) {
+        notification.error({
+          message: "Ошибка",
+          description:
+            "Не удалось найти аккаунт с таким email. Попробуйте снова.",
+          placement: "topRight",
+        });
+      }
     } catch (error) {
       console.error("Error in forgot password:", error);
       notification.error({
