@@ -40,8 +40,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full py-14 px-4 ">
-      <div className="flex flex-col justify-center items-center  bg-white xl:w-[40%] lg:w-[50%]  p-6 boxShadowC">
+    <div className="flex justify-center items-center w-full py-10 px-4 ">
+      <div className="flex flex-col justify-center items-center w-full  bg-white xl:w-[40%] lg:w-[50%]  p-6 boxShadowC">
         <p className="xl:text-[35px] lg:text-[35px] text-[24px] font-bold mb-2">
           Забыли пароль?
         </p>

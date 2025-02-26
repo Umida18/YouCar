@@ -85,8 +85,8 @@ const RegisterPage = () => {
 
   return (
     <div className="flex justify-center items-center w-full py-14 px-4 ">
-      <div className="flex flex-col justify-center items-center bg-white xl:w-[40%] lg:w-[50%] p-6 boxShadowC">
-        <p className="xl:text-[35px] lg:text-[35px] text-[24px] font-bold mb-2">
+      <div className="flex w-full flex-col justify-center items-center bg-white xl:w-[40%] lg:w-[50%] p-6 boxShadowC">
+        <p className="xl:text-[35px] lg:text-[35px] text-[24px] font-bold mb-4">
           Регистрация
         </p>
         {/* <p className="xl:text-[18px] lg:text-[18px] text-[12px] text-[#050B20] mb-8">
