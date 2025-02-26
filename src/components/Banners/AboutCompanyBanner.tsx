@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 
 const AboutCompanyBanner = () => {
   return (
@@ -32,7 +32,7 @@ const AboutCompanyBanner = () => {
                   поставщиками и перевозчиками, чтобы обеспечить безопасность и
                   надежность доставки.
                 </p>
-                <Button
+                {/* <Button
                   style={{
                     border: 0,
                     backgroundColor: "#2684E5",
@@ -43,7 +43,7 @@ const AboutCompanyBanner = () => {
                   }}
                 >
                   Подробнее
-                </Button>
+                </Button> */}
               </div>
               <div
                 className=" relative bottom-20 right-24  justify-end  hidden xl:flex"
