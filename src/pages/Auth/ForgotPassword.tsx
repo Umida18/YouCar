@@ -17,19 +17,23 @@ const ForgotPassword = () => {
         setSuccessfullySent(true);
         form.resetFields();
       }
-      if (res.status === 404) {
+    } catch (error: any) {
+      console.error("Error in forgot password:", error);
+      if (error.response?.status === 404) {
         notification.error({
           message: "Ошибка",
           description:
             "Не удалось найти аккаунт с таким email. Попробуйте снова.",
           placement: "topRight",
         });
+        return;
       }
-    } catch (error) {
-      console.error("Error in forgot password:", error);
+
       notification.error({
         message: "Ошибка",
-        description: "Не удалось отправить запрос. Попробуйте снова.",
+        description:
+          error.response?.data?.message ||
+          "Не удалось отправить запрос. Попробуйте снова.",
         placement: "topRight",
       });
     }
