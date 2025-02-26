@@ -11,8 +11,8 @@ import axios from "axios";
 import type { IData, IUser, Message, SendMessage } from "@/Type/Type";
 import { MoreOutlined } from "@ant-design/icons";
 import { GoBellSlash } from "react-icons/go";
-import { MdBlockFlipped } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
+// import { MdBlockFlipped } from "react-icons/md";
+// import { FaRegTrashAlt } from "react-icons/fa";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -29,7 +29,7 @@ export default function MessagingPage() {
   const navigate = useNavigate();
 
   const [mutedNotifications, setMutedNotifications] = useState(false);
-  const [isBlocked, setIsBlocked] = useState(false);
+  // const [isBlocked, setIsBlocked] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
 
   const location = useLocation();
@@ -119,83 +119,83 @@ export default function MessagingPage() {
     }
   };
 
-  const handleBlockUser = async () => {
-    try {
-      if (!id || !currentUserId) return;
+  // const handleBlockUser = async () => {
+  //   try {
+  //     if (!id || !currentUserId) return;
 
-      Modal.confirm({
-        title: isBlocked
-          ? "Разблокировать пользователя?"
-          : "Заблокировать пользователя?",
-        content: isBlocked
-          ? "Вы снова сможете получать сообщения от этого пользователя"
-          : "Вы больше не будете получать сообщения от этого пользователя",
-        onOk: async () => {
-          try {
-            const response = await axios.post(
-              "https://api.youcarrf.ru/user/block",
-              {
-                userId: currentUserId,
-                blockedUserId: id,
-                action: isBlocked ? "unblock" : "block",
-              }
-            );
+  //     Modal.confirm({
+  //       title: isBlocked
+  //         ? "Разблокировать пользователя?"
+  //         : "Заблокировать пользователя?",
+  //       content: isBlocked
+  //         ? "Вы снова сможете получать сообщения от этого пользователя"
+  //         : "Вы больше не будете получать сообщения от этого пользователя",
+  //       onOk: async () => {
+  //         try {
+  //           const response = await axios.post(
+  //             "https://api.youcarrf.ru/user/block",
+  //             {
+  //               userId: currentUserId,
+  //               blockedUserId: id,
+  //               action: isBlocked ? "unblock" : "block",
+  //             }
+  //           );
 
-            if (response.data.status === "Success") {
-              setIsBlocked(!isBlocked);
-              Modal.success({
-                title: isBlocked
-                  ? "Пользователь разблокирован"
-                  : "Пользователь заблокирован",
-                content: isBlocked
-                  ? "Вы снова можете получать сообщения от этого пользователя"
-                  : "Вы больше не будете получать сообщения от этого пользователя",
-              });
-            }
-          } catch (error) {
-            console.error("Error blocking/unblocking user:", error);
-            Modal.error({
-              title: "Ошибка",
-              content: "Не удалось изменить статус блокировки",
-            });
-          }
-        },
-      });
-    } catch (error) {
-      console.error("Error with block user modal:", error);
-    }
-  };
+  //           if (response.data.status === "Success") {
+  //             setIsBlocked(!isBlocked);
+  //             Modal.success({
+  //               title: isBlocked
+  //                 ? "Пользователь разблокирован"
+  //                 : "Пользователь заблокирован",
+  //               content: isBlocked
+  //                 ? "Вы снова можете получать сообщения от этого пользователя"
+  //                 : "Вы больше не будете получать сообщения от этого пользователя",
+  //             });
+  //           }
+  //         } catch (error) {
+  //           console.error("Error blocking/unblocking user:", error);
+  //           Modal.error({
+  //             title: "Ошибка",
+  //             content: "Не удалось изменить статус блокировки",
+  //           });
+  //         }
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error with block user modal:", error);
+  //   }
+  // };
 
-  const handleDeleteConversation = () => {
-    if (!id || !currentUserId || !data?.chat_id) return;
+  // const handleDeleteConversation = () => {
+  //   if (!id || !currentUserId || !data?.chat_id) return;
 
-    Modal.confirm({
-      title: "Удалить диалог?",
-      content:
-        "Вы уверены, что хотите удалить этот диалог? Это действие нельзя отменить.",
-      onOk: async () => {
-        try {
-          const response = await axios.delete(
-            `https://api.youcarrf.ru/chat/delete/${data.chat_id}`
-          );
+  //   Modal.confirm({
+  //     title: "Удалить диалог?",
+  //     content:
+  //       "Вы уверены, что хотите удалить этот диалог? Это действие нельзя отменить.",
+  //     onOk: async () => {
+  //       try {
+  //         const response = await axios.delete(
+  //           `https://api.youcarrf.ru/chat/delete/${data.chat_id}`
+  //         );
 
-          if (response.data.status === "Success") {
-            Modal.success({
-              title: "Диалог удален",
-              content: "Диалог был успешно удален",
-            });
-            navigate(-1);
-          }
-        } catch (error) {
-          console.error("Error deleting conversation:", error);
-          Modal.error({
-            title: "Ошибка",
-            content: "Не удалось удалить диалог",
-          });
-        }
-      },
-    });
-  };
+  //         if (response.data.status === "Success") {
+  //           Modal.success({
+  //             title: "Диалог удален",
+  //             content: "Диалог был успешно удален",
+  //           });
+  //           navigate(-1);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error deleting conversation:", error);
+  //         Modal.error({
+  //           title: "Ошибка",
+  //           content: "Не удалось удалить диалог",
+  //         });
+  //       }
+  //     },
+  //   });
+  // };
 
   // const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -530,19 +530,20 @@ export default function MessagingPage() {
             <MoreVertical className="h-5 w-5" />
           </Button> */}
           <Dropdown
+            // className="flex flex-col !gap-3"
             menu={{
               items: [
-                {
-                  key: "1",
-                  label: "Перейти в профиль",
-                  icon: (
-                    <div
-                      className={`h-6 w-6 text-lg rounded-full relative -left-1 !m-0 bg-muted flex items-center justify-center text-muted-foreground`}
-                    >
-                      {userName?.name.charAt(0)}
-                    </div>
-                  ),
-                },
+                // {
+                //   key: "1",
+                //   label: "Перейти в профиль",
+                //   icon: (
+                //     <div
+                //       className={`h-6 w-6 text-lg rounded-full relative -left-1 !m-0 bg-muted flex items-center justify-center text-muted-foreground`}
+                //     >
+                //       {userName?.name.charAt(0)}
+                //     </div>
+                //   ),
+                // },
                 {
                   key: "2",
                   label: mutedNotifications
@@ -551,18 +552,18 @@ export default function MessagingPage() {
                   icon: <GoBellSlash />,
                   onClick: handleMuteNotifications,
                 },
-                {
-                  key: "3",
-                  label: isBlocked ? "Разблокировать" : "Заблокировать",
-                  icon: <MdBlockFlipped />,
-                  onClick: handleBlockUser,
-                },
-                {
-                  key: "4",
-                  label: "Удалить диалог",
-                  icon: <FaRegTrashAlt />,
-                  onClick: handleDeleteConversation,
-                },
+                // {
+                //   key: "3",
+                //   label: isBlocked ? "Разблокировать" : "Заблокировать",
+                //   icon: <MdBlockFlipped />,
+                //   onClick: handleBlockUser,
+                // },
+                // {
+                //   key: "4",
+                //   label: "Удалить диалог",
+                //   icon: <FaRegTrashAlt />,
+                //   onClick: handleDeleteConversation,
+                // },
               ],
             }}
             placement="bottomRight"
