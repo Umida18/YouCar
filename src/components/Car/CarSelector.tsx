@@ -137,8 +137,8 @@ export default function CarSelector({
                     : null;
                 }}
               >
-                <TabsList className="!w-full bg-[#F4F4F4]  p-0 rounded-xl h-full">
-                  <Form.Item className="w-full mb-0">
+                <TabsList className="!w-[100%] bg-[#F4F4F4]  p-0 rounded-xl h-full">
+                  <Form.Item className="w-[30%] mb-0">
                     <TabsTrigger
                       value="car"
                       className="flex-1 p-1 w-full h-[57px] data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
@@ -147,7 +147,7 @@ export default function CarSelector({
                     </TabsTrigger>
                   </Form.Item>
 
-                  <Form.Item className="w-full mb-0">
+                  <Form.Item className=" w-[39%] mb-0">
                     <TabsTrigger
                       value="commerce"
                       className="flex-1 p-1 h-[57px] overflow-auto w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
@@ -156,7 +156,7 @@ export default function CarSelector({
                     </TabsTrigger>
                   </Form.Item>
 
-                  <Form.Item className="w-full mb-0">
+                  <Form.Item className="w-[30%] mb-0">
                     <TabsTrigger
                       value="moto"
                       className="flex-1 p-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"

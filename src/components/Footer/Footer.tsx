@@ -53,7 +53,7 @@ export default function FooterComponent() {
                   </div>
                 </a>
                 <div className="flex space-x-4 mb-5 !text-[#989898] ">
-                  <a href="#" className=" ">
+                  <a href="https://vk.com/youcarr" className=" ">
                     {/* <SlSocialVkontakte className="text-[24px]" /> */}
                     <img className="w-[24px] h-[24px]" src="/vk.svg" alt="" />
                   </a>

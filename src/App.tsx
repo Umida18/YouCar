@@ -1,10 +1,10 @@
+import { Layout } from "antd";
+import { Content, Footer, Header } from "antd/es/layout/layout";
 import { ConfigProvider } from "antd";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home/HomePage";
 import CatalogPage from "./pages/Catalog/CatalogPage";
-import { Layout } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
 import HeaderComponent from "./components/Header/Header";
 import FooterComponent from "./components/Footer/Footer";
 import RegisterPage from "./pages/Auth/RegisterPage";
@@ -30,6 +30,7 @@ import EditPost from "./components/Account/EditPost";
 import ErrorBoundary from "./components/ErrorBoundary";
 import MessagingPage from "./components/Account/Chat";
 import ProfilePage from "./components/Account/sidebarMobile";
+import MobileNotifications from "./components/Header/MobileNotifications";
 // import ProfilePage from "./components/Account/sidebarMobile";
 
 function App() {
@@ -51,6 +52,10 @@ function App() {
                   <Route path="/forgotPassword" element={<ForgotPassword />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/commerceCars" element={<CommerceCars />} />
+                  <Route
+                    path="/mobileNotifications"
+                    element={<MobileNotifications />}
+                  />
                   <Route path="/cars" element={<CarsPage />} />
                   <Route path="/motobykes" element={<MotoPage />} />
                   <Route path="/editPost/:id" element={<EditPost />} />

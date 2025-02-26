@@ -53,6 +53,7 @@ const BottomHeader = () => {
       },
     }
   );
+
   useEffect(() => {
     if (!token) {
       setIsRegistered(false);

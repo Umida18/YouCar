@@ -23,7 +23,7 @@ export default function WhyUsSection() {
     {
       icon: "/4.svg",
       title: "Доставка",
-      description: "Доставка в любой регион РФ, прямая связь без посредников",
+      description: "Доставка в любой регион РФ, прямая связь без посредников.",
     },
   ];
 
@@ -35,7 +35,9 @@ export default function WhyUsSection() {
           <Col xs={24} sm={12} lg={6} key={index}>
             <div className="bg-white p-6 py-10 rounded-lg boxShadowC h-full">
               <div className="flex flex-col items-start gap-4">
-                <img src={feature.icon} alt="" />
+                <div className="min-h-[53px]">
+                  <img src={feature.icon} alt="" />
+                </div>
                 <h3 className="text-xl font-bold text-[#202020]">
                   {feature.title}
                 </h3>
