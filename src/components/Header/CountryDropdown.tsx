@@ -28,9 +28,9 @@ export function CountryDropdown({
   return (
     <div className="absolute top-full left-0 w-[350px] bg-white shadow-lg rounded-lg p-4 z-50">
       <div className="grid grid-cols-2 gap-4">
-        {countries?.map((country) => (
+        {countries?.map((country, index) => (
           <a
-            key={country.id}
+            key={index}
             href={`/${type}/${country.id}`}
             className="relative overflow-hidden rounded-lg h-[45px] group"
             onClick={onClose}

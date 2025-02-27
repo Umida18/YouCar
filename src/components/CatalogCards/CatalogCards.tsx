@@ -11,8 +11,8 @@ import PaginationComponent from "../Pagination/Pagination";
 interface CardProps {
   limit?: number;
   filteredCars?: FilteredAuto | null;
-  currentPage: number;
-  setCurrentPage: (num: number) => void;
+  currentPage?: number;
+  setCurrentPage?: (num: number) => void;
 }
 
 const CatalogCards: React.FC<CardProps> = ({

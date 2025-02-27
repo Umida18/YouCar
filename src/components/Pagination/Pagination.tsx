@@ -7,14 +7,16 @@ const PaginationComponent = ({
   currentPage,
 }: {
   buttonsPage: number[];
-  currentPage: number;
-  setCurrentPage: (num: number) => void;
+  currentPage?: number;
+  setCurrentPage?: (num: number) => void;
 }) => {
   const [start, setStart] = useState<number>(1);
   const [end, setEnd] = useState<number>(5);
 
   const handleClickPage = (i: number) => {
-    setCurrentPage(i);
+    if (setCurrentPage) {
+      setCurrentPage(i);
+    }
     if (i >= start + 2 && end < buttonsPage.length) {
       setStart(i - 2);
       setEnd(i + 2);
