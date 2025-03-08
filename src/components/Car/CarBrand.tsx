@@ -19,7 +19,9 @@ export default function CarBrands() {
           {marks?.map((brand) => (
             <Card
               hoverable
-              onClick={() => navigate(`/brand?markId=${brand.id}`)}
+              onClick={() =>
+                navigate(`/brand?markId=${brand.id}&mark=${brand.mark_name}`)
+              }
               key={brand.id}
               className="transition-shadow duration-300 rounded-none cursor-pointer hover:z-10 outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:p-2 flex flex-col justify-center items-center xl:h-[168px] h-[130px] overflow-hidden"
             >
