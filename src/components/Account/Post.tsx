@@ -239,9 +239,9 @@ export default function PostsUser() {
                 ))}
 
                 {getAllListings().length === 0 && (
-                  <div className="flex flex-col items-center justify-center min-h-[600px] ">
+                  <div className="flex flex-col text-[#293843] justify-center min-h-[300px] ">
                     <div className="text-center mb-8">
-                      <p className="text-xl mb-4">
+                      <p className="text-lg mb-12">
                         Вами еще не было создано объявлений. Опубликуйте первое!
                       </p>
                       <Button

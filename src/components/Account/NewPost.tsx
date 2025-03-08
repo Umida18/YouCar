@@ -204,12 +204,12 @@ const NewPost = () => {
                       type="button"
                       key={type.id}
                       onClick={() => setSelectedType(type.id)}
-                      className={`flex-1 px-2 !mr-0 py-2 text-sm rounded-full transition-colors
-                ${
-                  selectedType === type.id
-                    ? "bg-background text-foreground !mr-0 shadow-sm"
-                    : "text-muted-foreground hover:bg-background/50"
-                }`}
+                      className={`flex-1 px-2 !mr-0 py-2 text-sm rounded-full transition-all duration-300 ease-in-out
+                      ${
+                        selectedType === type.id
+                          ? "bg-background text-foreground !mr-0 shadow-sm"
+                          : "text-muted-foreground hover:bg-background/50"
+                      }`}
                       role="tab"
                       aria-selected={selectedType === type.id}
                     >
