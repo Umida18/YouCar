@@ -70,8 +70,19 @@ const Settings = () => {
         oldPass: values.oldPass,
         newPass: values.newPass,
       });
+      form2.resetFields();
+      openNotification(
+        "success",
+        "Пароль успешно обновлен",
+        "Вы успешно изменили пароль. Теперь вы можете использовать новый пароль для входа."
+      );
     } catch (error) {
       console.error("Password update failed:", error);
+      openNotification(
+        "error",
+        "Ошибка",
+        "Не удалось изменить пароль. Попробуйте еще раз позже."
+      );
     }
   };
 

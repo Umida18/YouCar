@@ -88,3 +88,11 @@
 body {
   font-family: "Golos Text" !important;
 }
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-focused {
+  background-color: transparent !important; /* Orqa fonni o'zgarmas qilish */
+  border-color: inherit !important; /* Chegarasi o'zgarmasligi */
+  box-shadow: none !important; /* Soyani olib tashlash */
+}

@@ -91,7 +91,11 @@ any) => {
         </button>
 
         {isOpenBell && (
-          <div className="absolute -right-40 top-10 w-[400px] bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+          <div
+            className={`absolute -right-40 top-16 w-[290px] ${
+              !isRegistered ? "h-[140px]" : "!h-[220px]"
+            }  bg-white rounded-lg shadow-lg border border-gray-200 z-50`}
+          >
             <div className="flex border-b">
               <button
                 onClick={() => setActiveTab("messages")}
@@ -131,7 +135,7 @@ any) => {
                 </p>
               </div>
             ) : (
-              <div className="max-h-[400px] overflow-y-auto p-3">
+              <div className="min-h-full overflow-y-auto p-3">
                 {notifications
                   // .filter((note: any) =>
                   //   activeTab === "messages"

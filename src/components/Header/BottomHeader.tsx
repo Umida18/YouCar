@@ -8,7 +8,7 @@ import ResponsiveHeader from "./ResponsiveHeader";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../Api/Api";
-import { ICar, IUser } from "../../Type/Type";
+import type { ICar, IUser } from "../../Type/Type";
 import { IoIosArrowForward } from "react-icons/io";
 import { CountryDropdown } from "./CountryDropdown";
 import Notification from "./Notification";
@@ -63,11 +63,7 @@ const BottomHeader = () => {
   }, [token]);
 
   const handleMouseEnter = (type: string) => {
-    setActiveDropdown(type);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
+    setActiveDropdown(activeDropdown === type ? null : type);
   };
 
   useEffect(() => {
@@ -100,17 +96,19 @@ const BottomHeader = () => {
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
           </a>
-
           <nav className="relative">
             <div className="flex items-center justify-between gap-7">
               <div
                 className="relative group"
-                onMouseEnter={() => handleMouseEnter("cars")}
-                onMouseLeave={handleMouseLeave}
+                onClick={() => handleMouseEnter("cars")}
               >
                 <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px] ">Автомобили</span>
-                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
+                  <IoIosArrowForward
+                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                      activeDropdown === "cars" ? "-rotate-90" : ""
+                    }`}
+                  />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "cars"}
@@ -121,14 +119,19 @@ const BottomHeader = () => {
 
               <div
                 className="relative group"
-                onMouseEnter={() => handleMouseEnter("commerceCars")}
-                onMouseLeave={handleMouseLeave}
+                onClick={() => handleMouseEnter("commerceCars")}
+                // onMouseEnter={() => handleMouseEnter("commerceCars")}
+                // onMouseLeave={handleMouseLeave}
               >
                 <p className="flex justify-center items-center gap-1 cursor-pointer text-black hover:text-black">
                   <span className="text-[16px] leading-tight">
                     Коммерческий транспорт
                   </span>
-                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
+                  <IoIosArrowForward
+                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                      activeDropdown === "commerceCars" ? "-rotate-90" : ""
+                    }`}
+                  />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "commerceCars"}
@@ -139,12 +142,17 @@ const BottomHeader = () => {
 
               <div
                 className="relative group"
-                onMouseEnter={() => handleMouseEnter("motobykes")}
-                onMouseLeave={handleMouseLeave}
+                onClick={() => handleMouseEnter("motobykes")}
+                // onMouseEnter={() => handleMouseEnter("motobykes")}
+                // onMouseLeave={handleMouseLeave}
               >
                 <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px]">Мотоциклы</span>
-                  <IoIosArrowForward className="text-[#2684E5] mt-1 transition-transform duration-300 group-hover:-rotate-90" />
+                  <IoIosArrowForward
+                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                      activeDropdown === "motobykes" ? "-rotate-90" : ""
+                    }`}
+                  />
                 </p>
                 <CountryDropdown
                   isOpen={activeDropdown === "motobykes"}
@@ -187,17 +195,19 @@ const BottomHeader = () => {
             activeTab={activeTab}
             setIsOpenBell={setIsOpenBell}
           />
+
           {!isRegistered ? (
             <>
               <Button
                 onClick={() => navigate("login")}
                 style={{
+                  padding: 0,
                   border: 0,
                   backgroundColor: "transparent",
                   boxShadow: "none",
                   fontSize: "16px",
                   height: "56px",
-                  width: "187px",
+                  // width: "187px",
                 }}
               >
                 Войти

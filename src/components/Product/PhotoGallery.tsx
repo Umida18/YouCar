@@ -10,8 +10,23 @@ interface PropsCar {
 const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const carouselRef = React.useRef<any>();
-  const VISIBLE_THUMBNAILS = 4;
+
+  const VISIBLE_THUMBNAILS = isMobile ? 2 : 4;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1280);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const endIndex = thumbnailStartIndex + VISIBLE_THUMBNAILS;
   const hasNextImages = endIndex < item.image.length;
@@ -27,7 +42,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
         Math.floor(currentSlide / VISIBLE_THUMBNAILS) * VISIBLE_THUMBNAILS
       );
     }
-  }, [currentSlide, thumbnailStartIndex, endIndex]);
+  }, [currentSlide, thumbnailStartIndex, endIndex, VISIBLE_THUMBNAILS]);
 
   const showNextThumbnails = () => {
     const newStartIndex = endIndex;
@@ -40,6 +55,20 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
     setThumbnailStartIndex(newStartIndex);
     carouselRef.current?.goTo(newStartIndex);
   };
+
+  const calculateVisibleThumbnails = () => {
+    if (!isMobile) return VISIBLE_THUMBNAILS;
+
+    if (hasPrevImages && hasNextImages) {
+      return 2;
+    } else if (hasPrevImages || hasNextImages) {
+      return 3;
+    } else {
+      return 4;
+    }
+  };
+
+  const visibleThumbnails = calculateVisibleThumbnails();
 
   return (
     <div className="rounded-xl">
@@ -75,8 +104,8 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
         </button>
       </div>
 
-      <div className="flex flex-wrap xl:gap-3 gap-1">
-        {/* Oldingi rasmlar mavjud bo'lsa ko'rsatish */}
+      <div className="flex xl:gap-3 xl:justify-start gap-2">
+        {/* Previous images button */}
         {hasPrevImages && (
           <button
             onClick={showPrevThumbnails}
@@ -95,27 +124,29 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
           </button>
         )}
 
-        {/* Joriy ko'rinib turgan thumbnaillar */}
-        {item.image.slice(thumbnailStartIndex, endIndex).map((image, index) => {
-          const actualIndex = thumbnailStartIndex + index;
-          return (
-            <button
-              key={actualIndex}
-              onClick={() => carouselRef.current?.goTo(actualIndex)}
-              className={`relative aspect-[4/3] rounded-lg xl:min-w-[150px] xl:min-h-[150px] w-[78px] h-[77px] ${
-                currentSlide === actualIndex ? "ring-2 ring-blue-500" : ""
-              }`}
-            >
-              <img
-                src={image || "/placeholder.svg"}
-                alt={`Thumbnail ${actualIndex + 1}`}
-                className="xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]  object-cover rounded-lg "
-              />
-            </button>
-          );
-        })}
+        {/* Current visible thumbnails */}
+        {item.image
+          .slice(thumbnailStartIndex, thumbnailStartIndex + visibleThumbnails)
+          .map((image, index) => {
+            const actualIndex = thumbnailStartIndex + index;
+            return (
+              <button
+                key={actualIndex}
+                onClick={() => carouselRef.current?.goTo(actualIndex)}
+                className={`relative aspect-[4/3] rounded-lg xl:min-w-[150px] xl:min-h-[150px] w-[78px] h-[77px] ${
+                  currentSlide === actualIndex ? "ring-2 ring-blue-500" : ""
+                }`}
+              >
+                <img
+                  src={image || "/placeholder.svg"}
+                  alt={`Thumbnail ${actualIndex + 1}`}
+                  className="xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px] object-cover rounded-lg"
+                />
+              </button>
+            );
+          })}
 
-        {/* Keyingi rasmlar mavjud bo'lsa ko'rsatish */}
+        {/* Next images button */}
         {hasNextImages && (
           <button
             onClick={showNextThumbnails}
@@ -124,7 +155,7 @@ const PhotoGallery: React.FC<PropsCar> = ({ item }) => {
             <img
               src={item.image[endIndex] || "/placeholder.svg"}
               alt={`Next thumbnail`}
-              className=" object-cover xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]"
+              className="object-cover xl:!min-w-[150px] xl:!min-h-[150px] w-[78px] h-[77px]"
             />
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
               <div className="text-white font-medium">
