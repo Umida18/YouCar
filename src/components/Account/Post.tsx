@@ -110,24 +110,43 @@ export default function PostsUser() {
 
   const handleDeleteConfirm = async () => {
     if (!deleteModal.itemToDelete) return;
-
+    const email = localStorage.getItem("email");
     const { id, type } = deleteModal.itemToDelete;
     let endpoint = "";
 
     if (type === "car") {
-      endpoint = "/car";
+      endpoint = `/delete-car/${id}?authoremail=${email}`;
     } else if (type === "commerce") {
-      endpoint = "/moto";
+      endpoint = `/delete-commerce-car/${id}?authoremail=${email}`;
     } else if (type === "moto") {
-      endpoint = "/commerce";
+      endpoint = `/delete-motorcycle/${id}?authoremail=${email}`;
     }
 
     try {
-      await api.delete(endpoint, { data: { id } });
+      await api.delete(endpoint);
       queryClient.invalidateQueries(["archieve"]);
+      queryClient.invalidateQueries(["userData"]);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handlePublish = async (id: number, type: string) => {
+    try {
+      let endpoint = "";
+
+      if (type === "car") {
+        endpoint = "/car";
+      } else if (type === "commerce") {
+        endpoint = "/moto";
+      } else if (type === "moto") {
+        endpoint = "/commerce";
+      }
+
+      await api.delete(endpoint, { data: { id } });
+      queryClient.invalidateQueries(["archieve"]);
+      queryClient.invalidateQueries(["userData"]);
+    } catch (error) {}
   };
 
   return (
@@ -322,10 +341,8 @@ export default function PostsUser() {
                                 {
                                   key: "1",
                                   label: "Опубликовать",
-                                  // onClick: () =>
-                                  //   navigate(
-                                  //     `/editPost/${item.id}?type=${item.type}`
-                                  //   ),
+                                  onClick: () =>
+                                    handlePublish(item.id, item.type),
                                 },
                                 {
                                   key: "2",

@@ -84,6 +84,7 @@ const LoginPage = () => {
           </Form.Item>
           <Form.Item name={"password"} style={{ width: "100%" }}>
             <input
+              type="password"
               placeholder="Введите пароль"
               style={{ width: "100%" }}
               className="xl:h-[50px] h-[40px] bg-[#F6F6F6] border-0  px-3 rounded-md"
