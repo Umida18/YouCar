@@ -89,6 +89,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
           message: "Ошибка",
           description: "Войдите в аккаунт, чтобы добавить в избранное.",
         });
+        navigate("/login");
         return;
       }
 

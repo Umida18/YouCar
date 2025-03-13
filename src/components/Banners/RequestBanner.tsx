@@ -21,8 +21,7 @@ const RequestBanner = () => {
     try {
       const res = await api.post("/create-offer", { ...values });
       notification.success({
-        message: "Успех",
-        description: "Ваша заявка было успешно отправлена.",
+        message: "Ваша заявка была успешно отправлена!",
         placement: "topRight",
       });
       console.log("res", res.data);

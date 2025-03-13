@@ -57,9 +57,10 @@ const BottomHeader = () => {
   useEffect(() => {
     if (!token) {
       setIsRegistered(false);
-    } else {
-      setIsRegistered(true);
     }
+    // else {
+    //   setIsRegistered(true);
+    // }
   }, [token]);
 
   const handleMouseEnter = (type: string) => {
