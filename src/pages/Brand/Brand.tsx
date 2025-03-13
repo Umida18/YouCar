@@ -9,8 +9,10 @@ import dayjs from "dayjs";
 import ItemCard from "@/components/Cards/CarCard";
 import { mapCarDataToItem } from "@/utils/dataMapper";
 import { ICar } from "@/Type/Type";
+import useScrollToTop from "@/utils/scroll";
 
 const Brand = () => {
+  useScrollToTop();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("selectedTab") || "car";
   const [selectedTab, __] = useState<string>(initialTab);

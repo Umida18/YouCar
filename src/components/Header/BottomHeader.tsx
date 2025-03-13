@@ -57,10 +57,9 @@ const BottomHeader = () => {
   useEffect(() => {
     if (!token) {
       setIsRegistered(false);
+    } else {
+      setIsRegistered(true);
     }
-    // else {
-    //   setIsRegistered(true);
-    // }
   }, [token]);
 
   const handleMouseEnter = (type: string) => {
@@ -121,8 +120,6 @@ const BottomHeader = () => {
               <div
                 className="relative group"
                 onClick={() => handleMouseEnter("commerceCars")}
-                // onMouseEnter={() => handleMouseEnter("commerceCars")}
-                // onMouseLeave={handleMouseLeave}
               >
                 <p className="flex justify-center items-center gap-1 cursor-pointer text-black hover:text-black">
                   <span className="text-[16px] leading-tight">
@@ -144,8 +141,6 @@ const BottomHeader = () => {
               <div
                 className="relative group"
                 onClick={() => handleMouseEnter("motobykes")}
-                // onMouseEnter={() => handleMouseEnter("motobykes")}
-                // onMouseLeave={handleMouseLeave}
               >
                 <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
                   <span className="text-[16px]">Мотоциклы</span>
@@ -176,19 +171,6 @@ const BottomHeader = () => {
               placeholder="Поиск по названию"
             />
           </div>
-          {/* <div className="relative">
-            <button
-              onClick={() => setIsOpenBell(!isOpenBell)}
-              className={`${
-                isOpenBell ? "bg-[#EEEEEE]  !rounded-full" : ""
-              }  w-[35px] h-[35px] flex justify-center items-center`}
-            >
-              <LuBell
-                size={22}
-                className="hover:text-[#2684E5] transition-colors"
-              />
-            </button>
-          </div> */}
           <Notification
             isOpenBell={isOpenBell}
             setActiveTab={setActiveTab}
@@ -271,11 +253,6 @@ const BottomHeader = () => {
                 placeholder="Поиск по названию"
               />
             </div>
-            {/* {search.length > 0 && (
-              <div className="absolute top-full left-0 w-full z-50">
-                <SearchCard searchValue={searchValue} />
-              </div>
-            )} */}
           </div>
           <Button
             className="border-0 shadow-none p-0"

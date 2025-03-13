@@ -11,8 +11,7 @@ interface Country {
 export function CountryDropdown({
   isOpen,
   onClose,
-}: // type = "cars",
-{
+}: {
   isOpen: boolean;
   onClose: () => void;
   type?: "cars" | "commerceCars" | "motobykes";
@@ -49,7 +48,9 @@ export function CountryDropdown({
             <div className="relative h-full flex items-center justify-center  z-10">
               <span
                 className={`${
-                  cCountry === index ? " !text-white" : "!text-black"
+                  cCountry === index && country.name !== "Авто из Кореи"
+                    ? " !text-white"
+                    : "!text-black"
                 } text-md  font-semibold`}
               >
                 {country.name}
