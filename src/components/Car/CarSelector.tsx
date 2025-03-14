@@ -108,6 +108,22 @@ export default function CarSelector({
     }
   }, [searchParams, marks]);
 
+  useEffect(() => {
+    const preventScrollPropagation = (e: WheelEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".ant-select-dropdown")) {
+        e.stopPropagation();
+      }
+    };
+
+    document.addEventListener("wheel", preventScrollPropagation, {
+      passive: false,
+    });
+    return () => {
+      document.removeEventListener("wheel", preventScrollPropagation);
+    };
+  }, []);
+
   return (
     <div className=" flex items-center">
       <div className="w-[100%] ">
@@ -212,11 +228,15 @@ export default function CarSelector({
                     placeholder="Марка"
                     style={{ width: "100%", height: "63px" }}
                     options={marks.map((i) => ({
-                      label: i.mark,
+                      label: <p className=" capitalize">{i.mark}</p>,
                       value: i.mark,
                       key: i.id,
                     }))}
                     onChange={(value) => handleSelectMark(value)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.parentNode as HTMLElement
+                    }
+                    listHeight={270}
                   />
                 </Form.Item>
               </Col>
@@ -241,6 +261,10 @@ export default function CarSelector({
                       value: i,
                       key: `${i}-${index}`,
                     }))}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.parentNode as HTMLElement
+                    }
+                    listHeight={270}
                   />
                 </Form.Item>
               </Col>
@@ -265,6 +289,11 @@ export default function CarSelector({
                       value: i,
                       key: `${i}-${index}`,
                     }))}
+                    onChange={(value) => handleSelectMark(value)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.parentNode as HTMLElement
+                    }
+                    listHeight={270}
                   />
                 </Form.Item>
               </Col>
@@ -276,6 +305,9 @@ export default function CarSelector({
                     className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0"
                     picker="year"
                     id={{ start: "startInput", end: "endInput" }}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.parentNode as HTMLElement
+                    }
                     style={{
                       width: "100%",
                       height: "63px",
