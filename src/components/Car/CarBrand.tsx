@@ -23,15 +23,17 @@ export default function CarBrands() {
                 navigate(`/brand?markId=${brand.id}&mark=${brand.mark_name}`)
               }
               key={brand.id}
-              className="transition-shadow duration-300 rounded-none cursor-pointer hover:z-10 outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:p-2 flex flex-col justify-center items-center xl:h-[168px] h-[130px] overflow-hidden"
+              className="transition-shadow duration-300 rounded-none cursor-pointer hover:z-10 outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:py-0 [&_.ant-card-body]:px-2 flex flex-col justify-center items-center xl:h-[168px] h-[130px] overflow-hidden"
             >
-              <div className="flex flex-col items-center space-y-2">
-                <img
-                  src={brand.image}
-                  alt={`${brand.mark_name} logo`}
-                  className="object-contain w-[130px]"
-                />
-                <span className="text-center text-sm font-medium">
+              <div className="flex flex-col items-center ">
+                <div className="h-[85px] flex items-center">
+                  <img
+                    src={brand.image}
+                    alt={`${brand.mark_name} logo`}
+                    className="object-contain  !max-h-[80px]"
+                  />
+                </div>
+                <span className="text-center text-[16px] text[#293843] font-medium capitalize">
                   {brand.mark_name}
                 </span>
               </div>
