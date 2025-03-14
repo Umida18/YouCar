@@ -347,10 +347,10 @@ export default function PostsUser() {
                                 {
                                   key: "2",
                                   label: "Редактировать",
-                                  // onClick: () =>
-                                  //   navigate(
-                                  //     `/editPost/${item.id}?type=${item.type}`
-                                  //   ),
+                                  onClick: () =>
+                                    navigate(
+                                      `/editPost/${item.id}?type=${item.type}`
+                                    ),
                                 },
                                 {
                                   key: "3",
