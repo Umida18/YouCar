@@ -32,11 +32,11 @@ export function CountryDropdown({
   /// ,
   const handleCountryFilter = async (name: string) => {
     try {
-      let endpoint = "";
+      // let endpoint = "";
       let selectedTab = "";
 
       if (type === "cars") {
-        endpoint = `/country-cars?name=${name}`;
+        // endpoint = `/country-cars?name=${name}`;
       } else if (type === "commerceCars") {
         selectedTab = "commerce";
       } else if (type === "motobykes") {
@@ -44,11 +44,11 @@ export function CountryDropdown({
       }
 
       if (type === "cars") {
-        endpoint = `/country-cars?name=${name}`;
+        // endpoint = `/country-cars?name=${name}`;
       } else if (type === "commerceCars") {
-        endpoint = `/country-commerce?name=${name}`;
+        // endpoint = `/country-commerce?name=${name}`;
       } else if (type === "motobykes") {
-        endpoint = `/country-moto?name=${name}`;
+        // endpoint = `/country-moto?name=${name}`;
       }
 
       // const res = await api.get(endpoint);
