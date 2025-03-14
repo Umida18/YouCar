@@ -17,14 +17,12 @@ const RequestBanner = () => {
   };
 
   const onFinish = async (values: any) => {
-    console.log("Form values:", values);
     try {
-      const res = await api.post("/create-offer", { ...values });
+      await api.post("/create-offer", { ...values });
       notification.success({
         message: "Ваша заявка была успешно отправлена!",
         placement: "topRight",
       });
-      console.log("res", res.data);
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {

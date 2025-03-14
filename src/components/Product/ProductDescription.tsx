@@ -113,10 +113,10 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                   Какой срок доставки?
                 </button>
                 <button
-                  onClick={() => handleSendMessage(" ПТС ОРИГИНАЛ?", item.id)}
+                  onClick={() => handleSendMessage("  ПТС оригинал?", item.id)}
                   className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg px-10 h-[55px] xl:w-[200px] w-[54%]"
                 >
-                  ПТС ОРИГИНАЛ?
+                  ПТС оригинал?
                 </button>
                 <button
                   onClick={() => handleSendMessage("Пробег оригинал?", item.id)}
@@ -147,7 +147,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
                   Какой срок доставки?
                 </button>
                 <button
-                  onClick={() => handleSendMessag(" ПТС ОРИГИНАЛ?", item.id)}
+                  onClick={() => handleSendMessag("  ПТС оригинал?", item.id)}
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:w-[190px] w-[48%] h-[55px]"
                 >
                   ПТС оригинал?

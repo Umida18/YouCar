@@ -4,7 +4,7 @@ import useScrollToTop from "../../utils/scroll";
 import api from "@/Api/Api";
 import { Form } from "antd";
 import { useSearchParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ const CatalogPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get("selectedTab") || "car";
   const [selectedTab, setSelectedTab] = useState<string>(initialTab);
+  const country = searchParams.get("country");
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -114,7 +115,48 @@ const CatalogPage = () => {
 
   const breadcrumbItems = [{ label: "Каталог", path: "/catalog" }];
 
-  useEffect(() => {});
+  const onlyCountryAndTabExist =
+    selectedTab &&
+    country &&
+    // Object.keys(searchParamsObj) &&
+    searchParams.toString() === `country=${country}&selectedTab=${selectedTab}`;
+
+  const { data: countries } = useQuery(
+    ["countries", selectedTab, country],
+    async () => {
+      let endpoint = "";
+      let dataType = "";
+
+      if (selectedTab === "car") {
+        endpoint = `/country-cars?name=${country}`;
+        dataType = "cars";
+      } else if (selectedTab === "commerce") {
+        endpoint = `/country-commerce?name=${country}`;
+        dataType = "commerce";
+      } else if (selectedTab === "moto") {
+        endpoint = `/country-moto?name=${country}`;
+        dataType = "motorcycles";
+      }
+
+      const res = await api.get(endpoint);
+
+      let returnData = { [dataType]: res.data };
+
+      return returnData;
+    },
+    {
+      enabled: !!onlyCountryAndTabExist,
+    }
+  );
+
+  const data = useMemo(
+    () => countries || filteredCars,
+    [countries, filteredCars]
+  );
+
+  useEffect(() => {
+    setSelectedTab(initialTab);
+  }, [initialTab]);
 
   return (
     <>
@@ -122,7 +164,7 @@ const CatalogPage = () => {
       <CarSelector
         form={form}
         handleSubmit={handleSubmit}
-        filteredCars={filteredCars}
+        filteredCars={data}
         handleFormValuesChange={(_, allvalues) => {
           updateQueryParams(allvalues);
           handleSubmit(allvalues);
@@ -135,7 +177,7 @@ const CatalogPage = () => {
         setButtonLabel={setButtonLabel}
       />
       <CatalogCards
-        filteredCars={filteredCars}
+        filteredCars={data}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />

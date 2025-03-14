@@ -1,3 +1,4 @@
+import { formatPhoneNumber } from "@/utils/formatPhone";
 import { Form, Modal } from "antd";
 
 const RequestModal = ({
@@ -10,6 +11,12 @@ const RequestModal = ({
   onFinish: (value: any) => void;
 }) => {
   const [form] = Form.useForm();
+  // const [error, setError] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    form.setFieldsValue({ phone: formatted });
+  };
 
   return (
     <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
@@ -49,6 +56,7 @@ const RequestModal = ({
             placeholder="Телефон"
             className="w-full px-4 py-2 rounded-sm h-[50px] bg-[#f6f6f6] border-0"
             type="tel"
+            onChange={handleChange}
           />
         </Form.Item>
 

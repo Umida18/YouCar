@@ -36,7 +36,7 @@ const CatalogCards: React.FC<CardProps> = ({
       },
     }
   );
-  console.log("filteredCars", filteredCars);
+  // console.log("filteredCars", filteredCars);
 
   const carsRender = useMemo(() => {
     if (filteredCars) {

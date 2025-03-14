@@ -38,7 +38,6 @@ export default function FooterComponent() {
     { link: "/contact", label: "Контакты" },
     { link: "/account/favorites", label: "Избранные" },
   ];
-  console.log("chunk", chunks);
 
   return (
     <div>
