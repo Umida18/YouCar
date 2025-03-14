@@ -13,6 +13,7 @@ interface Country {
   id: number;
   name: string;
   image: string;
+  description: string;
 }
 
 const ResponsiveHeader = ({
@@ -24,7 +25,19 @@ const ResponsiveHeader = ({
 }) => {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [cCountry, setCCountry] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({
+    cars: false,
+    commerce: false,
+    motorcycles: false,
+  });
+
+  const toggleCategory = (category: string) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
 
   const { data: user } = useQuery<IUser>(
     ["user"],
@@ -70,6 +83,34 @@ const ResponsiveHeader = ({
     const res = await api.get("/country");
     return res.data;
   });
+
+  const handleCountryFilter = async (name: string, type: string) => {
+    try {
+      let endpoint = "";
+      let selectedTab = "";
+
+      if (type === "cars") {
+        endpoint = `/country-cars?name=${name}`;
+      } else if (type === "commerceCars") {
+        selectedTab = "commerce";
+      } else if (type === "motobykes") {
+        selectedTab = "moto";
+      }
+
+      if (type === "cars") {
+        endpoint = `/country-cars?name=${name}`;
+      } else if (type === "commerceCars") {
+        endpoint = `/country-commerce?name=${name}`;
+      } else if (type === "motobykes") {
+        endpoint = `/country-moto?name=${name}`;
+      }
+
+      // const res = await api.get(endpoint);
+      navigate(`/catalog?country=${name}&selectedTab=${selectedTab}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="">
@@ -123,7 +164,7 @@ const ResponsiveHeader = ({
           <div>
             <div>
               <button
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => toggleCategory("cars")}
                 className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
               >
                 <span className="flex gap-2 items-center">Автомобили</span>
@@ -131,28 +172,53 @@ const ResponsiveHeader = ({
                   <IoIosArrowForward
                     className={cn(
                       "text-[#2684E5] mt-1 transition-transform",
-                      isExpanded && "rotate-90"
+                      expanded.cars && "rotate-90"
                     )}
                   />
                 </span>
               </button>
-              {isExpanded && countries && (
-                <div className="bg-white grid grid-cols-2 rounded-lg shadow-sm gap-3">
-                  {countries.map((category, index) => (
-                    <button
-                      style={{ backgroundImage: `url(${category.image})` }}
+              {expanded.cars && countries && (
+                <div className="bg-white grid grid-cols-3 rounded-lg shadow-sm gap-3">
+                  {countries?.map((country, index) => (
+                    <div
                       key={index}
-                      className={`w-full p-2 mt-0 text-left h-[45px] text-white rounded-lg flex justify-center items-center`}
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      onClick={() => handleCountryFilter(country.name, "cars")}
+                      onMouseEnter={() => setCCountry(index)}
+                      onMouseLeave={() => setCCountry(null)}
                     >
-                      {category.name}
-                    </button>
+                      <div
+                        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
+                          cCountry === index
+                            ? "opacity-100 !text-white"
+                            : "opacity-0"
+                        }`}
+                        style={{
+                          backgroundImage: `url(${country.image})`,
+                        }}
+                      />
+
+                      <div className="relative h-full flex items-center justify-center  z-10">
+                        <span
+                          className={`${
+                            cCountry === index &&
+                            country.description !== "Авто из Кореи"
+                              ? " !text-white"
+                              : "!text-black"
+                          } text-md  font-semibold`}
+                        >
+                          {country.description}
+                        </span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
             </div>
+
             <div>
               <button
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => toggleCategory("commerce")}
                 className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
               >
                 <span className="flex gap-2 items-center">
@@ -162,28 +228,55 @@ const ResponsiveHeader = ({
                   <IoIosArrowForward
                     className={cn(
                       "text-[#2684E5] mt-1 transition-transform",
-                      isExpanded && "rotate-90"
+                      expanded.commerce && "rotate-90"
                     )}
                   />
                 </span>
               </button>
-              {isExpanded && countries && (
-                <div className="bg-white grid grid-cols-2 rounded-lg shadow-sm gap-3">
-                  {countries.map((category, index) => (
-                    <button
-                      style={{ backgroundImage: `url(${category.image})` }}
+              {expanded.commerce && countries && (
+                <div className="bg-white grid grid-cols-3 rounded-lg shadow-sm gap-3">
+                  {countries?.map((country, index) => (
+                    <div
                       key={index}
-                      className={`w-full p-2 mt-0 text-left h-[45px] text-white rounded-lg flex justify-center items-center`}
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      onClick={() =>
+                        handleCountryFilter(country.name, "commerceCars")
+                      }
+                      onMouseEnter={() => setCCountry(index)}
+                      onMouseLeave={() => setCCountry(null)}
                     >
-                      {category.name}
-                    </button>
+                      <div
+                        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
+                          cCountry === index
+                            ? "opacity-100 !text-white"
+                            : "opacity-0"
+                        }`}
+                        style={{
+                          backgroundImage: `url(${country.image})`,
+                        }}
+                      />
+
+                      <div className="relative h-full flex items-center justify-center  z-10">
+                        <span
+                          className={`${
+                            cCountry === index &&
+                            country.description !== "Авто из Кореи"
+                              ? " !text-white"
+                              : "!text-black"
+                          } text-md  font-semibold`}
+                        >
+                          {country.description}
+                        </span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
             </div>
+
             <div>
               <button
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => toggleCategory("motorcycles")}
                 className="flex justify-between items-center px-4 py-1 w-full my-3 bg-[#F6F6F6] border-0"
               >
                 <span className="flex gap-2 items-center">Мотоциклы</span>
@@ -191,21 +284,47 @@ const ResponsiveHeader = ({
                   <IoIosArrowForward
                     className={cn(
                       "text-[#2684E5] mt-1 transition-transform",
-                      isExpanded && "rotate-90"
+                      expanded.motorcycles && "rotate-90"
                     )}
                   />
                 </span>
               </button>
-              {isExpanded && countries && (
+              {expanded.motorcycles && countries && (
                 <div className="bg-white grid grid-cols-2 rounded-lg shadow-sm gap-3">
-                  {countries.map((category, index) => (
-                    <button
-                      style={{ backgroundImage: `url(${category.image})` }}
+                  {countries?.map((country, index) => (
+                    <div
                       key={index}
-                      className={`w-full p-2 mt-0 text-left h-[45px] text-white rounded-lg flex justify-center items-center`}
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      onClick={() =>
+                        handleCountryFilter(country.name, "motobykes")
+                      }
+                      onMouseEnter={() => setCCountry(index)}
+                      onMouseLeave={() => setCCountry(null)}
                     >
-                      {category.name}
-                    </button>
+                      <div
+                        className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
+                          cCountry === index
+                            ? "opacity-100 !text-white"
+                            : "opacity-0"
+                        }`}
+                        style={{
+                          backgroundImage: `url(${country.image})`,
+                        }}
+                      />
+
+                      <div className="relative h-full flex items-center justify-center  z-10">
+                        <span
+                          className={`${
+                            cCountry === index &&
+                            country.description !== "Авто из Кореи"
+                              ? " !text-white"
+                              : "!text-black"
+                          } text-md  font-semibold`}
+                        >
+                          {country.description}
+                        </span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
