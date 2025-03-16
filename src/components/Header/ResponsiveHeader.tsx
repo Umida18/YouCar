@@ -25,7 +25,12 @@ const ResponsiveHeader = ({
 }) => {
   const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
-  const [cCountry, setCCountry] = useState<number | null>(null);
+  const [cCountry, setCCountry] = useState<{ [key: string]: number | null }>({
+    cars: null,
+    commerce: null,
+    motorcycles: null,
+  });
+
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({
     cars: false,
     commerce: false,
@@ -112,6 +117,14 @@ const ResponsiveHeader = ({
     }
   };
 
+  const handleMouseEnter = (index: number, category: string) => {
+    setCCountry((prev) => ({ ...prev, [category]: index }));
+  };
+
+  const handleMouseLeave = (category: string) => {
+    setCCountry((prev) => ({ ...prev, [category]: null }));
+  };
+
   return (
     <div className="">
       {isOpen && (
@@ -178,18 +191,18 @@ const ResponsiveHeader = ({
                 </span>
               </button>
               {expanded.cars && countries && (
-                <div className="bg-white grid grid-cols-3 rounded-lg shadow-sm gap-3">
+                <div className="bg-white grid grid-cols-2 rounded-lg shadow-sm gap-3">
                   {countries?.map((country, index) => (
                     <div
                       key={index}
-                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] "
                       onClick={() => handleCountryFilter(country.name, "cars")}
-                      onMouseEnter={() => setCCountry(index)}
-                      onMouseLeave={() => setCCountry(null)}
+                      onMouseEnter={() => handleMouseEnter(index, "cars")}
+                      onMouseLeave={() => handleMouseLeave("cars")}
                     >
                       <div
                         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
-                          cCountry === index
+                          cCountry["cars"] === index
                             ? "opacity-100 !text-white"
                             : "opacity-0"
                         }`}
@@ -201,7 +214,7 @@ const ResponsiveHeader = ({
                       <div className="relative h-full flex items-center justify-center  z-10">
                         <span
                           className={`${
-                            cCountry === index &&
+                            cCountry?.["cars"] === index &&
                             country.description !== "Авто из Кореи"
                               ? " !text-white"
                               : "!text-black"
@@ -234,20 +247,22 @@ const ResponsiveHeader = ({
                 </span>
               </button>
               {expanded.commerce && countries && (
-                <div className="bg-white grid grid-cols-3 rounded-lg shadow-sm gap-3">
+                <div className="bg-white grid grid-cols-2 rounded-lg shadow-sm gap-3">
                   {countries?.map((country, index) => (
                     <div
                       key={index}
-                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] "
                       onClick={() =>
                         handleCountryFilter(country.name, "commerceCars")
                       }
-                      onMouseEnter={() => setCCountry(index)}
-                      onMouseLeave={() => setCCountry(null)}
+                      // onMouseEnter={() => setCCountry(index)}
+                      // onMouseLeave={() => setCCountry(null)}
+                      onMouseEnter={() => handleMouseEnter(index, "commerce")}
+                      onMouseLeave={() => handleMouseLeave("commerce")}
                     >
                       <div
                         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
-                          cCountry === index
+                          cCountry["commerce"] === index && expanded.commerce
                             ? "opacity-100 !text-white"
                             : "opacity-0"
                         }`}
@@ -259,7 +274,7 @@ const ResponsiveHeader = ({
                       <div className="relative h-full flex items-center justify-center  z-10">
                         <span
                           className={`${
-                            cCountry === index &&
+                            cCountry["commerce"] === index &&
                             country.description !== "Авто из Кореи"
                               ? " !text-white"
                               : "!text-black"
@@ -294,16 +309,19 @@ const ResponsiveHeader = ({
                   {countries?.map((country, index) => (
                     <div
                       key={index}
-                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px] w-[180px]"
+                      className="relative cursor-pointer overflow-hidden rounded-md h-[45px]"
                       onClick={() =>
                         handleCountryFilter(country.name, "motobykes")
                       }
-                      onMouseEnter={() => setCCountry(index)}
-                      onMouseLeave={() => setCCountry(null)}
+                      onMouseEnter={() =>
+                        handleMouseEnter(index, "motorcycles")
+                      }
+                      onMouseLeave={() => handleMouseLeave("motorcycles")}
                     >
                       <div
                         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-300 ${
-                          cCountry === index
+                          cCountry["motorcycles"] === index &&
+                          expanded.motorcycles
                             ? "opacity-100 !text-white"
                             : "opacity-0"
                         }`}
@@ -315,7 +333,7 @@ const ResponsiveHeader = ({
                       <div className="relative h-full flex items-center justify-center  z-10">
                         <span
                           className={`${
-                            cCountry === index &&
+                            cCountry["motorcycles"] === index &&
                             country.description !== "Авто из Кореи"
                               ? " !text-white"
                               : "!text-black"

@@ -62,7 +62,7 @@ export function CountryDropdown({
 
   return (
     <div className="absolute !top-20  left-0 w-[600px] bg-white boxShadowC rounded-lg p-4 z-50">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid xl:grid-cols-3 grid-cols-2 gap-2">
         {countries?.map((country, index) => (
           <div
             key={index}

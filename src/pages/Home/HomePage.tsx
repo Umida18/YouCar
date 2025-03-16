@@ -144,6 +144,7 @@ const HomePage = () => {
       <CatalogCards limit={6} filteredCars={filteredCars} />
       <div className="flex justify-end">
         <Button
+          className=" underline text-[#293843]"
           onClick={() => navigate("/catalog")}
           style={{ border: "none", boxShadow: "none" }}
         >
