@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, notification } from "antd";
 import { ICar } from "../../Type/Type";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,16 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
   const navigate = useNavigate();
 
   const handleSendMessage = (text: string, id: number) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      notification.error({
+        message: "Ошибка",
+        description: "Войдите в аккаунт, чтобы написать продавцу.",
+      });
+      navigate("/login");
+      return;
+    }
+
     if (id) {
       navigate(`/account/messagingPage/${id}`, {
         state: { autoMessage: text },
@@ -18,6 +28,16 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
   };
 
   const handleSendMessag = (text: string, id: number) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      notification.error({
+        message: "Ошибка",
+        description: "Войдите в аккаунт, чтобы написать продавцу.",
+      });
+      navigate("/login");
+      return;
+    }
+
     if (id) {
       navigate(`/messagingPage/${id}`, {
         state: { autoMessage: text },
