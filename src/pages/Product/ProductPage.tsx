@@ -9,8 +9,6 @@ import useScrollToTop from "../../utils/scroll";
 import RequestBanner from "../../components/Banners/RequestBanner";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/Api/Api";
-import { useState } from "react";
-import { IUserData } from "../../Type/Type";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 
 const ProductPage = () => {
@@ -18,7 +16,6 @@ const ProductPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const typeCars = queryParams.get("type");
-  const [userData, setUserData] = useState<IUserData | null>(null);
 
   useScrollToTop();
 
@@ -32,11 +29,9 @@ const ProductPage = () => {
       endpoint = "/motorcycles";
     }
     const res = await api.get(`${endpoint}/${id}`);
-    setUserData(res.data.userData);
 
     return res.data;
   });
-  console.log("userData", userData);
 
   const { data: markId } = useQuery(
     ["markId", car?.result?.mark_id],
@@ -79,13 +74,13 @@ const ProductPage = () => {
             <Col xl={10}>
               <ProductDetails
                 item={mapCarDataToItem(car?.result)}
-                userData={userData}
+                userData={car.userData}
               />
             </Col>
           </Row>
           <ProductDescription
             item={mapCarDataToItem(car?.result)}
-            userData={userData}
+            userData={car.userData}
           />
         </>
       ) : (

@@ -33,9 +33,13 @@ export default function MessagingPage() {
   const [messagesLoading, setMessagesLoading] = useState(true);
 
   const location = useLocation();
-  console.log("Location state:", location.state);
+  const [autoMessage] = useState(location.state?.autoMessage || null);
 
-  const autoMessage = location.state?.autoMessage || null;
+  useEffect(() => {
+    if (autoMessage) {
+      console.log("SMS yuborildi:", autoMessage);
+    }
+  }, [autoMessage]);
 
   useEffect(() => {
     if (autoMessage && data?.chat_user_id && socketRef.current && connected) {
@@ -119,98 +123,6 @@ export default function MessagingPage() {
     }
   };
 
-  // const handleBlockUser = async () => {
-  //   try {
-  //     if (!id || !currentUserId) return;
-
-  //     Modal.confirm({
-  //       title: isBlocked
-  //         ? "Разблокировать пользователя?"
-  //         : "Заблокировать пользователя?",
-  //       content: isBlocked
-  //         ? "Вы снова сможете получать сообщения от этого пользователя"
-  //         : "Вы больше не будете получать сообщения от этого пользователя",
-  //       onOk: async () => {
-  //         try {
-  //           const response = await axios.post(
-  //             "https://api.youcarrf.ru/user/block",
-  //             {
-  //               userId: currentUserId,
-  //               blockedUserId: id,
-  //               action: isBlocked ? "unblock" : "block",
-  //             }
-  //           );
-
-  //           if (response.data.status === "Success") {
-  //             setIsBlocked(!isBlocked);
-  //             Modal.success({
-  //               title: isBlocked
-  //                 ? "Пользователь разблокирован"
-  //                 : "Пользователь заблокирован",
-  //               content: isBlocked
-  //                 ? "Вы снова можете получать сообщения от этого пользователя"
-  //                 : "Вы больше не будете получать сообщения от этого пользователя",
-  //             });
-  //           }
-  //         } catch (error) {
-  //           console.error("Error blocking/unblocking user:", error);
-  //           Modal.error({
-  //             title: "Ошибка",
-  //             content: "Не удалось изменить статус блокировки",
-  //           });
-  //         }
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.error("Error with block user modal:", error);
-  //   }
-  // };
-
-  // const handleDeleteConversation = () => {
-  //   if (!id || !currentUserId || !data?.chat_id) return;
-
-  //   Modal.confirm({
-  //     title: "Удалить диалог?",
-  //     content:
-  //       "Вы уверены, что хотите удалить этот диалог? Это действие нельзя отменить.",
-  //     onOk: async () => {
-  //       try {
-  //         const response = await axios.delete(
-  //           `https://api.youcarrf.ru/chat/delete/${data.chat_id}`
-  //         );
-
-  //         if (response.data.status === "Success") {
-  //           Modal.success({
-  //             title: "Диалог удален",
-  //             content: "Диалог был успешно удален",
-  //           });
-  //           navigate(-1);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error deleting conversation:", error);
-  //         Modal.error({
-  //           title: "Ошибка",
-  //           content: "Не удалось удалить диалог",
-  //         });
-  //       }
-  //     },
-  //   });
-  // };
-
-  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  // Add these state variables after other useState declarations
-  // const [isRecording, setIsRecording] = useState(false);
-  // const [audioStream, setAudioStream] = useState<MediaStream | null>(null);
-  // const [audioRecorder, setAudioRecorder] = useState<MediaRecorder | null>(
-  //   null
-  // );
-  // const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
-
-  // console.log("data", data);
-  // console.log("messages", messages);
-  // console.log("message", message);
-
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -257,6 +169,11 @@ export default function MessagingPage() {
 
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
+      reconnection: true,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 5000, // 5 sekund
+      // pingInterval: 25000, // Har 25 sekundda ping jo‘natadi
+      // pingTimeout: 60000, // 60 sekund javob kutadi
     });
 
     const socket = socketRef.current;
@@ -514,12 +431,12 @@ export default function MessagingPage() {
 
             <div className="flex items-center gap-3">
               <div
-                className={`h-12 w-12 text-lg rounded-full bg-muted flex items-center justify-center text-muted-foreground`}
+                className={`xl:h-12 xl:w-12 h-8 w-8 text-lg rounded-full bg-muted flex items-center justify-center text-muted-foreground`}
               >
-                {userName?.name.charAt(0)}
+                <p>{userName?.name.charAt(0)}</p>
               </div>
               <div>
-                <p className="font-bold text-[#474747] text-[20px]">
+                <p className="font-bold text-[#474747] xl:text-[20px] text-[16px]">
                   {userName?.name || "Загрузка..."}
                 </p>
               </div>

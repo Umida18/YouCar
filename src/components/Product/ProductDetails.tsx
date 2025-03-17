@@ -108,9 +108,6 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
     { enabled: !!item?.mark_id }
   );
 
-  console.log("item", item);
-  console.log("markData", markData);
-
   console.log("userData", userData);
 
   return (
