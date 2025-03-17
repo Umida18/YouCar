@@ -124,6 +124,7 @@ const HomePage = () => {
       handleFormValuesChange(null, formValues);
     }
   }, [selectedTab]);
+  console.log("filteredCars", filteredCars);
 
   return (
     <>

@@ -111,6 +111,8 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
   console.log("item", item);
   console.log("markData", markData);
 
+  console.log("userData", userData);
+
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">

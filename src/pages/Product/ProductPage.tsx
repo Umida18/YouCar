@@ -36,6 +36,7 @@ const ProductPage = () => {
 
     return res.data;
   });
+  console.log("userData", userData);
 
   const { data: markId } = useQuery(
     ["markId", car?.result?.mark_id],
@@ -82,7 +83,10 @@ const ProductPage = () => {
               />
             </Col>
           </Row>
-          <ProductDescription item={mapCarDataToItem(car?.result)} />
+          <ProductDescription
+            item={mapCarDataToItem(car?.result)}
+            userData={userData}
+          />
         </>
       ) : (
         <p>Car not found!</p>

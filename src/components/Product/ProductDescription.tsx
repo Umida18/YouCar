@@ -1,15 +1,16 @@
 import { Col, Row, notification } from "antd";
-import { ICar } from "../../Type/Type";
+import { ICar, IUserData } from "../../Type/Type";
 import { useNavigate } from "react-router-dom";
 
 interface PropsCar {
   item: ICar;
+  userData: IUserData | null;
 }
 
-const ProductDescription: React.FC<PropsCar> = ({ item }) => {
+const ProductDescription: React.FC<PropsCar> = ({ item, userData }) => {
   const navigate = useNavigate();
 
-  const handleSendMessage = (text: string, id: number) => {
+  const handleSendMessage = (text: string, id?: number) => {
     const token = localStorage.getItem("token");
     if (!token) {
       notification.error({
@@ -27,7 +28,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
     }
   };
 
-  const handleSendMessag = (text: string, id: number) => {
+  const handleSendMessag = (text: string, id?: number) => {
     const token = localStorage.getItem("token");
     if (!token) {
       notification.error({
@@ -44,7 +45,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
       });
     }
   };
-  console.log("item.id", item);
+  console.log("item.id11111", item);
 
   return (
     <div className="flex flex-col py-10 gap-8">
@@ -120,33 +121,41 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               </p>
               <div className="xl:flex  hidden flex-wrap xl:gap-4 gap-2 ">
                 <button
-                  onClick={() => handleSendMessage("Здравствуйте", item.id)}
+                  onClick={() =>
+                    handleSendMessage("Здравствуйте", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg h-[55px] xl:px-10 xl:w-[190px] w-[43%]"
                 >
                   Здравствуйте
                 </button>
                 <button
                   onClick={() =>
-                    handleSendMessage("Какой срок доставки?", item.id)
+                    handleSendMessage("Какой срок доставки?", userData?.id)
                   }
                   className="bg-[#293843] truncate text-white border-0 xl:py-2 h-[55px] rounded-lg px-10 xl:w-[225px] w-[54%]"
                 >
                   Какой срок доставки?
                 </button>
                 <button
-                  onClick={() => handleSendMessage("  ПТС оригинал?", item.id)}
+                  onClick={() =>
+                    handleSendMessage("  ПТС оригинал?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg px-10 h-[55px] xl:w-[200px] w-[54%]"
                 >
                   ПТС оригинал?
                 </button>
                 <button
-                  onClick={() => handleSendMessage("Пробег оригинал?", item.id)}
+                  onClick={() =>
+                    handleSendMessage("Пробег оригинал?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg h-[55px] px-10 xl:w-[200px] w-[43%]"
                 >
                   Пробег оригинал?
                 </button>
                 <button
-                  onClick={() => handleSendMessage("Какой бензин?", item.id)}
+                  onClick={() =>
+                    handleSendMessage("Какой бензин?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 xl:py-2 rounded-lg px-10 h-[55px] xl:w-[190px] w-full xl:h-auto "
                 >
                   Какой бензин?
@@ -154,33 +163,39 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
               </div>
               <div className="flex xl:hidden flex-wrap xl:gap-4 gap-1 ">
                 <button
-                  onClick={() => handleSendMessag("Здравствуйте", item.id)}
+                  onClick={() => handleSendMessag("Здравствуйте", userData?.id)}
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:px-10 xl:w-[190px] w-[40%]"
                 >
                   Здравствуйте
                 </button>
                 <button
                   onClick={() =>
-                    handleSendMessag("Какой срок доставки?", item.id)
+                    handleSendMessag("Какой срок доставки?", userData?.id)
                   }
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:w-[190px] w-[58%] h-[55px]"
                 >
                   Какой срок доставки?
                 </button>
                 <button
-                  onClick={() => handleSendMessag("  ПТС оригинал?", item.id)}
+                  onClick={() =>
+                    handleSendMessag("  ПТС оригинал?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg xl:w-[190px] w-[48%] h-[55px]"
                 >
                   ПТС оригинал?
                 </button>
                 <button
-                  onClick={() => handleSendMessag("Пробег оригинал?", item.id)}
+                  onClick={() =>
+                    handleSendMessag("Пробег оригинал?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0  py-2 rounded-lg  xl:w-[190px] w-[50%] h-[55px]"
                 >
                   Пробег оригинал?
                 </button>
                 <button
-                  onClick={() => handleSendMessag("Какой бензин?", item.id)}
+                  onClick={() =>
+                    handleSendMessag("Какой бензин?", userData?.id)
+                  }
                   className="bg-[#293843] text-white border-0 py-2 rounded-lg  xl:w-[190px] w-full xl:h-auto h-[55px]"
                 >
                   Какой бензин?
