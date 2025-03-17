@@ -20,7 +20,7 @@ const SearchCard = ({ searchValue }: { searchValue: ICar[] }) => {
                 )
               }
               key={index}
-              className="p-4 flex gap-4"
+              className="p-4 flex gap-4 cursor-pointer"
             >
               <div>
                 <img

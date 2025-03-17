@@ -26,7 +26,7 @@ export default function CarBrands() {
               className="transition-shadow duration-300 rounded-none cursor-pointer hover:z-10 outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:py-0 [&_.ant-card-body]:px-2 flex flex-col justify-center items-center xl:h-[168px] h-[130px] overflow-hidden"
             >
               <div className="flex flex-col items-center ">
-                <div className="xl:!max-h-[80px] max-h-[55px] flex items-center">
+                <div className="xl:h-[80px] h-[55px] flex items-center">
                   <img
                     src={brand.image}
                     alt={`${brand.mark_name} logo`}

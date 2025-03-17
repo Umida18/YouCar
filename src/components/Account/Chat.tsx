@@ -504,9 +504,9 @@ export default function MessagingPage() {
   }
 
   return (
-    <div className="  w-full">
+    <div className="w-full">
       <div className="flex flex-col  xl:h-[600px] h-[500px] w-full  xl:!bg-white !bg-[#fffcfc]    xl:mt-0 mt-4 bg-background">
-        <div className="flex items-center  justify-between  gap-3 py-4 rounded-b-2xl xl:shadow-sm shadow-md px-3 z-50 bg-white ">
+        <div className="flex items-center  justify-between  gap-3 py-4 rounded-b-2xl xl:shadow-sm shadow-md px-3 z-10 bg-white ">
           <div className="flex items-center gap-3">
             <button onClick={() => navigate(-1)}>
               <ChevronLeft className="min-h-5 min-w-5" />
@@ -520,7 +520,7 @@ export default function MessagingPage() {
               </div>
               <div>
                 <p className="font-bold text-[#474747] text-[20px]">
-                  {userName?.name || "Loading..."}
+                  {userName?.name || "Загрузка..."}
                 </p>
               </div>
             </div>
@@ -578,7 +578,7 @@ export default function MessagingPage() {
         <ScrollArea>
           <div
             ref={messageContainerRef}
-            className="flex-1   xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
+            className="flex-1 min-h-[430px]  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
           >
             {messagesLoading ? (
               <div className="h-full flex items-center justify-center">

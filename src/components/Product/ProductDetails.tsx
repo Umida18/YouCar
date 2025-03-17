@@ -6,7 +6,7 @@ import { formatDate } from "../../utils/formatDate";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "@/Api/Api";
 
@@ -102,11 +102,20 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
   //   navigate(`/account/messagingPage/${userData?.id}`);
   // };
 
+  const { data: markData } = useQuery(
+    ["mark", item?.mark_id],
+    () => api.get(`/marks/${item?.mark_id}`).then((res) => res.data),
+    { enabled: !!item?.mark_id }
+  );
+
+  console.log("item", item);
+  console.log("markData", markData);
+
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">
         <div className="xl:px-7 px-2 py-5">
-          <p className="text-[25px] font-bold">{`${item?.mark_id}, ${item?.model}`}</p>
+          <p className="text-[25px] font-bold">{`${markData}, ${item?.model}`}</p>
           <div className="flex xl:justify-between items-center flex-wrap gap-5">
             <div className="flex gap-4 justify-center items-center text-[#989898] text-[16px] mt-3">
               <p>{formatDate(item?.createdAt)}</p>

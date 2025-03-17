@@ -48,6 +48,16 @@ export default function CarSelector({
   const [country, setCountry] = useState<string[]>([]);
   const [selectedRate, setSelectedRate] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   useEffect(() => {
     const fetchMarks = async () => {
@@ -299,10 +309,10 @@ export default function CarSelector({
               </Col>
 
               <Col xs={24} sm={24} md={12} xl={4} style={{ width: "20%" }}>
-                <Form.Item name="maxYear" label="Год">
+                <Form.Item name="maxYear" label="Год" className="">
                   <RangePicker
                     placeholder={["Год начала", "Год окончания"]}
-                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0"
+                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0 "
                     picker="year"
                     id={{ start: "startInput", end: "endInput" }}
                     getPopupContainer={(triggerNode) =>
@@ -313,9 +323,47 @@ export default function CarSelector({
                       height: "63px",
                       backgroundColor: "#F4F4F4",
                       border: 0,
+                      overflow: "auto",
+                    }}
+                    dropdownClassName={isMobile ? "mobile-range-picker" : ""}
+                    popupStyle={{
+                      flexDirection: isMobile ? "column" : "row",
+                      width: isMobile ? "auto" : undefined,
                     }}
                   />
                 </Form.Item>
+                {/* <Form.Item
+                  name="maxYear"
+                  label="Год"
+                  className="xl:hidden block"
+                >
+                  <DatePicker
+                    placeholder={"Год начала"}
+                    style={{
+                      width: "100%",
+                      height: "63px",
+                      backgroundColor: "#F4F4F4",
+                      border: 0,
+                      overflow: "auto",
+                    }}
+                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0 "
+                    picker="year"
+                  />
+                </Form.Item>
+                <Form.Item className="xl:hidden block">
+                  <DatePicker
+                    placeholder={"Год окончания"}
+                    style={{
+                      width: "100%",
+                      height: "63px",
+                      backgroundColor: "#F4F4F4",
+                      border: 0,
+                      overflow: "auto",
+                    }}
+                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0 "
+                    picker="year"
+                  />
+                </Form.Item> */}
               </Col>
 
               <Col xs={24} sm={24} md={24} xl={5} style={{ width: "20%" }}>

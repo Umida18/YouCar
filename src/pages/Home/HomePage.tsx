@@ -48,7 +48,7 @@ const HomePage = () => {
       if (values.minPrice) requestData.minPrice = values.minPrice;
       if (values.maxPrice) requestData.maxPrice = values.maxPrice;
 
-      if (values.maxYear && values.maxYear.length > 0) {
+      if (Array.isArray(values.maxYear) && values.maxYear.length > 0) {
         requestData.maxYear = Math.max(
           ...values.maxYear.map((date: any) => dayjs(date).year())
         );

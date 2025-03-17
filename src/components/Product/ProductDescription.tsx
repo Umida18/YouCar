@@ -44,6 +44,7 @@ const ProductDescription: React.FC<PropsCar> = ({ item }) => {
       });
     }
   };
+  console.log("item.id", item);
 
   return (
     <div className="flex flex-col py-10 gap-8">
