@@ -77,12 +77,12 @@ any) => {
 
   return (
     <div>
-      <div className="relative">
+      <div className="relative ">
         <button
           onClick={() => setIsOpenBell(!isOpenBell)}
           className={`${
             isOpenBell ? "bg-[#EEEEEE]  !rounded-full" : ""
-          }  w-[35px] h-[35px] flex justify-center items-center`}
+          }  w-[35px] h-[35px] flex justify-center items-center mx-3`}
         >
           <LuBell
             size={22}

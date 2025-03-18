@@ -108,8 +108,6 @@ const ProductDetails: React.FC<PropsCar> = ({ item, userData }) => {
     { enabled: !!item?.mark_id }
   );
 
-  console.log("userData", userData);
-
   return (
     <div className="flex flex-col">
       <div className="boxShadowC rounded-xl">

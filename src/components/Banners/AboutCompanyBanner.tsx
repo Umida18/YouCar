@@ -46,7 +46,7 @@ const AboutCompanyBanner = () => {
                 </Button> */}
               </div>
               <div
-                className=" relative bottom-20 right-24  justify-end  hidden xl:flex"
+                className=" relative bottom-6 right-24  justify-end  hidden xl:flex"
                 style={{
                   backgroundImage: "url(/Photo.png)",
                   backgroundRepeat: "no-repeat",

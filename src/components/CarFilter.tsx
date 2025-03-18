@@ -289,12 +289,13 @@ const CarFilterCard: React.FC<CarSelectorProps> = ({
               <Col xs={24} sm={24} md={4} style={{ width: "20%" }}>
                 <Form.Item name={"maxYear"} label="Год">
                   <RangePicker
-                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0 "
+                    className="[&_.ant-picker]:!border-0 [&_.ant-picker]:!bg-[#F4F4F4] [&_.ant-picker-outlined]:!border-0 [&_.ant-picker-range]:!border-0 xl:w-[577px] !max-w-[365px] !overflow-auto"
                     picker="year"
                     id={{
                       start: "startInput",
                       end: "endInput",
                     }}
+                    popupClassName="year-picker-dropdown"
                     style={{
                       width: "100%",
                       height: "63px",

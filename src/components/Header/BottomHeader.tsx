@@ -91,73 +91,71 @@ const BottomHeader = () => {
         <div className="xl:!min-h-[79px] xl:flex items-center justify-between  px-14  hidden container mx-auto ">
           <a
             href="/"
-            className="flex justify-center items-center font-bold text-[30px]"
+            className="flex justify-center items-center font-bold text-[30px] mr-3"
           >
             <span className="text-[#2684E5]">You</span>
             <span className="text-[#0b0f32]">Car</span>
           </a>
-          <nav className="relative">
-            <div className="flex items-center justify-between gap-7">
-              <div
-                className="relative group"
-                onClick={() => handleMouseEnter("cars")}
-              >
-                <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
-                  <span className="text-[16px] ">Автомобили</span>
-                  <IoIosArrowForward
-                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
-                      activeDropdown === "cars" ? "-rotate-90" : ""
-                    }`}
-                  />
-                </p>
-                <CountryDropdown
-                  isOpen={activeDropdown === "cars"}
-                  onClose={() => setActiveDropdown(null)}
-                  type="cars"
-                />
-              </div>
 
-              <div
-                className="relative group"
-                onClick={() => handleMouseEnter("commerceCars")}
-              >
-                <p className="flex justify-center items-center gap-1 cursor-pointer text-black hover:text-black">
-                  <span className="text-[16px] leading-tight">
-                    Коммерческий транспорт
-                  </span>
-                  <IoIosArrowForward
-                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
-                      activeDropdown === "commerceCars" ? "-rotate-90" : ""
-                    }`}
-                  />
-                </p>
-                <CountryDropdown
-                  isOpen={activeDropdown === "commerceCars"}
-                  onClose={() => setActiveDropdown(null)}
-                  type="commerceCars"
-                />
-              </div>
+          <div
+            className="relative group mx-3"
+            onClick={() => handleMouseEnter("cars")}
+          >
+            <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
+              <span className="text-[16px] ">Автомобили</span>
+              <IoIosArrowForward
+                className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                  activeDropdown === "cars" ? "-rotate-90" : ""
+                }`}
+              />
+            </p>
+            <CountryDropdown
+              isOpen={activeDropdown === "cars"}
+              onClose={() => setActiveDropdown(null)}
+              type="cars"
+            />
+          </div>
 
-              <div
-                className="relative group"
-                onClick={() => handleMouseEnter("motobykes")}
-              >
-                <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
-                  <span className="text-[16px]">Мотоциклы</span>
-                  <IoIosArrowForward
-                    className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
-                      activeDropdown === "motobykes" ? "-rotate-90" : ""
-                    }`}
-                  />
-                </p>
-                <CountryDropdown
-                  isOpen={activeDropdown === "motobykes"}
-                  onClose={() => setActiveDropdown(null)}
-                  type="motobykes"
-                />
-              </div>
-            </div>
-          </nav>
+          <div
+            className="relative group"
+            onClick={() => handleMouseEnter("commerceCars")}
+          >
+            <p className="flex justify-center items-center gap-1 cursor-pointer text-black hover:text-black">
+              <span className="text-[16px] leading-tight  inline-block w-fit">
+                Коммерческий транспорт
+              </span>
+              <IoIosArrowForward
+                className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                  activeDropdown === "commerceCars" ? "-rotate-90" : ""
+                }`}
+              />
+            </p>
+            <CountryDropdown
+              isOpen={activeDropdown === "commerceCars"}
+              onClose={() => setActiveDropdown(null)}
+              type="commerceCars"
+            />
+          </div>
+
+          <div
+            className="relative group mx-3"
+            onClick={() => handleMouseEnter("motobykes")}
+          >
+            <p className="flex justify-center gap-1 items-center cursor-pointer text-black hover:text-black">
+              <span className="text-[16px]">Мотоциклы</span>
+              <IoIosArrowForward
+                className={`text-[#2684E5] mt-1 transition-transform duration-300 ${
+                  activeDropdown === "motobykes" ? "-rotate-90" : ""
+                }`}
+              />
+            </p>
+            <CountryDropdown
+              isOpen={activeDropdown === "motobykes"}
+              onClose={() => setActiveDropdown(null)}
+              type="motobykes"
+            />
+          </div>
+
           <div className="relative bg-[#F6F6F6]">
             <CiSearch
               style={{ color: "#989898", fontSize: "22px" }}
@@ -171,6 +169,7 @@ const BottomHeader = () => {
               placeholder="Поиск по названию"
             />
           </div>
+
           <Notification
             isOpenBell={isOpenBell}
             setActiveTab={setActiveTab}
@@ -190,7 +189,7 @@ const BottomHeader = () => {
                   boxShadow: "none",
                   fontSize: "16px",
                   height: "56px",
-                  // width: "187px",
+                  marginInline: 30,
                 }}
               >
                 Войти
@@ -231,6 +230,7 @@ const BottomHeader = () => {
             </>
           )}
         </div>
+
         <div className="xl:hidden flex justify-between items-center xl:!px-14 px-4 py-3 gap-3">
           <a
             href="/"
@@ -262,6 +262,7 @@ const BottomHeader = () => {
           </Button>
         </div>
       </div>
+
       <ResponsiveHeader isOpen={isOpen} setIsOpen={setIsOpen} />
 
       {search.length > 0 && <SearchCard searchValue={searchValue} />}

@@ -176,7 +176,7 @@ export default function CarSelector({
                   <Form.Item className=" w-[39%] mb-0">
                     <TabsTrigger
                       value="commerce"
-                      className="flex-1 p-1 h-[57px] overflow-auto w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
+                      className="flex-1 p-1 h-[57px] w-full data-[state=active]:bg-[#2A333D] data-[state=active]:text-white rounded-xl transition-all"
                     >
                       Коммерческий <br className="xl:hidden" /> транспорт
                     </TabsTrigger>

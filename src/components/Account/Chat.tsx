@@ -29,29 +29,26 @@ export default function MessagingPage() {
   const navigate = useNavigate();
 
   const [mutedNotifications, setMutedNotifications] = useState(false);
-  // const [isBlocked, setIsBlocked] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
 
   const location = useLocation();
   const [autoMessage] = useState(location.state?.autoMessage || null);
 
-  useEffect(() => {
-    if (autoMessage) {
-      console.log("SMS yuborildi:", autoMessage);
-    }
-  }, [autoMessage]);
+  const [autoMessageSent, setAutoMessageSent] = useState(false);
+  console.log("autoMessage", autoMessage);
 
   useEffect(() => {
-    if (autoMessage && data?.chat_user_id && socketRef.current && connected) {
+    if (
+      autoMessage &&
+      data?.chat_user_id &&
+      socketRef.current &&
+      connected &&
+      !autoMessageSent
+    ) {
       sendAutoMessage(autoMessage);
+      setAutoMessageSent(true);
     }
-  }, [data, connected]);
-
-  useEffect(() => {
-    if (autoMessage) {
-      console.log("Auto message is ready to be sent:", autoMessage);
-    }
-  }, [autoMessage]);
+  }, [data, connected, autoMessage, autoMessageSent]);
 
   const sendAutoMessage = (message: string) => {
     if (socketRef.current && data?.chat_user_id && data?.user_id) {
@@ -67,7 +64,9 @@ export default function MessagingPage() {
 
       console.log("Sending Auto Message:", newMessage);
       socketRef.current.emit("send message", newMessage);
-      // setAutoMessageSent(true);
+      setAutoMessageSent(true);
+      navigate(location.pathname, { replace: true, state: {} });
+      // scrollToBottom();
     } else {
       console.log("Cannot send auto message - socket or data not ready");
     }
@@ -125,16 +124,19 @@ export default function MessagingPage() {
 
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop =
-        messageContainerRef.current.scrollHeight;
-    }
-  };
-
+  // const scrollToBottom = () => {
+  //   if (messageContainerRef.current) {
+  //     messageContainerRef.current.scrollTop =
+  //       messageContainerRef.current.scrollHeight;
+  //   }
+  // };
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (messageContainerRef.current && messages.length > 0) {
+      setTimeout(() => {
+        messageContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [messages, autoMessage]);
 
   const initializeChatSession = async () => {
     if (currentUserId && id) {
@@ -233,7 +235,8 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [data?.chat_user_id, data?.user_id, id]);
+  }, [data?.user_id, id]);
+  console.log("data", data);
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -257,7 +260,7 @@ export default function MessagingPage() {
       console.log("Sending message:", newMessage);
       socketRef.current.emit("send message", newMessage);
       setMessage("");
-      setTimeout(scrollToBottom, 100);
+      // setTimeout(scrollToBottom, 100);
     }
   };
 
@@ -284,10 +287,10 @@ export default function MessagingPage() {
     });
   }, [messages, currentUserId]);
 
-  useEffect(() => {
-    console.log("Messages updated:", messages);
-  }, [messages]);
-  console.log("data?.user_id", data?.user_id);
+  // useEffect(() => {
+  //   console.log("Messages updated:", messages);
+  // }, [messages]);
+  // console.log("data?.user_id", data?.user_id);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -422,7 +425,10 @@ export default function MessagingPage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col  xl:h-[600px] h-[500px] w-full  xl:!bg-white !bg-[#fffcfc]    xl:mt-0 mt-4 bg-background">
+      <div
+        ref={messageContainerRef}
+        className="flex flex-col  xl:h-[600px] h-[500px] w-full  xl:!bg-white !bg-[#fffcfc]    xl:mt-0 mt-4 bg-background"
+      >
         <div className="flex items-center  justify-between  gap-3 py-4 rounded-b-2xl xl:shadow-sm shadow-md px-3 z-10 bg-white ">
           <div className="flex items-center gap-3">
             <button onClick={() => navigate(-1)}>
@@ -492,7 +498,7 @@ export default function MessagingPage() {
             />
           </Dropdown>
         </div>
-        <ScrollArea>
+        <ScrollArea ref={messageContainerRef}>
           <div
             ref={messageContainerRef}
             className="flex-1 min-h-[430px]  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
