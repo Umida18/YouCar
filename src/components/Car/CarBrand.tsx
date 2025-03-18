@@ -20,7 +20,7 @@ export default function CarBrands() {
             <Card
               hoverable
               onClick={() =>
-                navigate(`/brand?markId=${brand.id}&mark=${brand.mark_name}`)
+                navigate(`/brand?markId=${brand.id}&mark=${brand.name}`)
               }
               key={brand.id}
               className="transition-shadow duration-300 rounded-none cursor-pointer hover:z-10 outline outline-transparent hover:outline hover:outline-2  [&_.ant-card-body]:py-0 [&_.ant-card-body]:px-2 flex flex-col justify-center items-center xl:h-[168px] h-[130px] overflow-hidden"
@@ -29,12 +29,12 @@ export default function CarBrands() {
                 <div className="xl:h-[80px] h-[55px] flex items-center">
                   <img
                     src={brand.image}
-                    alt={`${brand.mark_name} logo`}
+                    alt={`${brand.name} logo`}
                     className="object-contain  xl:!max-h-[80px] max-h-[55px]"
                   />
                 </div>
                 <span className="text-center text-[16px] text[#293843] font-medium capitalize">
-                  {brand.mark_name}
+                  {brand.name}
                 </span>
               </div>
             </Card>
