@@ -10,6 +10,7 @@ export default function FooterComponent() {
     const res = await api.get("/marks");
     return res.data;
   });
+  console.log("marks", marks);
 
   const chunkSize = 5;
 
@@ -117,11 +118,11 @@ export default function FooterComponent() {
                     <Space direction="vertical" className="w-full">
                       {chunk.map((mark) => (
                         <a
-                          href={`/brand?markId=${mark.id}&mark=${mark.mark_name}`}
+                          href={`/brand?markId=${mark.id}&mark=${mark.name}`}
                           key={mark.id}
                           className="text-[#5A5A5A] font-semibold capitalize"
                         >
-                          {mark.mark_name}
+                          {mark.name}
                         </a>
                       ))}
                     </Space>

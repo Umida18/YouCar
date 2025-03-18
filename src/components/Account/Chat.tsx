@@ -3,7 +3,7 @@ import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, Paperclip } from "lucide-react";
 // import { Button } from "@/components/ui/button";
-import { Button, Dropdown, Input, Modal, Spin } from "antd";
+import { Button, Dropdown, Input, Modal } from "antd";
 import { io, type Socket } from "socket.io-client";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { SendHorizontal } from "lucide-react";
@@ -272,7 +272,7 @@ export default function MessagingPage() {
   //     });
   //   }
   // };
-  console.log("data.user_id", data?.user_id);
+  // console.log("data.user_id", data?.user_id);
 
   useEffect(() => {
     if (!socketRef.current || !currentUserId) return;
@@ -418,7 +418,7 @@ export default function MessagingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spin />
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -426,7 +426,7 @@ export default function MessagingPage() {
   return (
     <div className="w-full">
       <div
-        ref={messageContainerRef}
+        // ref={messageContainerRef}
         className="flex flex-col  xl:h-[600px] h-[500px] w-full  xl:!bg-white !bg-[#fffcfc]    xl:mt-0 mt-4 bg-background"
       >
         <div className="flex items-center  justify-between  gap-3 py-4 rounded-b-2xl xl:shadow-sm shadow-md px-3 z-10 bg-white ">
@@ -498,14 +498,14 @@ export default function MessagingPage() {
             />
           </Dropdown>
         </div>
-        <ScrollArea ref={messageContainerRef}>
+        <ScrollArea>
           <div
-            ref={messageContainerRef}
+            // ref={messageContainerRef}
             className="flex-1 min-h-[430px]  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
           >
             {messagesLoading ? (
               <div className="h-full flex items-center justify-center">
-                <Spin size="large" />
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
               </div>
             ) : messages.length === 0 ? (
               <p className="text-center text-muted-foreground">

@@ -4,15 +4,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { io, type Socket } from "socket.io-client";
 import axios from "axios";
 import { Check } from "lucide-react";
-import { Avatar, Spin } from "antd";
+import { Avatar } from "antd";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
 interface Chat {
   chat_id: string;
   chat_user_id: number;
   chat_user_name: string;
-  mute_type: boolean;
   create_at: string;
+  last_message: any;
+  last_message_time: any;
+  mute_type: boolean;
   unread_messages_count: string;
 }
 
@@ -31,10 +33,14 @@ export default function Messages() {
   const navigate = useNavigate();
   const currentUserId = localStorage.getItem("id");
   const [messages, setMessages] = useState<Message[]>([]);
+  console.log("chat11111s", chats);
 
   useEffect(() => {
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
+      reconnection: true,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 5000,
     });
 
     const socket = socketRef.current;
@@ -98,10 +104,17 @@ export default function Messages() {
     fetchChats();
   }, [currentUserId]);
 
+  const formatTime = (timeString: string): string => {
+    return new Date(timeString).toLocaleTimeString("uz-UZ", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spin />{" "}
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -154,16 +167,18 @@ export default function Messages() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium ">{chat.chat_user_name}</h3>
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(chat.create_at).toLocaleDateString()}
+                    <span className=" text-muted-foreground">
+                      {/* {new Date(chat.create_at).toLocaleDateString()} */}
+                      {formatTime(chat.last_message_time)}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-sm text-muted-foreground truncate">
-                      {Number.parseInt(chat.unread_messages_count) > 0
+                    <p className="text-muted-foreground truncate">
+                      {/* {Number.parseInt(chat.unread_messages_count) > 0
                         ? `${chat.unread_messages_count} new messages`
-                        : "No new messages"}
+                        : "No new messages"} */}
+                      {chat.last_message}
                     </p>
                     <Check
                       className={`h-4 w-4 ${

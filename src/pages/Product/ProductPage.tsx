@@ -49,7 +49,7 @@ const ProductPage = () => {
 
   const breadcrumbItems = [
     {
-      label: `${markId} ${car?.result.model} ${car?.result.year}`,
+      label: `${markId?.name} ${car?.result.model} ${car?.result.year}`,
       path: "/productDetailsPage/:id",
     },
   ];

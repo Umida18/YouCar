@@ -81,6 +81,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
     }
   );
 
+  console.log("markId", markId);
+
   const handleLikeClick = async (id: number | any) => {
     try {
       const token = localStorage.getItem("token");
@@ -188,7 +190,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, type }) => {
             {/* <h1>{item?.id}</h1> */}
             {/* <h1>{item?.type}</h1> */}
             <div className="flex justify-between flex-col items-start space-y-1 mb-1">
-              <h2 className="text-xl font-semibold text-[#293843] ">{`${markId}, ${item?.model}`}</h2>
+              <h2 className="text-xl font-semibold text-[#293843] ">{`${markId?.name}, ${item?.model}`}</h2>
               <span className="text-xl font-bold text-[#293843]">
                 {item?.cost} $
               </span>

@@ -323,7 +323,7 @@ export default function CarSelector({
                       height: "63px",
                       backgroundColor: "#F4F4F4",
                       border: 0,
-                      overflow: "auto",
+                      // overflow: "auto",
                     }}
                     dropdownClassName={isMobile ? "mobile-range-picker" : ""}
                     popupStyle={{

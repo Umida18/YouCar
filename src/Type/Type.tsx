@@ -137,7 +137,7 @@ export interface IMark {
 
 export interface IMarks {
   id: number;
-  mark_name: string;
+  name: string;
   image: string;
   createdAt: string;
   updatedAt: string;
@@ -240,5 +240,5 @@ export interface AllChatsUser {
   chat_user_name: string;
   create_at: string;
   mute_type: boolean;
-  unread_messages_count:string
+  unread_messages_count: string;
 }
