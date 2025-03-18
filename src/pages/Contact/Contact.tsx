@@ -3,7 +3,6 @@ import { BsTelephone } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { IoLocationOutline } from "react-icons/io5";
-import { SlSocialVkontakte } from "react-icons/sl";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 
@@ -43,7 +42,8 @@ const Contact = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <SlSocialVkontakte style={{ color: "#2684E5", fontSize: 24 }} />
+                <img className="w-[24px] h-[24px]" src="/blueVk.svg" alt="" />
+                {/* <SlSocialVkontakte style={{ color: "#2684E5", fontSize: 24 }} /> */}
               </a>
               <a href="">
                 <FaWhatsapp style={{ color: "#2684E5", fontSize: 24 }} />

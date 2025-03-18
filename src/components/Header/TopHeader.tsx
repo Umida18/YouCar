@@ -34,13 +34,13 @@ const TopHeader = () => {
             <a href="">
               <FaWhatsapp
                 style={{ color: "#989898", fontSize: 21 }}
-                className="hover:!text-[#2684E5]"
+                className=""
               />
             </a>
             <a href="">
               <FaInstagram
                 style={{ color: "#989898", fontSize: 21 }}
-                className="hover:!text-[#2684E5]"
+                className=""
               />
             </a>
           </div>
