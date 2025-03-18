@@ -14,9 +14,6 @@ const TopHeader = () => {
           <a href="/catalog" className="hover:underline">
             Каталог
           </a>
-          {/* <a href="/#about" className="hover:underline">
-            О нас
-          </a> */}
           <a href="/news" className="hover:underline">
             Новости
           </a>
@@ -51,7 +48,9 @@ const TopHeader = () => {
           <div className="flex flex-wrap items-center gap-7">
             <p className="flex items-center gap-1">
               <FiPhone style={{ color: "#989898", fontSize: 20 }} />
-              <span className="text-[#989898]">+7 968 053-14-77</span>
+              <a href="tel:+7 968 053-14-77" className="text-[#989898]">
+                +7 968 053-14-77
+              </a>
             </p>
             <p className="flex items-center gap-1">
               <CgMail style={{ color: "#989898", fontSize: 21 }} />
