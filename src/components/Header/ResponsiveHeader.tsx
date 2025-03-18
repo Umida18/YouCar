@@ -112,6 +112,7 @@ const ResponsiveHeader = ({
 
       // const res = await api.get(endpoint);
       navigate(`/catalog?country=${name}&selectedTab=${selectedTab}`);
+      setIsOpen(false);
     } catch (error) {
       console.log(error);
     }
