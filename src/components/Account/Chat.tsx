@@ -264,14 +264,42 @@ export default function MessagingPage() {
     }
   };
 
-  // const markMessageAsSeen = (messageId: string) => {
-  //   if (socketRef.current && data?.user_id) {
-  //     socketRef.current.emit("message seen", {
-  //       messageId,
-  //       receiverId: data.user_id,
-  //     });
-  //   }
-  // };
+  const markMessageAsSeen = (messageId: string) => {
+    if (socketRef.current && data?.user_id) {
+      socketRef.current.emit("message seen", {
+        messageId,
+        receiverId: data.user_id,
+      });
+    }
+  };
+
+  const messageObserverRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    // Initialize the intersection observer
+    messageObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const messageId = entry.target.getAttribute("data-message-id");
+            if (messageId) {
+              markMessageAsSeen(messageId);
+              // Unobserve after marking as seen
+              messageObserverRef.current?.unobserve(entry.target);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 } // Message is considered "seen" when 50% visible
+    );
+
+    return () => {
+      // Clean up observer on unmount
+      if (messageObserverRef.current) {
+        messageObserverRef.current.disconnect();
+      }
+    };
+  }, []);
   // console.log("data.user_id", data?.user_id);
 
   useEffect(() => {
@@ -538,6 +566,18 @@ export default function MessagingPage() {
                 acc.push(
                   <div
                     key={msg.chat_id || index}
+                    data-message-id={msg.chat_id}
+                    ref={(el) => {
+                      // Only observe messages that are received by the current user and not yet seen
+                      if (
+                        el &&
+                        msg.receiver_id === Number(currentUserId) &&
+                        msg.status !== "seen" &&
+                        messageObserverRef.current
+                      ) {
+                        messageObserverRef.current.observe(el);
+                      }
+                    }}
                     className={`flex ${
                       msg.sender_id === Number(currentUserId)
                         ? "justify-end"

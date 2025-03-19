@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { io, type Socket } from "socket.io-client";
 import axios from "axios";
-import { Check } from "lucide-react";
+// import { Check } from "lucide-react";
 import { Avatar } from "antd";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 interface Chat {
   chat_id: string;
@@ -16,6 +17,7 @@ interface Chat {
   last_message_time: any;
   mute_type: boolean;
   unread_messages_count: string;
+  last_message_status: string;
 }
 
 interface Message {
@@ -32,7 +34,7 @@ export default function Messages() {
   const socketRef = useRef<Socket | null>(null);
   const navigate = useNavigate();
   const currentUserId = localStorage.getItem("id");
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [_, setMessages] = useState<Message[]>([]);
   console.log("chat11111s", chats);
 
   useEffect(() => {
@@ -141,8 +143,8 @@ export default function Messages() {
         </p>
       </div>
 
-      <ScrollArea className="flex-1">
-        <div className="">
+      <ScrollArea className="flex-1" style={{ width: "100%" }}>
+        <div className="!w-[100%]">
           {chats.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
               Нет сообщений
@@ -151,7 +153,7 @@ export default function Messages() {
             chats.map((chat) => (
               <div
                 key={chat.chat_id}
-                className="flex items-center xl:gap-4 gap-1 xl:p-4 py-4 px-2 my-2 rounded-md !border-0 bg-[#F6F6F6] cursor-pointer transition-colors"
+                className="flex items-center w-full xl:gap-4 gap-1 xl:p-4 py-4 px-2 my-2 rounded-md !border-0 bg-[#F6F6F6] cursor-pointer transition-colors"
                 onClick={() => {
                   const basePath =
                     window.innerWidth > 1024
@@ -164,7 +166,7 @@ export default function Messages() {
                   {chat.chat_user_name.charAt(0)}
                 </Avatar>
 
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 ">
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium ">{chat.chat_user_name}</h3>
                     <span className=" text-muted-foreground">
@@ -180,10 +182,9 @@ export default function Messages() {
                         : "No new messages"} */}
                       {chat.last_message}
                     </p>
-                    <Check
+                    <IoCheckmarkDoneOutline
                       className={`h-4 w-4 ${
-                        messages.find((m) => m.chat_id === chat.chat_id)
-                          ?.status === "seen"
+                        chat.last_message_status === "seen"
                           ? "text-blue-500"
                           : "text-gray-400"
                       }`}
