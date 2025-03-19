@@ -1,7 +1,7 @@
-import { FaInstagram } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
 import { CgMail } from "react-icons/cg";
+import { LiaTelegram } from "react-icons/lia";
 
 const TopHeader = () => {
   return (
@@ -31,17 +31,18 @@ const TopHeader = () => {
             >
               <img className="w-[21px] h-[21px]" src="/vk.svg" alt="" />
             </a>
-            <a href="">
+            <a href="https://wa.me/79680531477">
               <FaWhatsapp
                 style={{ color: "#989898", fontSize: 21 }}
                 className=""
               />
             </a>
-            <a href="">
-              <FaInstagram
-                style={{ color: "#989898", fontSize: 21 }}
-                className=""
-              />
+            <a
+              href="https://t.me/+79680531477"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LiaTelegram style={{ color: "#989898", fontSize: 21 }} />
             </a>
           </div>
 

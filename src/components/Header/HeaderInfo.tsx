@@ -1,7 +1,7 @@
 import { CgMail } from "react-icons/cg";
-import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa6";
 import { FiPhone } from "react-icons/fi";
-import { SlSocialVkontakte } from "react-icons/sl";
+import { LiaTelegram } from "react-icons/lia";
 
 const HeaderInfo = () => {
   return (
@@ -17,9 +17,23 @@ const HeaderInfo = () => {
         </p>
       </div>
       <div className="flex items-center gap-3 h-[40px]">
-        <SlSocialVkontakte style={{ color: "#989898", fontSize: 21 }} />
-        <FaWhatsapp style={{ color: "#989898", fontSize: 21 }} />
-        <FaInstagram style={{ color: "#989898", fontSize: 21 }} />
+        <a
+          href="https://vk.com/youcarr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img className="w-[21px] h-[21px]" src="/vk.svg" alt="" />
+        </a>
+        <a href="https://wa.me/79680531477">
+          <FaWhatsapp style={{ color: "#989898", fontSize: 21 }} />
+        </a>
+        <a
+          href="https://t.me/+79680531477"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <LiaTelegram style={{ color: "#989898", fontSize: 21 }} />
+        </a>
       </div>
     </div>
   );

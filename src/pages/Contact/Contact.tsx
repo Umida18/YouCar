@@ -3,8 +3,9 @@ import { BsTelephone } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 import { YMaps, Map, Placemark } from "@pbe/react-yandex-maps";
 import { IoLocationOutline } from "react-icons/io5";
-import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa6";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import { LiaTelegram } from "react-icons/lia";
 
 const Contact = () => {
   const breadcrumbItems = [{ label: "Контакты", path: "/contact" }];
@@ -43,13 +44,16 @@ const Contact = () => {
                 rel="noopener noreferrer"
               >
                 <img className="w-[24px] h-[24px]" src="/blueVk.svg" alt="" />
-                {/* <SlSocialVkontakte style={{ color: "#2684E5", fontSize: 24 }} /> */}
               </a>
-              <a href="">
+              <a href="https://wa.me/79680531477">
                 <FaWhatsapp style={{ color: "#2684E5", fontSize: 24 }} />
               </a>
-              <a href="">
-                <FaInstagram style={{ color: "#2684E5", fontSize: 24 }} />
+              <a
+                href="https://t.me/+79680531477"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LiaTelegram style={{ color: "#989898", fontSize: 21 }} />
               </a>
             </div>
           </Col>
