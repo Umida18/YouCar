@@ -236,6 +236,7 @@ export default function MessagingPage() {
       }
     };
   }, [data?.user_id, id]);
+
   console.log("data", data);
 
   const sendMessage = (e: React.FormEvent) => {
