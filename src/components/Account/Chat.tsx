@@ -261,6 +261,13 @@ export default function MessagingPage() {
       console.log("Sending message:", newMessage);
       socketRef.current.emit("send message", newMessage);
       setMessage("");
+
+      setTimeout(() => {
+        if (messageContainerRef.current) {
+          messageContainerRef.current.scrollTop =
+            messageContainerRef.current.scrollHeight;
+        }
+      }, 100);
       // setTimeout(scrollToBottom, 100);
     }
   };
