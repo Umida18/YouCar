@@ -101,7 +101,7 @@ export default function MessagingPage() {
         {
           user_id: Number(currentUserId),
           chat_user_id: data?.user_id,
-          mute_type: mutedNotifications ? "true" : "false",
+          mute_type: mutedNotifications ? true : false,
         }
       );
 
