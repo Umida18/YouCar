@@ -7,6 +7,7 @@ import axios from "axios";
 import { Avatar } from "antd";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
+import { GoBellSlash } from "react-icons/go";
 
 interface Chat {
   chat_id: string;
@@ -169,10 +170,14 @@ export default function Messages() {
                 <div className="flex-1 ">
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium ">{chat.chat_user_name}</h3>
-                    <span className=" text-muted-foreground">
-                      {/* {new Date(chat.create_at).toLocaleDateString()} */}
-                      {formatTime(chat.last_message_time)}
-                    </span>
+                    <div className="flex gap-2 items-center">
+                      {chat.mute_type ? <GoBellSlash /> : null}
+
+                      <span className="text-md text-muted-foreground">
+                        {/* {new Date(chat.create_at).toLocaleDateString()} */}
+                        {formatTime(chat.last_message_time)}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="flex items-center justify-between mt-1">

@@ -27,6 +27,7 @@ export default function MessagingPage() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
+  console.log("currentUserId", currentUserId);
 
   const [mutedNotifications, setMutedNotifications] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
@@ -93,14 +94,14 @@ export default function MessagingPage() {
 
   const handleMuteNotifications = async () => {
     try {
-      if (!data?.chat_user_id || !currentUserId) return;
+      if (!data?.user_id || !currentUserId) return;
 
       const response = await axios.post(
         "https://api.youcarrf.ru/chat/edit/mute",
         {
-          user_id: currentUserId,
-          chat_user_id: data?.chat_user_id,
-          mute_type: mutedNotifications ? "unmute" : "mute",
+          user_id: Number(currentUserId),
+          chat_user_id: data?.user_id,
+          mute_type: mutedNotifications ? "true" : "false",
         }
       );
 
@@ -569,7 +570,7 @@ export default function MessagingPage() {
                 ) {
                   acc.push(
                     <div
-                      key={`date-${msg.updatedAt}`}
+                      key={`${msg.chat_id || msg.updatedAt}-${index}`}
                       className="flex items-center justify-center my-4"
                     >
                       <div className="h-[1px] flex-1 bg-[#E5E7EB]" />
@@ -583,7 +584,7 @@ export default function MessagingPage() {
 
                 acc.push(
                   <div
-                    key={msg.chat_id || index}
+                    key={`${msg.chat_id}${msg.updatedAt}-${index}`}
                     data-message-id={msg.chat_id}
                     ref={(el) => {
                       // Only observe messages that are received by the current user and not yet seen
