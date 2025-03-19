@@ -35,6 +35,8 @@ export default function MessagingPage() {
   const [autoMessage] = useState(location.state?.autoMessage || null);
 
   const [autoMessageSent, setAutoMessageSent] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
   console.log("autoMessage", autoMessage);
 
   useEffect(() => {
@@ -122,21 +124,37 @@ export default function MessagingPage() {
     }
   };
 
-  const messageContainerRef = useRef<HTMLDivElement>(null);
+  // const messageContainerRef = useRef<HTMLDivElement>(null);
 
   // const scrollToBottom = () => {
-  //   if (messageContainerRef.current) {
-  //     messageContainerRef.current.scrollTop =
-  //       messageContainerRef.current.scrollHeight;
-  //   }
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   // };
-  useEffect(() => {
-    if (messageContainerRef.current && messages.length > 0) {
-      setTimeout(() => {
-        messageContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+
+  const scrollToBottom = () => {
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]"
+      );
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
     }
-  }, [messages, autoMessage]);
+  };
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
+
+  // useEffect(() => {
+  //   if (messageContainerRef.current && messages.length > 0) {
+  //     setTimeout(() => {
+  //       messageContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+  //     }, 100);
+  //   }
+  // }, [messages, autoMessage]);
 
   const initializeChatSession = async () => {
     if (currentUserId && id) {
@@ -237,8 +255,6 @@ export default function MessagingPage() {
     };
   }, [data?.user_id, id]);
 
-  console.log("data", data);
-
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -262,12 +278,7 @@ export default function MessagingPage() {
       socketRef.current.emit("send message", newMessage);
       setMessage("");
 
-      setTimeout(() => {
-        if (messageContainerRef.current) {
-          messageContainerRef.current.scrollTop =
-            messageContainerRef.current.scrollHeight;
-        }
-      }, 100);
+      setTimeout(scrollToBottom, 100);
       // setTimeout(scrollToBottom, 100);
     }
   };
@@ -451,6 +462,8 @@ export default function MessagingPage() {
   //   }
   // };
 
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -534,11 +547,8 @@ export default function MessagingPage() {
             />
           </Dropdown>
         </div>
-        <ScrollArea>
-          <div
-            // ref={messageContainerRef}
-            className="flex-1 min-h-[430px]  xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4"
-          >
+        <ScrollArea ref={scrollAreaRef} className="h-[430px]">
+          <div className="flex-1 xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4">
             {messagesLoading ? (
               <div className="h-full flex items-center justify-center">
                 <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
@@ -641,6 +651,7 @@ export default function MessagingPage() {
                 return acc;
               }, [])
             )}
+            <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
         <form
