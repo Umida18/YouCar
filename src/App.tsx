@@ -31,76 +31,82 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import MessagingPage from "./components/Account/Chat";
 import ProfilePage from "./components/Account/sidebarMobile";
 import MobileNotifications from "./components/Header/MobileNotifications";
+import { HelmetProvider } from "react-helmet-async";
 // import ProfilePage from "./components/Account/sidebarMobile";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ConfigProvider>
-        <ErrorBoundary>
-          <Layout style={{ minHeight: "100vh", backgroundColor: "white" }}>
-            <Header className="!p-0 bg-transparent h-full">
-              <HeaderComponent />
-            </Header>
-            <Content>
-              <div className="xl:!px-14 flex container mx-auto flex-col  px-4">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/catalog" element={<CatalogPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/forgotPassword" element={<ForgotPassword />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/commerceCars" element={<CommerceCars />} />
-                  <Route
-                    path="/mobileNotifications"
-                    element={<MobileNotifications />}
-                  />
-                  <Route path="/cars" element={<CarsPage />} />
-                  <Route path="/motobykes" element={<MotoPage />} />
-                  <Route path="/editPost/:id" element={<EditPost />} />
-                  <Route path="/newPost" element={<NewPost />} />
-                  <Route path="/brand" element={<Brand />} />
-                  <Route path="/account" element={<AccountPage />}>
-                    <Route index element={<Favorites />} />
+    <HelmetProvider>
+      <BrowserRouter>
+        <ConfigProvider>
+          <ErrorBoundary>
+            <Layout style={{ minHeight: "100vh", backgroundColor: "white" }}>
+              <Header className="!p-0 bg-transparent h-full">
+                <HeaderComponent />
+              </Header>
+              <Content>
+                <div className="xl:!px-14 flex container mx-auto flex-col  px-4">
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/catalog" element={<CatalogPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route
-                      path="messagingPage/:id"
+                      path="/forgotPassword"
+                      element={<ForgotPassword />}
+                    />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/commerceCars" element={<CommerceCars />} />
+                    <Route
+                      path="/mobileNotifications"
+                      element={<MobileNotifications />}
+                    />
+                    <Route path="/cars" element={<CarsPage />} />
+                    <Route path="/motobykes" element={<MotoPage />} />
+                    <Route path="/editPost/:id" element={<EditPost />} />
+                    <Route path="/newPost" element={<NewPost />} />
+                    <Route path="/brand" element={<Brand />} />
+                    <Route path="/account" element={<AccountPage />}>
+                      <Route index element={<Favorites />} />
+                      <Route
+                        path="messagingPage/:id"
+                        element={<MessagingPage />}
+                      />
+                      <Route path="favorites" element={<Favorites />} />
+                      <Route path="postsUser" element={<PostsUser />} />
+                      <Route path="messages" element={<Messages />} />
+                      <Route path="myPosts" element={<PostCom />} />
+                      <Route path="tariff" element={<Tariff />} />
+                      <Route path="settings" element={<Settings />} />
+                    </Route>
+                    <Route
+                      path="/messagingPage/:id"
                       element={<MessagingPage />}
                     />
-                    <Route path="favorites" element={<Favorites />} />
-                    <Route path="postsUser" element={<PostsUser />} />
-                    <Route path="messages" element={<Messages />} />
-                    <Route path="myPosts" element={<PostCom />} />
-                    <Route path="tariff" element={<Tariff />} />
-                    <Route path="settings" element={<Settings />} />
-                  </Route>
-                  <Route
-                    path="/messagingPage/:id"
-                    element={<MessagingPage />}
-                  />
-                  <Route path="/favorites" element={<Favorites />} />
-                  <Route path="/postsUser" element={<PostsUser />} />
-                  <Route path="/messages" element={<Messages />} />
-                  <Route path="/myPosts" element={<PostCom />} />
-                  <Route path="/tariff" element={<Tariff />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/mobileSider" element={<ProfilePage />} />
-                  <Route
-                    path="/productDetailsPage/:id"
-                    element={<ProductPage />}
-                  />
-                  <Route path="/singleNews/:id" element={<SingleNews />} />
-                  <Route path="/news" element={<NewsPage />} />
-                </Routes>
-              </div>
-            </Content>
-            <Footer className="!p-0 bg-transparent">
-              <FooterComponent />
-            </Footer>
-          </Layout>
-        </ErrorBoundary>
-      </ConfigProvider>
-    </BrowserRouter>
+                    <Route path="/favorites" element={<Favorites />} />
+                    <Route path="/postsUser" element={<PostsUser />} />
+                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/myPosts" element={<PostCom />} />
+                    <Route path="/tariff" element={<Tariff />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/mobileSider" element={<ProfilePage />} />
+                    <Route
+                      path="/productDetailsPage/:id"
+                      element={<ProductPage />}
+                    />
+                    <Route path="/singleNews/:id" element={<SingleNews />} />
+                    <Route path="/news" element={<NewsPage />} />
+                  </Routes>
+                </div>
+              </Content>
+              <Footer className="!p-0 bg-transparent">
+                <FooterComponent />
+              </Footer>
+            </Layout>
+          </ErrorBoundary>
+        </ConfigProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
