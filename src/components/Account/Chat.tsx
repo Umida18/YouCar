@@ -234,7 +234,7 @@ export default function MessagingPage() {
     };
 
     fetchData();
-  }, [currentUserId, id, data]);
+  }, [currentUserId, id]);
 
   useEffect(() => {
     setLoading(true);
