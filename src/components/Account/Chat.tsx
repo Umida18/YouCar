@@ -15,8 +15,10 @@ import { GoBellSlash } from "react-icons/go";
 // import { FaRegTrashAlt } from "react-icons/fa";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useScrollToTop from "@/utils/scroll";
 
 export default function MessagingPage() {
+  useScrollToTop();
   const socketRef = useRef<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
@@ -165,11 +167,11 @@ export default function MessagingPage() {
   };
 
   // Scroll to bottom when messages change
-  useEffect(() => {
-    if (messages.length > 0) {
-      scrollToBottom();
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   if (messages.length > 0) {
+  //     scrollToBottom();
+  //   }
+  // }, [messages]);
 
   // useEffect(() => {
   //   if (messageContainerRef.current && messages.length > 0) {
@@ -296,6 +298,7 @@ export default function MessagingPage() {
       console.error("Connection error:", error);
     });
     setLoading(false);
+
     return () => {
       if (socket) {
         socket.off("connect");
