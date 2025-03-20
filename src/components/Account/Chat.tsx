@@ -27,8 +27,8 @@ export default function MessagingPage() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-  console.log("currentUserId", currentUserId);
-  console.log("data`11111111111111111111111111111", data);
+  // console.log("currentUserId", currentUserId);
+  // console.log("data`11111111111111111111111111111", data);
 
   const [mutedNotifications, setMutedNotifications] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
@@ -39,7 +39,7 @@ export default function MessagingPage() {
   const [autoMessageSent, setAutoMessageSent] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  console.log("autoMessage", autoMessage);
+  // console.log("autoMessage", autoMessage);
 
   useEffect(() => {
     if (
@@ -112,7 +112,7 @@ export default function MessagingPage() {
       });
     }
   };
-  console.log("data?.chat_user_id", data?.chat_user_id);
+  // console.log("data?.chat_user_id", data?.chat_user_id);
 
   const handleMuteNotifications = useCallback(async () => {
     try {
@@ -122,7 +122,7 @@ export default function MessagingPage() {
         "https://api.youcarrf.ru/chat/edit/mute",
         {
           user_id: Number(currentUserId),
-          chat_user_id: data?.chat_user_id,
+          chat_user_id: Number(id),
           mute_type: !mutedNotifications,
         }
       );
@@ -145,7 +145,7 @@ export default function MessagingPage() {
         content: "Не удалось изменить настройки уведомлений",
       });
     }
-  }, [data?.user_id, data?.chat_user_id, currentUserId, mutedNotifications]);
+  }, [currentUserId, id, mutedNotifications]);
 
   // const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -225,8 +225,8 @@ export default function MessagingPage() {
         }
 
         const newData = await response.json();
-        if (newData.data !== data) {
-          setdata(newData.data);
+        if (JSON.stringify(newData.data) !== JSON.stringify(data)) {
+          setdata(newData.data); // Use the renamed setData
         }
       } catch (error) {
         console.error("Error initializing chat session:", error);
@@ -234,7 +234,7 @@ export default function MessagingPage() {
     };
 
     fetchData();
-  }, [currentUserId, id]);
+  }, [setdata]);
 
   useEffect(() => {
     setLoading(true);
@@ -252,12 +252,12 @@ export default function MessagingPage() {
     const socket = socketRef.current;
 
     socket.on("connect", () => {
-      console.log("Connected to server with socket id:", socket.id);
+      // console.log("Connected to server with socket id:", socket.id);
       setConnected(true);
 
       if (data?.chat_user_id && data?.user_id) {
         socket.emit("join", data?.chat_user_id);
-        console.log("Joined chat with userId:", data?.chat_user_id);
+        // console.log("Joined chat with userId:", data?.chat_user_id);
 
         socket.emit("fetch messages", {
           userId: data?.chat_user_id,
@@ -267,7 +267,7 @@ export default function MessagingPage() {
     });
 
     socket.on("old messages", (oldMessages: Message[]) => {
-      console.log("Received old messages:", oldMessages);
+      // console.log("Received old messages:", oldMessages);
       setMessages(
         oldMessages.sort(
           (a, b) =>
@@ -278,7 +278,7 @@ export default function MessagingPage() {
     });
 
     socket.on("receive message", (newMessage: Message) => {
-      console.log("Received new message:", newMessage);
+      // console.log("Received new message:", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
@@ -306,37 +306,38 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [data?.user_id, data?.chat_user_id]);
-  console.log("data?.user_id", data?.user_id);
-  console.log("id", id);
+  }, [data]);
 
-  const sendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (
-      message.trim() &&
-      connected &&
-      socketRef.current &&
-      data?.chat_user_id &&
-      data?.user_id
-    ) {
-      const newMessage: SendMessage = {
-        chat_id: data?.chat_id,
-        senderId: Number(currentUserId),
-        receiverId: Number(id),
-        message: message.trim(),
-        type: "text",
-        status: "sent",
-        timestamp: new Date().toISOString(),
-      };
+  // console.log("data?.user_id", data?.user_id);
+  // console.log("id", id);
 
-      console.log("Sending message:", newMessage);
-      socketRef.current.emit("send message", newMessage);
-      setMessage("");
+  const sendMessage = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (
+        message.trim() &&
+        connected &&
+        socketRef.current &&
+        data?.chat_user_id &&
+        data?.user_id
+      ) {
+        const newMessage: SendMessage = {
+          chat_id: data?.chat_id,
+          senderId: Number(currentUserId),
+          receiverId: Number(id),
+          message: message.trim(),
+          type: "text",
+          status: "sent",
+          timestamp: new Date().toISOString(),
+        };
 
-      setTimeout(scrollToBottom, 100);
-      // setTimeout(scrollToBottom, 100);
-    }
-  };
+        socketRef.current.emit("send message", newMessage);
+        setMessage("");
+        setTimeout(scrollToBottom, 100);
+      }
+    },
+    [message, connected, data, currentUserId, id, scrollToBottom]
+  );
 
   const markMessageAsSeen = (messageId: string) => {
     if (socketRef.current && data?.user_id) {
@@ -389,73 +390,59 @@ export default function MessagingPage() {
     });
   }, [messages, currentUserId]);
 
-  // useEffect(() => {
-  //   console.log("Messages updated:", messages);
-  // }, [messages]);
-  // console.log("data?.user_id", data?.user_id);
-
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(`https://api.youcarrf.ru/user-find/${id}`);
-      console.log("res", res);
+      // console.log("res", res);
 
       setUserName(res.data);
     };
     fetchUser();
   }, [id]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleFileUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
+      const formData = new FormData();
+      formData.append("file", file);
 
-    try {
-      const response = await axios.post(
-        "https://api.youcarrf.ru/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      try {
+        const response = await axios.post(
+          "https://api.youcarrf.ru/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (
+          response.data.filePath &&
+          socketRef.current &&
+          data?.chat_user_id &&
+          data?.user_id
+        ) {
+          const fileMessage: SendMessage = {
+            chat_id: data?.chat_id,
+            senderId: Number(currentUserId),
+            receiverId: Number(id),
+            message: response.data.filePath,
+            type: "file",
+            status: "sent",
+            timestamp: new Date().toISOString(),
+          };
+
+          socketRef.current.emit("send message", fileMessage);
         }
-      );
-
-      if (
-        response.data.filePath &&
-        socketRef.current &&
-        data?.chat_user_id &&
-        data?.user_id
-      ) {
-        const fileMessage: SendMessage = {
-          chat_id: data?.chat_id,
-          senderId: Number(currentUserId),
-          receiverId: Number(id),
-          message: response.data.filePath,
-          type: "file",
-          status: "sent",
-          timestamp: new Date().toISOString(),
-        };
-
-        socketRef.current.emit("send message", fileMessage);
+      } catch (error) {
+        console.error("Error uploading file:", error);
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (
-      data?.chat_user_id !== undefined &&
-      currentUserId !== undefined &&
-      autoMessage !== undefined
-    ) {
-      console.log("data?.chat_user_id", data?.chat_user_id);
-      console.log("currentUserId", currentUserId);
-      console.log("autoMessage", autoMessage);
-    }
-  }, [data?.chat_user_id, currentUserId, autoMessage]);
+    },
+    [data, currentUserId, id]
+  );
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -546,7 +533,7 @@ export default function MessagingPage() {
           <div className="flex-1 xl:!bg-white !bg-[#fffcfc] px-6 py-4 space-y-4">
             {messagesLoading ? (
               <div className="h-full flex items-center justify-center">
-                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
               </div>
             ) : messages.length === 0 ? (
               <p className="text-center text-muted-foreground">
