@@ -27,6 +27,7 @@ import {
 } from "@/Data/Data";
 import { useNavigate } from "react-router-dom";
 import useScrollToTop from "@/utils/scroll";
+import SEO from "../Seo/Seo";
 
 const { Option } = Select;
 
@@ -169,6 +170,12 @@ const NewPost = () => {
 
   return (
     <div className="flex justify-center flex-col py-12">
+      <SEO
+        title={`Разместить объявление о продаже транспорта | YouCar`}
+        description={
+          "Разместите объявление о продаже авто, мотоцикла или другого транспорта на YouCar. Быстрая публикация, удобный поиск покупателей и выгодные условия для продавцов!"
+        }
+      />
       <div className="w-full flex justify-end items-center py-3 px-2">
         <button
           onClick={() => navigate("/account/favorites")}

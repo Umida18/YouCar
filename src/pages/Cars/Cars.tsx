@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
 import PaginationComponent from "@/components/Pagination/Pagination";
+import SEO from "@/components/Seo/Seo";
 
 const CarsPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
@@ -154,6 +155,10 @@ const CarsPage = () => {
 
   return (
     <div>
+      <SEO
+        title="Купить электромобиль в СПб | YouCar"
+        description="Электромобили по отличным ценам в СПб на YouCar. Экологически чистые и экономичные электрокары в широком ассортименте. Подберите идеальный автомобиль для будущего!"
+      />
       <CarFilterCard
         form={form}
         handleSubmit={handleSubmit}

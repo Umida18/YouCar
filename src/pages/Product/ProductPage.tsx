@@ -10,6 +10,7 @@ import RequestBanner from "../../components/Banners/RequestBanner";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/Api/Api";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import SEO from "@/components/Seo/Seo";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -64,6 +65,12 @@ const ProductPage = () => {
 
   return (
     <div className="py-2">
+      <SEO
+        title={`Купить ${car?.result?.name} в СПб | YouCar`}
+        description={
+          "На YouCar вы найдете широкий выбор техники по доступным ценам. Легкий поиск и удобное оформление покупки!"
+        }
+      />
       <Breadcrumb items={breadcrumbItems} />
       {car ? (
         <>

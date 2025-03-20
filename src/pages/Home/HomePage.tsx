@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import api from "../../Api/Api";
 import { FilteredAuto } from "../../Type/Type";
 import dayjs from "dayjs";
+import SEO from "@/components/Seo/Seo";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -128,6 +129,10 @@ const HomePage = () => {
 
   return (
     <>
+      <SEO
+        title="Купить транспорт в СПб | YouCar"
+        description="Купите транспорт в Санкт-Петербурге на YouCar. Широкий ассортимент автомобилей, мотоциклов, электромобилей и другой техники по выгодным ценам. Легкий поиск, актуальные предложения и удобные условия покупки ждут вас!"
+      />
       <HeroBanner />
       <CarSelector
         form={form}

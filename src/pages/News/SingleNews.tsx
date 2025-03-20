@@ -9,6 +9,7 @@ import RequestBanner from "../../components/Banners/RequestBanner";
 import { formatDate } from "../../utils/formatDate";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { GoArrowUpRight } from "react-icons/go";
+import SEO from "@/components/Seo/Seo";
 
 const SingleNews = () => {
   const { id } = useParams();
@@ -44,6 +45,12 @@ const SingleNews = () => {
 
   return (
     <div className="py-2">
+      <SEO
+        title={`${singleNews?.title} | YouCar`}
+        description={
+          "Все актуальные автомобильные новости на YouCar. Будьте в курсе главных событий и изменений в мире транспорта."
+        }
+      />
       <Breadcrumb items={breadcrumbItems} />
       <p className="font-bold text-[26px]">{singleNews?.title}</p>
       <p className="text-[#989898] text-[14px] my-3">

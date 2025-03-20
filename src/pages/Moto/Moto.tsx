@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
 import PaginationComponent from "@/components/Pagination/Pagination";
+import SEO from "@/components/Seo/Seo";
 
 const MotoPage = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
@@ -134,6 +135,10 @@ const MotoPage = () => {
 
   return (
     <div>
+      <SEO
+        title="Купить мотоцикл в СПб | YouCar"
+        description="На YouCar представлено множество моделей мотоциклов от ведущих производителей. Выбирайте надежную технику по выгодным условиям!"
+      />
       <CarFilterCard
         form={form}
         handleSubmit={handleSubmit}

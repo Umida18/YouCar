@@ -10,6 +10,7 @@ import utc from "dayjs/plugin/utc";
 import { useQuery } from "@tanstack/react-query";
 import CarSelector from "../../components/Car/CarSelector";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import SEO from "@/components/Seo/Seo";
 
 dayjs.extend(utc);
 
@@ -160,6 +161,10 @@ const CatalogPage = () => {
 
   return (
     <>
+      <SEO
+        title="Купить автомобиль в СПб | YouCar"
+        description="Купите автомобиль в Санкт-Петербурге на YouCar. Широкий выбор новых и подержанных автомобилей по выгодным ценам. Найдите авто своей мечты и оформите покупку уже сегодня!"
+      />
       <Breadcrumb items={breadcrumbItems} />
       <CarSelector
         form={form}

@@ -6,12 +6,17 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa6";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { LiaTelegram } from "react-icons/lia";
+import SEO from "@/components/Seo/Seo";
 
 const Contact = () => {
   const breadcrumbItems = [{ label: "Контакты", path: "/contact" }];
 
   return (
     <>
+      <SEO
+        title="Контакты | YouCar"
+        description="Свяжитесь с нами через раздел 'Контакты' на YouCar. Мы всегда рады помочь с выбором автомобиля и ответить на все ваши вопросы."
+      />
       <Breadcrumb items={breadcrumbItems} />
       <div className=" mb-4 py-2">
         <Row gutter={[16, 16]}>

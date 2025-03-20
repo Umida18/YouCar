@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronLeft, Paperclip } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 import { Button, Dropdown, Input, Modal } from "antd";
@@ -28,6 +28,7 @@ export default function MessagingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   console.log("currentUserId", currentUserId);
+  console.log("data`11111111111111111111111111111", data);
 
   const [mutedNotifications, setMutedNotifications] = useState(false);
   const [messagesLoading, setMessagesLoading] = useState(true);
@@ -51,29 +52,49 @@ export default function MessagingPage() {
       sendAutoMessage(autoMessage);
       setAutoMessageSent(true);
     }
-  }, [data, connected, autoMessage, autoMessageSent]);
+  }, [autoMessage, data?.chat_user_id, connected, autoMessageSent]);
 
-  const sendAutoMessage = (message: string) => {
-    if (socketRef.current && data?.chat_user_id && data?.user_id) {
-      const newMessage = {
-        chat_id: data?.chat_id,
-        senderId: Number(currentUserId),
-        receiverId: Number(id),
-        message: message,
-        type: "text",
-        status: "sent",
-        timestamp: new Date().toISOString(),
-      };
+  // const sendAutoMessage = (message: string) => {
+  //   if (socketRef.current && data?.chat_user_id && data?.user_id) {
+  //     const newMessage = {
+  //       chat_id: data?.chat_id,
+  //       senderId: Number(currentUserId),
+  //       receiverId: Number(id),
+  //       message: message,
+  //       type: "text",
+  //       status: "sent",
+  //       timestamp: new Date().toISOString(),
+  //     };
 
-      console.log("Sending Auto Message:", newMessage);
-      socketRef.current.emit("send message", newMessage);
-      setAutoMessageSent(true);
-      navigate(location.pathname, { replace: true, state: {} });
-      // scrollToBottom();
-    } else {
-      console.log("Cannot send auto message - socket or data not ready");
-    }
-  };
+  //     console.log("Sending Auto Message:", newMessage);
+  //     socketRef.current.emit("send message", newMessage);
+  //     setAutoMessageSent(true);
+  //     navigate(location.pathname, { replace: true, state: {} });
+  //   } else {
+  //     console.log("Cannot send auto message - socket or data not ready");
+  //   }
+  // };
+
+  const sendAutoMessage = useCallback(
+    (messageText: string) => {
+      if (socketRef.current && data?.chat_user_id && data?.user_id) {
+        const newMessage = {
+          chat_id: data?.chat_id,
+          senderId: Number(currentUserId),
+          receiverId: Number(id),
+          message: messageText,
+          type: "text",
+          status: "sent",
+          timestamp: new Date().toISOString(),
+        };
+
+        socketRef.current.emit("send message", newMessage);
+        setAutoMessageSent(true);
+        navigate(location.pathname, { replace: true, state: {} });
+      }
+    },
+    [data, currentUserId, id, navigate, location.pathname]
+  );
 
   const formatDate = (date: Date) => {
     const today = new Date();
@@ -91,8 +112,9 @@ export default function MessagingPage() {
       });
     }
   };
+  console.log("data?.chat_user_id", data?.chat_user_id);
 
-  const handleMuteNotifications = async () => {
+  const handleMuteNotifications = useCallback(async () => {
     try {
       if (!data?.user_id || !currentUserId) return;
 
@@ -100,20 +122,20 @@ export default function MessagingPage() {
         "https://api.youcarrf.ru/chat/edit/mute",
         {
           user_id: Number(currentUserId),
-          chat_user_id: data?.user_id,
-          mute_type: mutedNotifications ? true : false,
+          chat_user_id: data?.chat_user_id,
+          mute_type: !mutedNotifications,
         }
       );
 
       if (response.data.status === "Success") {
         setMutedNotifications(!mutedNotifications);
         Modal.success({
-          title: mutedNotifications
-            ? "Уведомления включены"
-            : "Уведомления отключены",
-          content: mutedNotifications
-            ? "Уведомления для этого чата теперь включены"
-            : "Уведомления для этого чата теперь отключены",
+          title: !mutedNotifications
+            ? "Уведомления отключены"
+            : "Уведомления включены",
+          content: !mutedNotifications
+            ? "Уведомления для этого чата теперь отключены"
+            : "Уведомления для этого чата теперь включены",
         });
       }
     } catch (error) {
@@ -123,7 +145,7 @@ export default function MessagingPage() {
         content: "Не удалось изменить настройки уведомлений",
       });
     }
-  };
+  }, [data?.user_id, data?.chat_user_id, currentUserId, mutedNotifications]);
 
   // const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -157,8 +179,35 @@ export default function MessagingPage() {
   //   }
   // }, [messages, autoMessage]);
 
-  const initializeChatSession = async () => {
-    if (currentUserId && id) {
+  // const initializeChatSession = async () => {
+  //   if (currentUserId && id) {
+  //     try {
+  //       const response = await fetch("https://api.youcarrf.ru/chat/add", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           senderId: currentUserId,
+  //           receiverId: id,
+  //         }),
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error("Failed to initialize chat session");
+  //       }
+
+  //       const data = await response.json();
+  //       console.log("Chat session initialized:", data);
+  //       setdata(data.data);
+  //     } catch (error) {
+  //       console.error("Error initializing chat session:", error);
+  //     }
+  //   }
+  // };
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const response = await fetch("https://api.youcarrf.ru/chat/add", {
           method: "POST",
@@ -175,24 +224,27 @@ export default function MessagingPage() {
           throw new Error("Failed to initialize chat session");
         }
 
-        const data = await response.json();
-        console.log("Chat session initialized:", data);
-        setdata(data.data);
+        const newData = await response.json();
+        if (newData.data !== data) {
+          setdata(newData.data);
+        }
       } catch (error) {
         console.error("Error initializing chat session:", error);
       }
-    }
-  };
+    };
+
+    fetchData();
+  }, [currentUserId, id, data]);
 
   useEffect(() => {
     setLoading(true);
-    initializeChatSession();
+    // initializeChatSession();
 
     socketRef.current = io("wss://api.youcarrf.ru", {
       transports: ["websocket"],
       reconnection: true,
       reconnectionAttempts: 10,
-      reconnectionDelay: 5000, // 5 sekund
+      reconnectionDelay: 2000, // 2 sekund
       // pingInterval: 25000, // Har 25 sekundda ping jo‘natadi
       // pingTimeout: 60000, // 60 sekund javob kutadi
     });
@@ -254,7 +306,9 @@ export default function MessagingPage() {
         socket.disconnect();
       }
     };
-  }, [data?.user_id, id]);
+  }, [data?.user_id, data?.chat_user_id]);
+  console.log("data?.user_id", data?.user_id);
+  console.log("id", id);
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -391,84 +445,24 @@ export default function MessagingPage() {
     }
   };
 
-  // Add these functions before the return statement
-  // const startRecording = async () => {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  //     setAudioStream(stream);
-
-  //     const recorder = new MediaRecorder(stream);
-  //     setAudioRecorder(recorder);
-
-  //     const chunks: Blob[] = [];
-  //     recorder.ondataavailable = (e) => {
-  //       if (e.data.size > 0) {
-  //         chunks.push(e.data);
-  //       }
-  //     };
-
-  //     recorder.onstop = async () => {
-  //       const audioBlob = new Blob(chunks, { type: "audio/webm" });
-  //       const formData = new FormData();
-  //       formData.append("file", audioBlob, "voice-message.webm");
-
-  //       try {
-  //         const response = await axios.post(
-  //           "https://api.youcarrf.ru/upload",
-  //           formData,
-  //           {
-  //             headers: {
-  //               "Content-Type": "multipart/form-data",
-  //             },
-  //           }
-  //         );
-
-  //         if (
-  //           response.data.filePath &&
-  //           socketRef.current &&
-  //           data?.chat_user_id &&
-  //           data?.user_id
-  //         ) {
-  //           const audioMessage: SendMessage = {
-  //             chat_id: data?.chat_id,
-  //             senderId: Number(currentUserId),
-  //             receiverId: Number(id),
-  //             message: response.data.filePath,
-  //             type: "audio",
-  //             status: "sent",
-  //             timestamp: new Date().toISOString(),
-  //           };
-
-  //           socketRef.current.emit("send message", audioMessage);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error uploading audio:", error);
-  //       }
-
-  //       setAudioChunks([]);
-  //     };
-
-  //     recorder.start();
-  //     setIsRecording(true);
-  //   } catch (err) {
-  //     console.error("Error accessing microphone:", err);
-  //   }
-  // };
-
-  // const stopRecording = () => {
-  //   if (audioRecorder && audioRecorder.state !== "inactive") {
-  //     audioRecorder.stop();
-  //     audioStream?.getTracks().forEach((track) => track.stop());
-  //     setIsRecording(false);
-  //   }
-  // };
+  useEffect(() => {
+    if (
+      data?.chat_user_id !== undefined &&
+      currentUserId !== undefined &&
+      autoMessage !== undefined
+    ) {
+      console.log("data?.chat_user_id", data?.chat_user_id);
+      console.log("currentUserId", currentUserId);
+      console.log("autoMessage", autoMessage);
+    }
+  }, [data?.chat_user_id, currentUserId, autoMessage]);
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   }

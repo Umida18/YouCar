@@ -9,6 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSearchParams } from "react-router-dom";
 import RequestBanner from "../../components/Banners/RequestBanner";
+import SEO from "@/components/Seo/Seo";
 
 const CommerceCars = () => {
   const [buttonLabel, setButtonLabel] = useState("Поиск");
@@ -126,6 +127,10 @@ const CommerceCars = () => {
 
   return (
     <div>
+      <SEO
+        title="Купить коммерческий транспорт в СПб | YouCar"
+        description="Найдите коммерческий транспорт в Санкт-Петербурге на YouCar. Выгодные предложения на фургоны, грузовики, автобусы и спецтехнику. Широкий выбор, проверенные продавцы и удобные условия для вашего бизнеса!"
+      />
       <CarFilterCard
         form={form}
         handleSubmit={handleSubmit}
