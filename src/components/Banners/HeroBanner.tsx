@@ -1,27 +1,34 @@
+import api from "@/Api/Api";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Card, Carousel, Col, ConfigProvider, Row } from "antd";
 import { useRef, useState } from "react";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 
-const slides = [
-  {
-    id: 1,
-    title: "НОВЫЙ GEELY MONJARO!",
-    description:
-      "Кроссовер Monjaro - премиальная модель Geely по уровню дизайна, материалов и технологий.",
-    image: "/hero1.png",
-  },
-  {
-    id: 2,
-    title: "BMW XM!",
-    description:
-      "BMW XM - премиальная модель BMW по уровню дизайна, материалов и технологий.",
-    image: "/hero1.png",
-  },
-];
+// const slides = [
+//   {
+//     id: 1,
+//     title: "НОВЫЙ GEELY MONJARO!",
+//     description:
+//       "Кроссовер Monjaro - премиальная модель Geely по уровню дизайна, материалов и технологий.",
+//     image: "/hero1.png",
+//   },
+//   {
+//     id: 2,
+//     title: "BMW XM!",
+//     description:
+//       "BMW XM - премиальная модель BMW по уровню дизайна, материалов и технологий.",
+//     image: "/hero1.png",
+//   },
+// ];
 
 const HeroBanner = () => {
   const [_, setCurrentSlide] = useState(0);
   const carouselRef = useRef<any>(null);
+
+  const { data: slides } = useQuery(["slides"], async () => {
+    const res = await api.get("/banner");
+    return res.data;
+  });
 
   const carouselSettings = {
     dots: true,
@@ -67,10 +74,10 @@ const HeroBanner = () => {
           ref={carouselRef}
           {...carouselSettings}
           beforeChange={(_, to) => setCurrentSlide(to)}
-          className="  [&_.slick-dots]:!bottom-8 [&_.slick-dots]:!right-36 [&_.slick-dots]:!justify-end [&_.slick-dots]:!w-auto [&_.slick-dots_li.slick-active_button]:6 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-600 [&_.slick-dots_li]:!mx-1"
+          className="  [&_.slick-dots]:!bottom-8  min-h-[378px] [&_.slick-dots]:!right-36 [&_.slick-dots]:!justify-end [&_.slick-dots]:!w-auto [&_.slick-dots_li.slick-active_button]:6 [&_.slick-dots_li.slick-active_button]:!bg-[#2684E5] [&_.slick-dots_li_button]:!bg-gray-600 [&_.slick-dots_li]:!mx-1"
         >
-          {slides.map((slide) => (
-            <div key={slide.id}>
+          {slides?.map((slide: any) => (
+            <div key={slide.id} className="">
               <Card className="bg-[#F4F4F4] h-[550px] xl:h-full w-full border-none rounded-xl [&_.ant-card-body]:min-w-full">
                 <Row>
                   <Col md={24} xl={12} className="flex flex-col xl:px-7 px-4">
@@ -78,7 +85,7 @@ const HeroBanner = () => {
                       {slide.title}
                     </h3>
                     <p className="text-gray-600 mb-4 text-[14px] xl:text-[16px] max-w-md">
-                      {slide.description}
+                      {slide.subtitle}
                     </p>
                     <Button
                       className="xl:w-[187px]"

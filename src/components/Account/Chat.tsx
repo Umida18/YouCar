@@ -123,8 +123,8 @@ export default function MessagingPage() {
       const response = await axios.post(
         "https://api.youcarrf.ru/chat/edit/mute",
         {
-          user_id: Number(currentUserId),
-          chat_user_id: Number(id),
+          user_id: Number(id),
+          chat_user_id: Number(currentUserId),
           mute_type: !mutedNotifications,
         }
       );
