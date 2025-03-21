@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { io, type Socket } from "socket.io-client";
 import axios from "axios";
 // import { Check } from "lucide-react";
-import { Avatar } from "antd";
+import { Avatar, Badge } from "antd";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { GoBellSlash } from "react-icons/go";
@@ -170,13 +170,25 @@ export default function Messages() {
                 <div className="flex-1 ">
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium ">{chat.chat_user_name}</h3>
-                    <div className="flex gap-2 items-center">
-                      {chat.mute_type ? <GoBellSlash /> : null}
+                    <div>
+                      <div>
+                        <Badge
+                          count={chat.unread_messages_count}
+                          offset={[10, 5]}
+                          style={{
+                            backgroundColor: "#2684E5",
+                          }}
+                          // className="bg-blue-500 rounded-full text-white  bg-cover"
+                        ></Badge>
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        {chat.mute_type ? <GoBellSlash /> : null}
 
-                      <span className="text-md text-muted-foreground">
-                        {/* {new Date(chat.create_at).toLocaleDateString()} */}
-                        {formatTime(chat.last_message_time)}
-                      </span>
+                        <span className="text-md text-muted-foreground">
+                          {/* {new Date(chat.create_at).toLocaleDateString()} */}
+                          {formatTime(chat.last_message_time)}
+                        </span>
+                      </div>
                     </div>
                   </div>
 

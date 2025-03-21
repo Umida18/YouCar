@@ -24,6 +24,7 @@ const SingleNews = () => {
       return res.data;
     }
   );
+  console.log("singleNews", singleNews);
 
   const { data: news } = useQuery<INews[]>(["news"], async () => {
     const res = await api.get("/news");

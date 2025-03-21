@@ -58,7 +58,7 @@ const Contact = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <LiaTelegram style={{ color: "#989898", fontSize: 21 }} />
+                <LiaTelegram style={{ color: "#2684E5", fontSize: 24 }} />
               </a>
             </div>
           </Col>
