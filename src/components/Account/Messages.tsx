@@ -36,7 +36,6 @@ export default function Messages() {
   const navigate = useNavigate();
   const currentUserId = localStorage.getItem("id");
   const [_, setMessages] = useState<Message[]>([]);
-  console.log("chat11111s", chats);
 
   useEffect(() => {
     socketRef.current = io("wss://api.youcarrf.ru", {
@@ -49,7 +48,6 @@ export default function Messages() {
     const socket = socketRef.current;
 
     socket.on("connection", () => {
-      console.log("Connected to socket server");
       if (currentUserId) {
         socket.emit("join", currentUserId);
       }
@@ -90,7 +88,6 @@ export default function Messages() {
         if (response.status === 200 && response.data.status === "Success") {
           setChats(response.data.data);
           setError(null);
-          console.log("chats", response.data);
         } else {
           throw new Error(response.data.message || "Failed to fetch chats");
         }

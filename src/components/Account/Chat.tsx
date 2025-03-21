@@ -56,27 +56,6 @@ export default function MessagingPage() {
     }
   }, [autoMessage, data?.chat_user_id, connected, autoMessageSent]);
 
-  // const sendAutoMessage = (message: string) => {
-  //   if (socketRef.current && data?.chat_user_id && data?.user_id) {
-  //     const newMessage = {
-  //       chat_id: data?.chat_id,
-  //       senderId: Number(currentUserId),
-  //       receiverId: Number(id),
-  //       message: message,
-  //       type: "text",
-  //       status: "sent",
-  //       timestamp: new Date().toISOString(),
-  //     };
-
-  //     console.log("Sending Auto Message:", newMessage);
-  //     socketRef.current.emit("send message", newMessage);
-  //     setAutoMessageSent(true);
-  //     navigate(location.pathname, { replace: true, state: {} });
-  //   } else {
-  //     console.log("Cannot send auto message - socket or data not ready");
-  //   }
-  // };
-
   const sendAutoMessage = useCallback(
     (messageText: string) => {
       if (socketRef.current && data?.chat_user_id && data?.user_id) {
@@ -165,48 +144,6 @@ export default function MessagingPage() {
       }
     }
   };
-
-  // Scroll to bottom when messages change
-  // useEffect(() => {
-  //   if (messages.length > 0) {
-  //     scrollToBottom();
-  //   }
-  // }, [messages]);
-
-  // useEffect(() => {
-  //   if (messageContainerRef.current && messages.length > 0) {
-  //     setTimeout(() => {
-  //       messageContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-  //     }, 100);
-  //   }
-  // }, [messages, autoMessage]);
-
-  // const initializeChatSession = async () => {
-  //   if (currentUserId && id) {
-  //     try {
-  //       const response = await fetch("https://api.youcarrf.ru/chat/add", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           senderId: currentUserId,
-  //           receiverId: id,
-  //         }),
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to initialize chat session");
-  //       }
-
-  //       const data = await response.json();
-  //       console.log("Chat session initialized:", data);
-  //       setdata(data.data);
-  //     } catch (error) {
-  //       console.error("Error initializing chat session:", error);
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
