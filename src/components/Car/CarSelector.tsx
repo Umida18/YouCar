@@ -48,31 +48,6 @@ export default function CarSelector({
   const [country, setCountry] = useState<string[]>([]);
   const [selectedRate, setSelectedRate] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [isMobile, setIsMobile] = useState(false);
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
-  const [activePicker, setActivePicker] = useState<"start" | "end" | null>(
-    null
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   const checkScreenSize = () => {
-  //     setIsMobile(window.innerWidth <= 768);
-  //   };
-  //   checkScreenSize();
-  //   window.addEventListener("resize", checkScreenSize);
-  //   return () => window.removeEventListener("resize", checkScreenSize);
-  // }, []);
 
   useEffect(() => {
     const fetchMarks = async () => {
@@ -148,12 +123,6 @@ export default function CarSelector({
       document.removeEventListener("wheel", preventScrollPropagation);
     };
   }, []);
-
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      setActivePicker(null);
-    }
-  };
 
   return (
     <div className=" flex items-center">
@@ -365,20 +334,6 @@ export default function CarSelector({
                       backgroundColor: "#F4F4F4",
                       border: 0,
                     }}
-                    dropdownClassName={isMobile ? "mobile-range-picker" : ""}
-                    popupStyle={{
-                      flexDirection: isMobile ? "column" : "row",
-                      width: isMobile ? "auto" : undefined,
-                    }}
-                    open={isMobile ? activePicker !== null : undefined} // Mobilda faqat bitta kalendar ochiladi
-                    onCalendarChange={(_, __, info) => {
-                      if (isMobile) {
-                        setActivePicker(
-                          info.range === "start" ? "start" : "end"
-                        );
-                      }
-                    }}
-                    onOpenChange={handleOpenChange}
                   />
                 </Form.Item>
                 {/* <Form.Item

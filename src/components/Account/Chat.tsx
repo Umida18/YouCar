@@ -95,6 +95,12 @@ export default function MessagingPage() {
   };
   // console.log("data?.chat_user_id", data?.chat_user_id);
 
+  useEffect(() => {
+    if (!messagesLoading) {
+      scrollToBottom();
+    }
+  }, [messages, messagesLoading]);
+
   const handleMuteNotifications = useCallback(async () => {
     try {
       if (!data?.user_id || !currentUserId) return;
