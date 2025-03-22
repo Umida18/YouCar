@@ -6,7 +6,7 @@ import { Button, Card, Col, Divider, Row } from "antd";
 import { MdArrowForwardIos } from "react-icons/md";
 import useScrollToTop from "../../utils/scroll";
 import RequestBanner from "../../components/Banners/RequestBanner";
-import { formatDate } from "../../utils/formatDate";
+// import { formatDate } from "../../utils/formatDate";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import { GoArrowUpRight } from "react-icons/go";
 import SEO from "@/components/Seo/Seo";
@@ -54,9 +54,9 @@ const SingleNews = () => {
       />
       <Breadcrumb items={breadcrumbItems} />
       <p className="font-bold text-[26px]">{singleNews?.title}</p>
-      <p className="text-[#989898] text-[14px] my-3">
+      {/* <p className="text-[#989898] text-[14px] my-3">
         {formatDate(singleNews?.createdAt as string)}
-      </p>
+      </p> */}
       <Row gutter={[36, 36]}>
         <Col sm={24} lg={24} xl={17}>
           <div className="my-4">
